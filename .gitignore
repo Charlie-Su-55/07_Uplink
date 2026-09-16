@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+
+# Results
+results/
+outputs/
+
+# Checkpoints / weights
+ckp/
+checkpoints/
+*.pth
+*.ckpt
+*.pt
+
+# External / partner code
+flow_three_input_partner/
+
+# Cached / generated data
+data/cache/
+datasets/
+*.npy
+*.npz
+*.h5
+*.hdf5
+
+# Temporary
+*.tmp
+*.swp
+.DS_Store
+
+# Secrets
+.env
+*.key
+*.pem
