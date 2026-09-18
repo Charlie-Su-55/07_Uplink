@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import subprocess
 import json
-import shutil
 from pathlib import Path
 
 import torch
@@ -56,157 +56,37 @@ def sufficient_statistics(y_white, h_white):
     return z, gram
 
 
-def receiver_domain_ce_uncertainty(h_lmmse_white, err_var, ruu):
-    """
-    Stream-wise relative CE uncertainty in the same Ruu^{-1}
-    receiver metric used by z and Gram.
-
-    Numerator:
-        tr(Ruu^{-1} C_e,k)
-
-    With the available per-antenna diagonal error variance:
-        C_e,k ~= diag(err_var[:, k])
-
-    Denominator:
-        h_hat_k^H Ruu^{-1} h_hat_k
-        = ||h_white_k||^2
-
-    Returns:
-        [N_RE, K]
-    """
-    if err_var.ndim != 3:
-        raise ValueError(
-            f"Expected err_var [N_RE,M,K], got {tuple(err_var.shape)}"
-        )
-
-    chol = torch.linalg.cholesky(ruu)
-    ruu_inv = torch.cholesky_inverse(chol)
-
-    if ruu_inv.shape[0] == 1:
-        inv_diag = torch.diagonal(
-            ruu_inv[0], dim1=-2, dim2=-1
-        ).real
-    else:
-        raise RuntimeError(
-            "sample_re currently expects one channel realization per call."
-        )
-
-    predicted_error_power = (
-        err_var.real.clamp_min(0.0)
-        * inv_diag[None, :, None].to(err_var.real.dtype)
-    ).sum(dim=1)
-
-    estimated_channel_power = (
-        h_lmmse_white.abs().square().sum(dim=1)
-    ).clamp_min(1e-30)
-
-    u = predicted_error_power / estimated_channel_power
-    return u.clamp(1e-4, 1e2).to(h_lmmse_white.real.dtype)
-
-
 def sample_re(dataset, re_per_channel):
     batch = dataset.sample(1)
     data_idx = list(dataset.channel.resource_grid.data_symbols)
-
     num_streams = int(batch["metadata"]["num_streams"])
     bits_per_symbol = int(batch["metadata"]["bits_per_symbol"])
-
     y_raw = batch["y"][:, data_idx]
-    h_ls_raw = batch["h_hat_ls"][:, data_idx]
-    h_lmmse_raw = batch["h_hat_lmmse"][:, data_idx]
-    h_lmmse_err_var_raw = batch["h_hat_lmmse_err_var"][:, data_idx]
-    h_true_raw = batch["h_true"][:, data_idx]
-    bits_raw = batch["bits"]
-
     num_rx = int(y_raw.shape[-1])
-
     y = y_raw.reshape(-1, num_rx)
-    h_ls = h_ls_raw.reshape(-1, num_rx, num_streams)
-    h_lmmse = h_lmmse_raw.reshape(-1, num_rx, num_streams)
-    h_lmmse_err_var = h_lmmse_err_var_raw.reshape(
-        -1, num_rx, num_streams
-    )
-    h_true = h_true_raw.reshape(-1, num_rx, num_streams)
-    bits = bits_raw.reshape(
-        -1, num_streams, bits_per_symbol
-    ).float()
-
-    if not (
-        y.shape[0]
-        == h_ls.shape[0]
-        == h_lmmse.shape[0]
-        == h_lmmse_err_var.shape[0]
-        == h_true.shape[0]
-        == bits.shape[0]
-    ):
-        raise RuntimeError(
-            f"RE count mismatch: y={y.shape[0]}, "
-            f"h_ls={h_ls.shape[0]}, "
-            f"h_lmmse={h_lmmse.shape[0]}, "
-            f"err_var={h_lmmse_err_var.shape[0]}, "
-            f"h_true={h_true.shape[0]}, "
-            f"bits={bits.shape[0]}"
-        )
-
+    h_lmmse = batch["h_hat_lmmse"][:, data_idx].reshape(-1, num_rx, num_streams)
+    h_true = batch["h_true"][:, data_idx].reshape(-1, num_rx, num_streams)
+    bits = batch["bits"].reshape(-1, num_streams, bits_per_symbol).float()
+    if not (y.shape[0] == h_lmmse.shape[0] == h_true.shape[0] == bits.shape[0]):
+        raise RuntimeError("RE count mismatch between y, practical/oracle H and bits")
     count = min(int(re_per_channel), y.shape[0])
-    idx = torch.randperm(
-        y.shape[0], device=y.device
-    )[:count]
-
-    y = y[idx]
-    h_ls = h_ls[idx]
-    h_lmmse = h_lmmse[idx]
-    h_lmmse_err_var = h_lmmse_err_var[idx]
-    h_true = h_true[idx]
-    bits = bits[idx]
-
-    y_white, h_ls_white = whiten(
-        y, h_ls, batch["ruu_hat"]
-    )
-    _, h_lmmse_white = whiten(
-        y, h_lmmse, batch["ruu_hat"]
-    )
-    _, h_true_white = whiten(
-        y, h_true, batch["ruu_hat"]
-    )
-
-    z_ls, gram_ls = sufficient_statistics(
-        y_white, h_ls_white
-    )
-    z_lmmse, gram_lmmse = sufficient_statistics(
-        y_white, h_lmmse_white
-    )
-    z_true, gram_true = sufficient_statistics(
-        y_white, h_true_white
-    )
-
-    ce_uncertainty = receiver_domain_ce_uncertainty(
-        h_lmmse_white,
-        h_lmmse_err_var,
-        batch["ruu_hat"],
-    )
-
-    return {
-        "z_ls": z_ls,
-        "gram_ls": gram_ls,
-        "z_lmmse": z_lmmse,
-        "gram_lmmse": gram_lmmse,
-        "z_true": z_true,
-        "gram_true": gram_true,
-        "ce_uncertainty": ce_uncertainty,
-        "bits": bits,
-    }
+    idx = torch.randperm(y.shape[0], device=y.device)[:count]
+    y, h_lmmse, h_true, bits = y[idx], h_lmmse[idx], h_true[idx], bits[idx]
+    y_white, h_lmmse_white = whiten(y, h_lmmse, batch["ruu_hat"])
+    _, h_true_white = whiten(y, h_true, batch["ruu_hat"])
+    z_lmmse, gram_lmmse = sufficient_statistics(y_white, h_lmmse_white)
+    # Oracle statistics are for validation diagnostics only, never model inputs.
+    z_true, gram_true = sufficient_statistics(y_white, h_true_white)
+    return {"z_lmmse": z_lmmse, "gram_lmmse": gram_lmmse,
+            "z_true": z_true, "gram_true": gram_true, "bits": bits}
 
 
 def build_validation_set(dataset, num_channels, re_per_channel):
     storage = {
-        "z_ls": [],
-        "gram_ls": [],
         "z_lmmse": [],
         "gram_lmmse": [],
         "z_true": [],
         "gram_true": [],
-        "ce_uncertainty": [],
         "bits": [],
     }
 
@@ -261,13 +141,12 @@ def make_model(cfg, arch):
         max_logit_correction=4.0,
     )
 
-    if arch in {"gt_ep", "ua_gt_ep"}:
+    if arch == "gt_ep":
         return GraphTransformerEPDetector(
             num_layers=4,
             edge_dim=32,
             edge_mode="full",
             message_mode="cross_user",
-            use_ce_uncertainty=(arch == "ua_gt_ep"),
             **common,
         )
 
@@ -281,36 +160,6 @@ def make_model(cfg, arch):
         f"Unknown architecture: {arch}"
     )
 
-
-def run_neural_model(
-    model,
-    z,
-    gram,
-    ce_uncertainty=None,
-    return_iterations=(5,),
-):
-    if getattr(
-        model,
-        "use_ce_uncertainty",
-        False,
-    ):
-        if ce_uncertainty is None:
-            raise ValueError(
-                "UA-GT-EP requires ce_uncertainty."
-            )
-
-        return model(
-            z,
-            gram,
-            return_iterations=return_iterations,
-            ce_uncertainty=ce_uncertainty,
-        )
-
-    return model(
-        z,
-        gram,
-        return_iterations=return_iterations,
-    )
 
 def resolve_snr_range(args):
     if args.snr_min_db is None and args.snr_max_db is None:
@@ -361,7 +210,6 @@ def validate(
         5, dtype=torch.float64
     )
 
-    gate_beta_sum = None
     num_chunks = 0
 
     total_re = validation["bits"].shape[0]
@@ -392,9 +240,6 @@ def validate(
             "gram_true"
         ][start:end].to(device)
 
-        ce_uncertainty = validation[
-            "ce_uncertainty"
-        ][start:end].to(device)
 
         bits = validation[
             "bits"
@@ -412,11 +257,9 @@ def validate(
             return_iterations=(5,),
         )
 
-        neural_out = run_neural_model(
-            model,
+        neural_out = model(
             z,
             gram,
-            ce_uncertainty=ce_uncertainty,
             return_iterations=(5,),
         )
 
@@ -451,25 +294,6 @@ def validate(
             .cpu()
         )
 
-        if (
-            "uncertainty_gate_beta"
-            in neural_out
-        ):
-            beta = (
-                neural_out[
-                    "uncertainty_gate_beta"
-                ]
-                .detach()
-                .double()
-                .cpu()
-            )
-
-            if gate_beta_sum is None:
-                gate_beta_sum = (
-                    torch.zeros_like(beta)
-                )
-
-            gate_beta_sum += beta
 
         num_chunks += 1
 
@@ -505,13 +329,6 @@ def validate(
         ).tolist(),
     }
 
-    if gate_beta_sum is not None:
-        metrics[
-            "uncertainty_gate_beta"
-        ] = (
-            gate_beta_sum
-            / max(num_chunks, 1)
-        ).tolist()
 
     return metrics
 
@@ -532,9 +349,6 @@ def check_exact_ep_anchor(
         "gram_lmmse"
     ][:256].to(device)
 
-    ce_uncertainty = validation[
-        "ce_uncertainty"
-    ][:256].to(device)
 
     llr_ep = classical_ep(
         z,
@@ -542,11 +356,9 @@ def check_exact_ep_anchor(
         return_iterations=(5,),
     )["llr"]
 
-    llr_neural = run_neural_model(
-        model,
+    llr_neural = model(
         z,
         gram,
-        ce_uncertainty=ce_uncertainty,
         return_iterations=(5,),
     )["llr"]
 
@@ -565,6 +377,13 @@ def check_exact_ep_anchor(
             "refiner does not reproduce EP5."
         )
 
+def check_output_paths(output_dir, history_path, fresh=False):
+    """Never silently replace a prior run; --fresh overwrites only owned artifacts."""
+    artifacts = [Path(output_dir) / "best.pth", Path(history_path)]
+    if not fresh and any(path.exists() for path in artifacts):
+        raise FileExistsError("Checkpoint/history exists; choose new output paths or explicitly use --fresh")
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", default="configs/training/sgt_5db.yaml")
@@ -572,7 +391,6 @@ def main():
         "--arch",
         choices=[
             "gt_ep",
-            "ua_gt_ep",
             "detr_ep",
         ],
         required=True,
@@ -601,7 +419,18 @@ def main():
     parser.add_argument("--history", default=None)
     parser.add_argument("--fresh", action="store_true")
 
+    parser.add_argument("--mcs-table", type=int, choices=[1, 2])
+    parser.add_argument("--mcs-index", type=int)
     args = parser.parse_args()
+    if (args.mcs_table is None) != (args.mcs_index is None):
+        parser.error("Use --mcs-table and --mcs-index together")
+    if args.mcs_table is not None:
+        from link_level.nr_mcs import get_pusch_mcs
+        if get_pusch_mcs(args.mcs_table, args.mcs_index).bits_per_symbol != args.bits_per_symbol:
+            parser.error("MCS identity does not match --bits-per-symbol")
+    for name in ("steps", "scheduler_steps", "re_per_step", "val_channels", "val_re_per_channel", "val_every"):
+        if getattr(args, name) <= 0:
+            parser.error(f"--{name.replace('_', '-')} must be positive")
 
     snr_min, snr_max, val_snr = resolve_snr_range(args)
     train_snr_schedule = build_snr_schedule(
@@ -610,6 +439,12 @@ def main():
         snr_max,
         args.seed,
     )
+
+    try:
+        source_commit = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True, stderr=subprocess.DEVNULL).strip()
+        source_dirty = bool(subprocess.check_output(["git", "status", "--porcelain"], text=True).strip())
+    except (OSError, subprocess.CalledProcessError):
+        source_commit, source_dirty = None, None
 
     train_cfg = load_yaml(args.config)
     cfg = load_yaml(train_cfg["system_config"])
@@ -644,11 +479,7 @@ def main():
         or f"results/raw/{arch_tag}_256rx_16ue_{mod_name}_lmmseH_estR_{snr_name}_history.json"
     )
 
-    if args.fresh:
-        if output_dir.exists():
-            shutil.rmtree(output_dir)
-        if history_path.exists():
-            history_path.unlink()
+    check_output_paths(output_dir, history_path, args.fresh)
 
     output_dir.mkdir(parents=True, exist_ok=True)
     history_path.parent.mkdir(parents=True, exist_ok=True)
@@ -745,6 +576,9 @@ def main():
         "snr_max_db": snr_max,
         "val_snr_db": val_snr,
         "args": vars(args),
+        "source_commit": source_commit, "source_dirty": source_dirty,
+        "system_config": cfg,
+        **({"mcs_table": args.mcs_table, "mcs_index": args.mcs_index} if args.mcs_table is not None else {}),
     }
 
     torch.save(
@@ -797,18 +631,15 @@ def main():
 
         z = sample["z_lmmse"]
         gram = sample["gram_lmmse"]
-        ce_uncertainty = sample["ce_uncertainty"]
         bits = sample["bits"]
 
         optimizer.zero_grad(
             set_to_none=True
         )
 
-        out = run_neural_model(
-            model,
+        out = model(
             z,
             gram,
-            ce_uncertainty=ce_uncertainty,
             return_iterations=(5,),
         )
 
@@ -892,19 +723,7 @@ def main():
                 f"{v:.3f}"
                 for v in metrics["valid_update_fraction"]
             )
-            beta_text = ""
 
-            if "uncertainty_gate_beta" in metrics:
-                beta_text = (
-                    " | beta=["
-                    + ",".join(
-                        f"{v:.3f}"
-                        for v in metrics[
-                            "uncertainty_gate_beta"
-                        ]
-                    )
-                    + "]"
-                )
             print(
                 f"VAL step={step:4d} | "
                 f"SNR={val_snr:+.2f} dB | "
@@ -915,7 +734,6 @@ def main():
                 f"recover={100.0 * metrics['oracle_gap_recovered']:+.2f}% | "
                 f"corr=[{corr_text}] | "
                 f"valid=[{valid_text}]"
-                f"{beta_text}"
             )
 
             history.append(

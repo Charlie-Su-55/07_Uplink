@@ -48,19 +48,9 @@ class CovarianceEstimator:
         ruu_shrinkage = self.shrink(ruu_scm)
         ruu_hat = self.select_mode(ruu_scm)
 
-        view_scm, view_hat = [], []
-        for symbol in self.observation_symbols:
-            scm_i = self.scm(y[:, symbol])
-            view_scm.append(scm_i)
-            view_hat.append(self.select_mode(scm_i))
-
         return {
             "ruu_hat": ruu_hat,
             "ruu_scm": ruu_scm,
             "ruu_shrinkage": ruu_shrinkage,
-            "ruu_views": torch.stack(view_hat, dim=1),
-            "ruu_view_scm": torch.stack(view_scm, dim=1),
-            "view_symbols": self.observation_symbols,
             "num_snapshots": snapshots.shape[1],
-            "num_snapshots_per_view": f,
         }
