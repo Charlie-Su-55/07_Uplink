@@ -2,7 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import subprocess
 import json
+import hashlib
+import math
+import warnings
+import importlib.metadata
+import sys
 from pathlib import Path
 
 import torch
@@ -28,14 +34,25 @@ def hard_errors(llr, bits):
     return ((llr > 0) != (bits > 0.5)).sum().item()
 
 
-def load_checkpoint(model, path, device):
+def load_checkpoint(model, path, device, arch):
     path = Path(path)
     if not path.exists():
         raise FileNotFoundError(f"Checkpoint not found: {path}")
     ckpt = torch.load(path, map_location=device, weights_only=False)
+    expected = {"arch": arch, "bits_per_symbol": model.bits_per_symbol, "csi": "lmmseH", "covariance": "estimated_Ruu"}
+    missing = []
+    for key, value in expected.items():
+        if key not in ckpt:
+            missing.append(key)
+        elif ckpt[key] != value:
+            raise ValueError(f"Checkpoint {path}: {key}={ckpt[key]!r}, expected {value!r}")
+    if missing:
+        warnings.warn(f"Legacy checkpoint {path}: unverified metadata {missing}", RuntimeWarning)
     model.load_state_dict(ckpt["model_state"], strict=True)
     model.eval()
-    return {key: ckpt.get(key, None) for key in ("step", "best_ber", "arch", "csi")}
+    return {"path": str(path), "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "unverified_fields": missing,
+            **{key: ckpt.get(key) for key in ("step", "best_ber", "arch", "csi", "covariance", "bits_per_symbol", "mcs_table", "mcs_index", "args")}}
 
 
 def make_models(cfg, device, gt_path, detr_path):
@@ -60,8 +77,8 @@ def make_models(cfg, device, gt_path, detr_path):
     detr = DETREPDetector(num_layers=3, **common).to(device)
 
     meta = {
-        "gt_ep": load_checkpoint(gt, gt_path, device),
-        "detr_ep": load_checkpoint(detr, detr_path, device),
+        "gt_ep": load_checkpoint(gt, gt_path, device, "gt_ep"),
+        "detr_ep": load_checkpoint(detr, detr_path, device, "detr_ep"),
     }
     return {"gt_ep": gt, "detr_ep": detr}, meta
 
@@ -115,6 +132,12 @@ def sample_channel_re(dataset, frontend, ep, re_per_channel, re_generator):
     }
 
 
+def default_output_path(args):
+    snr = f"{args.snr_db:g}".replace("-", "m").replace(".", "p")
+    return Path(f"results/ep_refiners/lmmseH_gt_vs_detr_{MOD_NAMES[args.bits_per_symbol]}_"
+                f"{args.channels}ch_{args.re_per_channel}re_{snr}db_seed{args.seed}.json")
+
+
 @torch.inference_mode()
 def main():
     parser = argparse.ArgumentParser()
@@ -127,10 +150,28 @@ def main():
     parser.add_argument("--print-every", type=int, default=25)
     parser.add_argument("--seed", type=int, default=20260914)
     parser.add_argument("--bootstrap", type=int, default=20000)
-    parser.add_argument("--gt-checkpoint", default="ckp/gt_ep_256rx_16ue_16qam_lmmseH_estR_5p0db/best.pth")
-    parser.add_argument("--detr-checkpoint", default="ckp/detr_ep_256rx_16ue_16qam_lmmseH_estR_5p0db/best.pth")
-    parser.add_argument("--output", default="results/ep_refiners/lmmseH_gt_vs_detr_500ch_128re_5db.json")
+    parser.add_argument("--gt-checkpoint", required=True)
+    parser.add_argument("--detr-checkpoint", required=True)
+    parser.add_argument("--output", default=None)
+    parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
+    for name in ("channels", "re_per_channel", "chunk_size", "print_every", "bootstrap"):
+        if getattr(args, name) <= 0:
+            parser.error(f"--{name.replace('_', '-')} must be positive")
+    if not math.isfinite(args.snr_db):
+        parser.error("--snr-db must be finite")
+    output = Path(args.output) if args.output else default_output_path(args)
+    if output.exists() and not args.overwrite:
+        raise FileExistsError(f"Result exists: {output}; choose --output or explicitly use --overwrite")
+    for path in (args.gt_checkpoint, args.detr_checkpoint):
+        if not Path(path).is_file():
+            raise FileNotFoundError(f"Checkpoint not found: {path}")
+
+    try:
+        source_commit = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True, stderr=subprocess.DEVNULL).strip()
+        source_dirty = bool(subprocess.check_output(["git", "status", "--porcelain"], text=True).strip())
+    except (OSError, subprocess.CalledProcessError):
+        source_commit, source_dirty = None, None
 
     train_cfg = load_yaml(args.config)
     cfg = load_yaml(train_cfg["system_config"])
@@ -139,6 +180,8 @@ def main():
     cfg["general"]["seed"] = int(args.seed)
 
     device = cfg["general"]["device"]
+    if device.startswith("cuda") and not torch.cuda.is_available():
+        raise RuntimeError("Configured CUDA device unavailable; run this 256Rx evaluation on the GPU server.")
     sionna_config.device = device
     sionna_config.precision = cfg["general"]["precision"]
     sionna_config.seed = int(args.seed)
@@ -257,7 +300,6 @@ def main():
             f"rel={relative:+.3f}% | {verdict}"
         )
 
-    output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     with open(output, "w", encoding="utf-8") as f:
         json.dump({
@@ -271,6 +313,11 @@ def main():
                 "csi": "LMMSE H",
                 "covariance": "estimated Ruu",
                 "total_bits": total_bits,
+                "actual_re_per_channel": int(sample["bits"].shape[0]),
+                "args": vars(args), "system": cfg, "source_commit": source_commit, "source_dirty": source_dirty,
+                "python": sys.version, "torch": torch.__version__, "sionna": importlib.metadata.version("sionna"),
+                "covariance_cache": {"path": "data/cache/uma_lmmse_ft_cov.pt",
+                                     "sha256": hashlib.sha256(Path("data/cache/uma_lmmse_ft_cov.pt").read_bytes()).hexdigest()},
             },
             "checkpoints": checkpoint_meta,
             "ber": ber,

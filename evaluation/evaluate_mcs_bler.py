@@ -4,14 +4,18 @@
 from __future__ import annotations
 
 import argparse
+import subprocess
 import copy
 import csv
+import hashlib
+import importlib.metadata
 import json
 import math
+import sys
+import warnings
 from dataclasses import dataclass
 from pathlib import Path
 
-import numpy as np
 import torch
 import yaml
 
@@ -102,7 +106,7 @@ def extract_state(checkpoint):
     return cleaned
 
 
-def load_neural_model(base_cfg, qm, arch, path, device):
+def load_neural_model(base_cfg, qm, arch, path, device, table=None, mcs=None):
     cfg = copy.deepcopy(base_cfg)
     cfg["modulation"]["bits_per_symbol"] = int(qm)
 
@@ -112,25 +116,57 @@ def load_neural_model(base_cfg, qm, arch, path, device):
 
     model = make_neural_model(cfg, arch)
     checkpoint = torch.load(path, map_location="cpu", weights_only=False)
+    expected = {"arch": f"{arch}_ep", "bits_per_symbol": int(qm), "csi": "lmmseH", "covariance": "estimated_Ruu"}
+    if table is not None:
+        expected.update(mcs_table=int(table), mcs_index=int(mcs))
+    missing = []
+    for key, value in expected.items():
+        if key not in checkpoint:
+            missing.append(key)
+        elif checkpoint[key] != value:
+            raise ValueError(f"Checkpoint {path}: {key}={checkpoint[key]!r}, expected {value!r}")
+    if missing:
+        warnings.warn(f"Legacy checkpoint {path}: unverified metadata {missing}", RuntimeWarning)
     model.load_state_dict(extract_state(checkpoint), strict=True)
     model = model.to(device)
     model.eval()
+    model.checkpoint_metadata = {
+        "path": str(path), "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "step": checkpoint.get("step"), "unverified_fields": missing,
+        **{key: checkpoint.get(key) for key in expected},
+    }
 
     print(f"Loaded {DETECTOR_LABELS[arch]:<7} | step={checkpoint.get('step', '?')} | {path}")
     return model
 
 
-def load_specialist_models(base_cfg, table, mcs, qm, device):
+def load_specialist_models(base_cfg, table, mcs, qm, device, checkpoint_map=None):
+    checkpoint_map = SPECIALIST_CHECKPOINTS if checkpoint_map is None else checkpoint_map
     key = (int(table), int(mcs))
-    if key not in SPECIALIST_CHECKPOINTS:
+    if key not in checkpoint_map:
         raise KeyError(f"No specialist checkpoint mapping for T{table} MCS{mcs}.")
 
-    paths = SPECIALIST_CHECKPOINTS[key]
+    paths = checkpoint_map[key]
 
     return {
-        "gt": load_neural_model(base_cfg, qm, "gt", paths["gt"], device),
-        "detr": load_neural_model(base_cfg, qm, "detr", paths["detr"], device),
+        "gt": load_neural_model(base_cfg, qm, "gt", paths["gt"], device, table, mcs),
+        "detr": load_neural_model(base_cfg, qm, "detr", paths["detr"], device, table, mcs),
     }
+
+
+def read_checkpoint_map(path=None):
+    mapping = copy.deepcopy(SPECIALIST_CHECKPOINTS)
+    if path is not None:
+        with open(path, encoding="utf-8") as f:
+            overrides = json.load(f)
+        for key, paths in overrides.items():
+            table, mcs = map(int, key.split(":"))
+            if set(paths) != {"gt", "detr"} or not all(isinstance(p, str) and p for p in paths.values()):
+                raise ValueError(f"Checkpoint map {key}: expected nonempty gt/detr paths")
+            mapping[(table, mcs)] = paths
+    return mapping
+
+
 @dataclass
 class MCSRuntime:
     table: int
@@ -538,6 +574,7 @@ def evaluate_snr_point(base_cfg, runtime, models, snr_db, channels, seed, gt_chu
     ]
 
     totals = {}
+    channel_counts = []
     alignment_checked = False
 
     for channel_idx in range(1, channels + 1):
@@ -558,6 +595,8 @@ def evaluate_snr_point(base_cfg, runtime, models, snr_db, channels, seed, gt_chu
             num_streams,
             gt_chunk,
         )
+
+        channel_counts.append({"channel": channel_idx, **result})
 
         for key, value in result.items():
             totals[key] = totals.get(key, 0) + int(value)
@@ -582,6 +621,9 @@ def evaluate_snr_point(base_cfg, runtime, models, snr_db, channels, seed, gt_chu
         "channels": int(channels),
         "total_blocks": int(total_blocks),
         "tb_size": int(runtime.tb_size),
+        "seed": int(seed),
+        "total_info_bits": int(total_info_bits),
+        "channel_counts": channel_counts,
     }
 
     for name in detector_names:
@@ -607,44 +649,86 @@ def evaluate_snr_point(base_cfg, runtime, models, snr_db, channels, seed, gt_chu
     return point
 
 def interpolate_snr_at_bler(points, key, target):
+    """Interpolate log BLER only inside both the observed and floored bracket."""
+    if not math.isfinite(target) or not 0.0 < target < 1.0:
+        raise ValueError("Target BLER must be finite and strictly between 0 and 1.")
     points = sorted(points, key=lambda x: x["snr_db"])
-
-    for p0, p1 in zip(points[:-1], points[1:]):
-        b0 = float(p0[key])
-        b1 = float(p1[key])
-
-        if b0 == target:
-            return float(p0["snr_db"])
-
-        if b1 == target:
-            return float(p1["snr_db"])
-
+    for i, point in enumerate(points):
+        if not math.isfinite(float(point["snr_db"])) or not math.isfinite(float(point[key])):
+            raise ValueError("SNR and BLER observations must be finite.")
+        if not 0.0 <= float(point[key]) <= 1.0 or int(point["total_blocks"]) <= 0:
+            raise ValueError("BLER must be in [0,1] and total_blocks must be positive.")
+        if i and point["snr_db"] == points[i - 1]["snr_db"]:
+            raise ValueError("Duplicate SNR observations; aggregate counts before interpolation.")
+    for point in points:
+        if float(point[key]) == target:
+            return float(point["snr_db"])
+    for p0, p1 in zip(points, points[1:]):
+        b0, b1 = float(p0[key]), float(p1[key])
         if (b0 - target) * (b1 - target) > 0:
             continue
-
-        n0 = max(int(p0["total_blocks"]), 1)
-        n1 = max(int(p1["total_blocks"]), 1)
-
-        floor0 = 0.5 / n0
-        floor1 = 0.5 / n1
-
-        y0 = math.log10(max(b0, floor0))
-        y1 = math.log10(max(b1, floor1))
+        y0 = math.log10(max(b0, 0.5 / int(p0["total_blocks"])))
+        y1 = math.log10(max(b1, 0.5 / int(p1["total_blocks"])))
         yt = math.log10(target)
-
-        x0 = float(p0["snr_db"])
-        x1 = float(p1["snr_db"])
-
+        # A zero-count floor must not turn interpolation into extrapolation.
+        if not min(y0, y1) <= yt <= max(y0, y1):
+            continue
+        x0, x1 = float(p0["snr_db"]), float(p1["snr_db"])
         if abs(y1 - y0) < 1e-12:
             return 0.5 * (x0 + x1)
-
         alpha = (yt - y0) / (y1 - y0)
         return x0 + alpha * (x1 - x0)
-
     return None
 
 
+def extend_bler_grid(points, keys, target, step, max_extensions, evaluate_point, on_progress=None):
+    """Add at most max_extensions SNR points, sharing each point across detectors."""
+    if not points:
+        raise ValueError("Cannot bracket an empty SNR grid.")
+    if not math.isfinite(step) or step <= 0 or max_extensions < 0:
+        raise ValueError("Bracket step must be positive; extension budget must be nonnegative.")
+    for extension in range(max_extensions):
+        directions = set()
+        for key in keys:
+            if interpolate_snr_at_bler(points, key, target) is not None:
+                continue
+            values = [float(p[key]) for p in points]
+            if max(values) < target:
+                directions.add(-1)
+            elif min(values) > target:
+                directions.add(1)
+        if not directions:
+            break
+        # Alternate when different curves need opposite sides.
+        direction = sorted(directions)[extension % len(directions)]
+        edge = min(p["snr_db"] for p in points) if direction < 0 else max(p["snr_db"] for p in points)
+        snr = round(edge + direction * step, 6)
+        if not math.isfinite(snr) or any(p["snr_db"] == snr for p in points):
+            raise ValueError("Bracket step cannot produce a new finite SNR point.")
+        point = evaluate_point(snr)
+        if point["snr_db"] != snr:
+            raise ValueError("Evaluator returned a different SNR than requested.")
+        points.append(point)
+        points.sort(key=lambda p: p["snr_db"])
+        if on_progress is not None:
+            on_progress()
+    messages = []
+    for key in keys:
+        if interpolate_snr_at_bler(points, key, target) is None:
+            values = [float(p[key]) for p in points]
+            side = "lower SNR" if max(values) < target else "higher SNR" if min(values) > target else "more blocks (zero-count resolution)"
+            messages.append(f"{key}: target {target:g} unresolved; need {side}; extension limit={max_extensions}.")
+        ordered = sorted(points, key=lambda p: p["snr_db"])
+        if any(b[key] > a[key] for a, b in zip(ordered, ordered[1:])):
+            messages.append(f"{key}: nonmonotone observations; inspect channel uncertainty before reporting a crossing.")
+    for message in messages:
+        warnings.warn(message, RuntimeWarning)
+    return messages
+
+
 def choose_formal_grid(coarse_points, target, step, margin):
+    if not coarse_points or not math.isfinite(step) or step <= 0 or not math.isfinite(margin) or margin < 0:
+        raise ValueError("Formal grid requires observations, positive step and nonnegative margin.")
     bler_keys = [
         key for key in coarse_points[0]
         if key.endswith("_bler")
@@ -702,7 +786,7 @@ def save_csv(path, rows):
     if not rows:
         return
 
-    fieldnames = list(rows[0].keys())
+    fieldnames = [key for key in rows[0] if key != "channel_counts"]
 
     with open(path, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(
@@ -710,7 +794,8 @@ def save_csv(path, rows):
             fieldnames=fieldnames,
         )
         writer.writeheader()
-        writer.writerows(rows)
+        writer.writerows({key: json.dumps(value) if isinstance(value, (dict, list)) else value
+                         for key, value in row.items() if key != "channel_counts"} for row in rows)
 
 
 def parse_int_list(text):
@@ -732,8 +817,8 @@ def parse_float_list(text):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", default="configs/training/sgt_5db.yaml")
-    parser.add_argument("--tables", default="1,2")
-    parser.add_argument("--mcs", default="4,5,11,19")
+    parser.add_argument("--tables", default="1")
+    parser.add_argument("--mcs", default="11")
     parser.add_argument("--coarse-snrs", default="-12,-8,-4,0,4,8,12,16,20,24")
     parser.add_argument("--coarse-channels", type=int, default=20)
     parser.add_argument("--formal-channels", type=int, default=100)
@@ -747,7 +832,23 @@ def main():
     parser.add_argument("--skip-formal", action="store_true")
     parser.add_argument("--operating-point", action="store_true")
     parser.add_argument("--baseline-only", action="store_true")
+    parser.add_argument("--checkpoint-map", help='JSON overrides: {"1:11": {"gt": "...", "detr": "..."}}')
+    parser.add_argument("--bracket-step-db", type=float, default=0.5)
+    parser.add_argument("--max-bracket-extensions", type=int, default=8, help="Maximum additional formal SNR points in total")
+    parser.add_argument("--overwrite", action="store_true", help="Explicitly replace existing result files in output-dir")
     args = parser.parse_args()
+    if not math.isfinite(args.target_bler) or not 0 < args.target_bler < 1:
+        parser.error("--target-bler must be finite and in (0,1)")
+    for name in ("coarse_channels", "formal_channels", "bp_iters", "gt_chunk"):
+        if getattr(args, name) <= 0:
+            parser.error(f"--{name.replace('_', '-')} must be positive")
+    for name in ("formal_step_db", "bracket_step_db"):
+        if not math.isfinite(getattr(args, name)) or getattr(args, name) <= 0:
+            parser.error(f"--{name.replace('_', '-')} must be finite and positive")
+    if not math.isfinite(args.formal_margin_db) or args.formal_margin_db < 0 or args.max_bracket_extensions < 0:
+        parser.error("Formal margin and bracket extension limit must be nonnegative")
+    if args.operating_point and args.skip_formal:
+        parser.error("--operating-point and --skip-formal are mutually exclusive")
 
     OPERATING_SNRS = {
         (1, 4): 4.0,
@@ -760,15 +861,19 @@ def main():
         (2, 19): 12.0,
     }
 
+    try:
+        source_commit = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True, stderr=subprocess.DEVNULL).strip()
+        source_dirty = bool(subprocess.check_output(["git", "status", "--porcelain"], text=True).strip())
+    except (OSError, subprocess.CalledProcessError):
+        source_commit, source_dirty = None, None
+
     train_cfg = load_yaml(args.config)
     base_cfg = load_yaml(train_cfg["system_config"])
 
     device = base_cfg["general"]["device"]
 
     if device.startswith("cuda") and not torch.cuda.is_available():
-        print("CUDA unavailable, falling back to CPU.")
-        device = "cpu"
-        base_cfg["general"]["device"] = device
+        raise RuntimeError("Configured CUDA device unavailable; run this 256Rx evaluation on the GPU server.")
 
     sionna_config.device = device
     sionna_config.precision = base_cfg["general"]["precision"]
@@ -776,7 +881,33 @@ def main():
 
     tables = parse_int_list(args.tables)
     mcs_indices = parse_int_list(args.mcs)
-    coarse_snrs = parse_float_list(args.coarse_snrs)
+    coarse_snrs = sorted(set(parse_float_list(args.coarse_snrs)))
+    if not tables or not mcs_indices or len(set(tables)) != len(tables) or len(set(mcs_indices)) != len(mcs_indices):
+        parser.error("Tables/MCS lists must be nonempty and contain no duplicates")
+    if not set(tables) <= {1, 2}:
+        parser.error("Only MCS tables 1 and 2 are supported")
+    if not coarse_snrs or not all(math.isfinite(x) for x in coarse_snrs):
+        parser.error("Coarse SNR grid must be nonempty and finite")
+    checkpoint_map = read_checkpoint_map(args.checkpoint_map)
+    for table in tables:
+        for mcs in mcs_indices:
+            qm, _ = decode_mcs_index(mcs, table_index=table, is_pusch=True, transform_precoding=False, device=device)
+            if as_int(qm) not in MOD_NAMES:
+                parser.error(f"Unsupported modulation for T{table} MCS{mcs}")
+            if args.operating_point and (table, mcs) not in OPERATING_SNRS:
+                parser.error(f"No operating SNR for T{table} MCS{mcs}; use crossing mode")
+            if not args.baseline_only:
+                if (table, mcs) not in checkpoint_map:
+                    parser.error(f"No specialist mapping for T{table} MCS{mcs}; supply --checkpoint-map")
+                for path in checkpoint_map[(table, mcs)].values():
+                    if not Path(path).is_file():
+                        raise FileNotFoundError(f"Missing specialist checkpoint: {path}")
+    output_dir = Path(args.output_dir)
+    output_files = [output_dir / f"mcs_bler_{suffix}" for suffix in ("results.json", "curves.csv", "summary.csv")]
+    if not args.overwrite and any(path.exists() for path in output_files):
+        raise FileExistsError("Result files exist; choose another --output-dir or explicitly use --overwrite")
+    covariance_path = Path("data/cache/uma_lmmse_ft_cov.pt")
+    covariance_hash = hashlib.sha256(covariance_path.read_bytes()).hexdigest()
 
     num_streams = (
         int(base_cfg["general"]["num_ues"])
@@ -817,29 +948,17 @@ def main():
 
     def save_progress():
         payload = {
-            "config": {
-                "mode": (
-                    "operating_point"
-                    if args.operating_point
-                    else "bler_crossing"
-                ),
-                "target_bler": args.target_bler,
-                "coarse_channels": args.coarse_channels,
-                "formal_channels": args.formal_channels,
-                "formal_step_db": args.formal_step_db,
-                "formal_margin_db": args.formal_margin_db,
-                "seed": args.seed,
-                "baseline_only": args.baseline_only,
-            },
+            "config": {**vars(args), "system": base_cfg, "source_commit": source_commit, "source_dirty": source_dirty,
+                       "covariance_cache": {"path": str(covariance_path), "sha256": covariance_hash},
+                       "python": sys.version, "torch": torch.__version__,
+                       "sionna": importlib.metadata.version("sionna")},
             "results": all_results,
         }
 
-        with open(
-            output_dir / "mcs_bler_results.json",
-            "w",
-            encoding="utf-8",
-        ) as f:
-            json.dump(payload, f, indent=2)
+        output_path = output_dir / "mcs_bler_results.json"
+        temporary = output_path.with_suffix(".tmp")
+        temporary.write_text(json.dumps(payload, indent=2, allow_nan=False), encoding="utf-8")
+        temporary.replace(output_path)
 
         save_csv(
             output_dir / "mcs_bler_curves.csv",
@@ -861,24 +980,7 @@ def main():
             )
             qm = as_int(qm_t)
 
-            if qm not in MOD_NAMES:
-                print(
-                    f"SKIP | T{table} MCS{mcs} "
-                    f"uses unsupported Qm={qm}."
-                )
-                continue
-
             key = (table, mcs)
-
-            if (
-                not args.baseline_only
-                and key not in SPECIALIST_CHECKPOINTS
-            ):
-                print(
-                    f"SKIP | T{table} MCS{mcs}: "
-                    f"no GT/DETR specialist mapping yet."
-                )
-                continue
 
             cfg_mcs = copy.deepcopy(base_cfg)
             cfg_mcs["modulation"]["bits_per_symbol"] = qm
@@ -902,6 +1004,7 @@ def main():
                         mcs,
                         qm,
                         device,
+                        checkpoint_map,
                     )
                 models = model_cache[key]
 
@@ -942,7 +1045,19 @@ def main():
                 + mcs * 1000
             )
 
+            metadata = {
+                "mode": "operating_point" if args.operating_point else "coarse_diagnostic" if args.skip_formal else "formal",
+                "table": table, "mcs": mcs, "modulation": MOD_NAMES[qm], "qm": qm,
+                "target_rate": runtime.target_rate, "spectral_efficiency": runtime.spectral_efficiency,
+                "tb_size": runtime.tb_size, "num_coded_bits": runtime.num_coded_bits,
+                "seed": common_seed, "target_bler": args.target_bler,
+                "checkpoints": {name: model.checkpoint_metadata for name, model in models.items()},
+            }
+
             if args.operating_point:
+                result = {**metadata, "status": "running"}
+                all_results.append(result)
+                save_progress()
                 snr = OPERATING_SNRS[key]
 
                 print()
@@ -962,24 +1077,8 @@ def main():
                     verbose=True,
                 )
 
-                metadata = {
-                    "mode": "operating_point",
-                    "table": table,
-                    "mcs": mcs,
-                    "modulation": MOD_NAMES[qm],
-                    "qm": qm,
-                    "target_rate": runtime.target_rate,
-                    "spectral_efficiency": runtime.spectral_efficiency,
-                    "tb_size": runtime.tb_size,
-                    "num_coded_bits": runtime.num_coded_bits,
-                }
-
-                result = {
-                    **metadata,
-                    **point,
-                }
-
-                all_results.append(result)
+                result.update(point)
+                result["status"] = "complete"
                 summary_rows.append(result)
                 curve_rows.append(result)
 
@@ -1007,6 +1106,10 @@ def main():
             print("COARSE SWEEP")
 
             coarse_points = []
+            formal_points = []
+            result = {**metadata, "status": "running", "coarse_points": coarse_points, "formal_points": formal_points}
+            all_results.append(result)
+            save_progress()
 
             for snr in coarse_snrs:
                 print(
@@ -1025,6 +1128,7 @@ def main():
                 )
 
                 coarse_points.append(point)
+                save_progress()
 
                 status = " | ".join(
                     f"{DETECTOR_LABELS[name]}="
@@ -1062,6 +1166,7 @@ def main():
                 )
 
                 formal_points = coarse_points
+                result["formal_points"] = formal_points
 
             else:
                 formal_snrs = choose_formal_grid(
@@ -1081,7 +1186,7 @@ def main():
                     + " dB"
                 )
 
-                formal_points = []
+                formal_points = result["formal_points"]
 
                 for snr in formal_snrs:
                     print()
@@ -1102,17 +1207,18 @@ def main():
                     )
 
                     formal_points.append(point)
+                    save_progress()
 
-            metadata = {
-                "table": table,
-                "mcs": mcs,
-                "modulation": MOD_NAMES[qm],
-                "qm": qm,
-                "target_rate": runtime.target_rate,
-                "spectral_efficiency": runtime.spectral_efficiency,
-                "tb_size": runtime.tb_size,
-                "num_coded_bits": runtime.num_coded_bits,
-            }
+            def evaluate_extension(snr):
+                print(f"  BRACKET EXTENSION SNR={snr:+.3f} dB")
+                return evaluate_snr_point(base_cfg, runtime, models, snr, args.formal_channels,
+                                          common_seed, args.gt_chunk, verbose=True)
+
+            result["warnings"] = extend_bler_grid(
+                formal_points, [f"{name}_bler" for name in detector_names], args.target_bler,
+                args.bracket_step_db, 0 if args.skip_formal else args.max_bracket_extensions,
+                evaluate_extension, on_progress=save_progress,
+            )
 
             for point in formal_points:
                 curve_rows.append({
@@ -1147,21 +1253,13 @@ def main():
                 if name != "ep5"
             }
 
-            result = {
-                **metadata,
-                "target_bler": args.target_bler,
+            result.update({
+                "status": "complete" if all(x is not None for x in snr_at_target.values()) else "unresolved",
                 "snr_at_target_db": snr_at_target,
                 "gain_vs_ep5_db": gain_vs_ep,
-                "coarse_points": coarse_points,
-                "formal_points": formal_points,
-            }
+            })
 
-            all_results.append(result)
-
-            summary = {
-                **metadata,
-                "target_bler": args.target_bler,
-            }
+            summary = {**metadata, "status": result["status"], "warnings": result["warnings"]}
 
             for name in detector_names:
                 summary[
