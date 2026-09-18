@@ -1,362 +1,160 @@
-07_Uplink — Codex Handoff
-
-1. Purpose
-
-This repository is a research prototype for uplink MU-MIMO soft detection. The immediate goal is to determine whether a true Graph Transformer / Soft Graph Transformer (SGT) can provide meaningful BER gain over strong model-based baselines.
-
-This handoff is intentionally minimal. Old GEPNet experiments, tests, smoke scripts, checkpoints, logs, and result dumps should be removed before Codex scans the project.
-
-2. Canonical target system
-
-Use this as the reference system unless a diagnostic explicitly says otherwise:
-
-16 simultaneous UEs / streams, 1 stream per UE
-
-BS: 256 physical Rx antennas
-
-UE: 4 Tx antenna elements, equal-gain rank-one stream mapping
-
-Carrier: 6.7 GHz
-
-OFDM: 192 subcarriers, 30 kHz SCS, 14 OFDM symbols
-
-Silent / covariance-observation symbols: 0, 1
-
-DMRS symbols: 2, 13
-
-Data symbols: 3..12
-
-Modulation: 16-QAM
-
-Training channel: 3GPP UMa, forced NLOS, outdoor + O2I mixture
-
-Channel normalization: disabled
-
-Power control: fractional, alpha = 0.8
-
-4 interferers
-
-Total IoT = 10 dB
-
-Interferer relative strengths [dB]: [5.229, 5.229, 5.229, 1.0914]
-
-Receiver SNR used in the current diagnostic: 5 dB
-
-Current detector assumption: oracle h_true, estimated interference-plus-noise covariance ruu_hat
-
-Covariance estimator: shrinkage with lambda = 0.10. Treat lambda=0.10 as fixed; do not re-sweep it.
-
-Canonical system config:
-
-configs/system/uma_16ue_256rx.yaml
-
-The BS array should resolve to 256 antennas, e.g. 8 x 16 x dual polarization.
-
-3. Trusted parts
-
-The following pipeline is considered useful and should be audited but not casually rewritten:
-
-data/channels/topology.py
-
-data/channels/uma.py
-
-data/link/resource_grid.py
-
-data/link/stream_mapping.py
-
-data/link/modulation.py
-
-data/link/uplink_link.py
-
-data/link/power_control.py
-
-data/link/interference.py
-
-data/link/covariance.py
-
-data/link/dmrs.py
-
-data/link/channel_estimation.py
-
-data/preprocessing/whitening.py
-
-data/dataset.py
-
-detectors/classical/lmmse.py
-
-detectors/classical/ep.py
-
-evaluation/metrics.py
-
-evaluation/evaluate_snr.py
-
-Classical receiver convention:
-
-LLR sign is log P(bit=1) / P(bit=0).
-
-Hard bit is llr > 0.
-
-Whitened sufficient statistics are
-
-z = H^H R^{-1} y
-
-G = H^H R^{-1} H
-
-Complex EP is the strongest trusted baseline so far.
-
-Typical 256Rx / 16-stream / estimated-R / 5 dB results are approximately:
-
-LMMSE BER: ~4.3e-2
-
-EP3 BER: ~3.65e-2
-
-EP5 BER: ~3.59e-2 to 3.62e-2 depending on the fixed validation set
-
-Do not treat tiny sub-percent differences as meaningful research gains.
-
-4. What has been abandoned
-
-Old GEPNet line
-
-Many EP-anchored GNN/GEPNet variants were tried, including real-node, complex-node, sparse Top-K, learned gates, covariance-aware gates, coupled/decoupled EP feedback, trust regions, and T5-only correction.
-
-They produced only roughly 0.0x% to 0.x% relative BER gains over strong EP baselines. This line is abandoned. Old GEPNet code, training files, checkpoints, logs, tests, and result JSONs should not be restored unless needed only for historical comparison.
-
-32 physical Rx diagnostic
-
-A temporary 32Rx / 16-stream experiment was used only to test loading effects. It made the physical link much harder and produced ~0.33 BER. It is not the target system and should not become the main architecture. Do not introduce beam reduction unless explicitly requested later.
-
-5. Current SGT prototype: IMPORTANT — DO NOT TRUST IT YET
-
-The only neural detector worth keeping for Codex inspection is the current SGT prototype:
-
-models/graph/sgt.py
-
-training/train_sgt.py
-
-configs/training/sgt_5db.yaml
-
-Its intended structure is based on the Soft Graph Transformer paper:
-
-Convert whitened complex MIMO to a real-valued model.
-
-Create 2*Nr linear-constraint tokens from received observations and channel rows.
-
-Create 2*Nt symbolic tokens from soft priors.
-
-Use self-attention for contextual encoding inside each token set.
-
-Use cross-attention for constraint-to-symbol message passing.
-
-Produce bit-level soft outputs / LLRs.
-
-Current 256Rx implementation uses:
-
-512 linear tokens
-
-32 symbolic tokens
-
-8 SGT layers
-
-8 attention heads
-
-d_model = 128
-
-dropout = 0.1
-
-Current failure
-
-The current SGT run does not learn detection:
-
-training BCE stays around ~0.687-0.692, close to random BCE ln(2)=0.6931
-
-training BER remains roughly 0.45-0.47
-
-validation BER remains roughly 0.45-0.47
-
-EP5 is roughly 0.036
-
-Therefore the present SGT implementation/training pipeline is suspect. Do not optimize it blindly and do not use its result as evidence that Graph Transformers fail.
-
-6. Codex priority tasks
-
-Please work in this order.
-
-Priority A — audit the SGT implementation against the paper
-
-Inspect models/graph/sgt.py line by line and compare it with the Soft Graph Transformer architecture. Specifically verify:
-
-graph-aware tokenization
-
-real-valued MIMO conversion
-
-exact meaning and scaling of linear-constraint tokens
-
-symbolic token / prior representation
-
-positional encodings
-
-direction and recurrence of self-attention and cross-attention
-
-whether both token streams are updated as intended across MP iterations
-
-whether the implementation accidentally loses the weighted factor-graph structure
-
-LLR ordering and QAM bit mapping
-
-normalization of y, H, and noise variance
-
-whether whitening plus normalize_channel: false creates pathological feature scaling
-
-Do not assume the current implementation is faithful just because it uses MultiheadAttention.
-
-Priority B — build a minimal reproduction before touching the UMa target
-
-Before judging SGT on 256Rx UMa, reproduce a small setting close to the paper:
-
-i.i.d. Rayleigh
-
-perfect CSI
-
-QPSK
-
-8x8 first
-
-then 16x16 if 8x8 works
-
-Use a realistic effective batch size via gradient accumulation if needed. The previous micro-batch=8 256Rx run is not a convincing reproduction recipe.
-
-The purpose is binary:
-
-If the SGT cannot learn the small paper-like task, fix implementation/training.
-
-Only after it works there should it be ported back to the 256Rx / 16-stream UMa system.
-
-Priority C — return to the canonical target
-
-Once the SGT reproduction works, evaluate on:
-
-256 physical Rx
-
-16 streams
-
-16-QAM
-
-oracle h_true
-
-estimated ruu_hat
-
-5 dB initially
-
-Compare against the trusted complex EP5 baseline.
-
-7. Hard constraints for the next iteration
-
-Until the SGT reproduction is working, do not add:
-
-beam reduction
-
-learned covariance estimation
-
-channel-estimation error
-
-new GEPNet residual branches
-
-gates
-
-trust-region heuristics
-
-EP feedback hybrids
-
-additional auxiliary losses
-
-multiple competing model variants
-
-The immediate question is simply:
-
-Can a correctly implemented Graph Transformer learn MIMO detection and then beat or materially complement complex EP in the target system?
-
-8. Go / no-go criterion
-
-After a credible SGT reproduction and a clean 256Rx evaluation:
-
-If SGT remains far worse than EP5: stop this research direction.
-
-If SGT only provides a few tenths of a percent relative BER gain: stop; that is not publication-level value.
-
-Continue only if the gain is clearly material and persistent across SNR / channel test conditions.
-
-Do not spend time polishing a 0.x% gain.
-
-9. Environment
-
-Known working environment:
-
-Python 3.12
-
-PyTorch 2.11.0 + CUDA 13.0 build
-
-Sionna 2.0.1
-
-NVIDIA RTX 5090 30 GB
-
-Conda environment name used previously: precoder
-
-10. Minimal expected repository after cleanup
-
-07_Uplink/
-├── README.md
-├── configs/
-│   ├── system/
-│   │   └── uma_16ue_256rx.yaml
-│   └── training/
-│       └── sgt_5db.yaml
-├── data/
-│   ├── channels/
-│   │   ├── topology.py
-│   │   └── uma.py
-│   ├── link/
-│   │   ├── resource_grid.py
-│   │   ├── stream_mapping.py
-│   │   ├── modulation.py
-│   │   ├── uplink_link.py
-│   │   ├── power_control.py
-│   │   ├── interference.py
-│   │   ├── covariance.py
-│   │   ├── dmrs.py
-│   │   └── channel_estimation.py
-│   ├── preprocessing/
-│   │   └── whitening.py
-│   └── dataset.py
-├── detectors/
-│   └── classical/
-│       ├── lmmse.py
-│       └── ep.py
-├── evaluation/
-│   ├── metrics.py
-│   └── evaluate_snr.py
-├── models/
-│   └── graph/
-│       └── sgt.py
-└── training/
-    └── train_sgt.py
-
-__init__.py files may remain wherever required by Python packages.
-
-11. Known dead / suspicious internal paths to inspect
-
-Previous covariance-aware GEPNet work introduced split-view covariance outputs such as ruu_views / ruu_view_scm. The current SGT and classical baselines do not need them. If they are still referenced only by abandoned code, remove them after checking dependency references.
-
-Likewise, the current SGT trainer contains its own whitening helper even though data/preprocessing/whitening.py exists. Consolidate this only after confirming numerical equivalence.
-
-12. Reference papers
-
-If available locally, give Codex these papers together with the repository:
-
-SOFTGRAPHTRANSFORMERFORMIMODETECTION.pdf
-
-Graph Neural Network Aided Expectation Propagation Detector for MU-MIMO Systems.pdf
-
-Edge-augmented Graph Transformers Global Self-attention is Enough for Graphs.pdf
-
-The Soft Graph Transformer paper is the primary architecture reference for the next step.
+# 07_Uplink
+
+Practical mismatch-robust soft MU-MIMO detection for the ICC submission.
+The receiver uses DMRS -> conventional LMMSE channel estimation/interpolation ->
+`h_hat_lmmse + ruu_hat` -> covariance whitening -> LMMSE / EP5 / GT-EP / DETR-EP -> LLR -> coded BLER.
+GT-EP is the proposal; DETR-EP is a control. Report measured differences without assuming GT must win.
+
+Detailed findings, baseline line references and limitations: [ICC audit](docs/ICC_AUDIT_20260918.md).
+
+## Fixed experiment
+
+- 256 BS Rx antennas, 16 UEs with one stream each; 6.7 GHz.
+- 192 subcarriers, 14 OFDM symbols; silent 0/1, DMRS 2/13, data 3..12.
+- UMa forced NLOS, outdoor/O2I mixture; four external interferers, I/N = 10 dB; no channel normalization.
+- `Ruu = E[(i+n)(i+n)^H]`; `ruu_hat` already includes thermal noise. Shrinkage lambda = 0.10.
+- LLR = log P(bit=1)/P(bit=0); hard bit = `llr > 0`.
+- EP5: five iterations. GT: four layers, d=128, eight heads, edge=32, FFN=256, dropout=.05.
+  DETR: three layers, d=128, eight heads, FFN=256, dropout=.05. Both refine five EP iterations.
+- True-H is restricted to oracle diagnostics and simulator forward signal generation.
+- Current DMRS is an interference-protected, power-boosted interleaved comb. CE assumes known thermal-noise variance and an offline channel covariance cache. State these assumptions in the paper.
+- The historical `configs/training/sgt_5db.yaml` path is retained because active commands read its
+  `system_config` field. Its old SGT model/receiver/training fields are not used by the canonical scripts.
+  Architecture and SNR come from the canonical builders and CLI. Do not edit YAML for temporary experiments.
+
+## Active entrypoints
+
+| Purpose | Command/module |
+|---|---|
+| Train ordinary GT/DETR | `python -m training.train_gt_detr_lmmse` |
+| Run MCS training plan | `python -m training.train_mcs_specialists` |
+| Paired uncoded BER and channel bootstrap | `python -m evaluation.evaluate_gt_detr_lmmse` |
+| Coded BLER and fixed-BLER crossing | `python -m evaluation.evaluate_mcs_bler` |
+| LS/LMMSE/True-H CE diagnostic | `python -m evaluation.sanity_lmmse_channel_estimation` |
+| Build independent CE covariance cache | `python -m tools.build_uma_lmmse_ft_cov` |
+| Inspect NR MCS | `python -m link_level.nr_mcs` |
+
+The scalar UA-GT experiment is retired. Normal GT tensor names and shapes are preserved.
+The dataset's ambiguous `h_hat` alias and unused covariance split views were removed;
+use `h_hat_lmmse` for practical detection and `h_true` explicitly for diagnostics.
+LS estimation remains available to CE sanity checks.
+
+## Local CPU checks
+
+No 256Rx simulation, UMa generation or neural training on the laptop.
+The regression tests use Python's standard library and synthetic evaluator callbacks;
+they do not import or validate Sionna.
+
+```bash
+python -m compileall -q data detectors models training evaluation link_level tools tests
+python -m unittest discover -s tests -v
+```
+
+The audited laptop has torch 2.6.0 / Sionna 0.15.1 and lacks PyYAML; its environment was not changed.
+Real imports and the commands below require the existing GPU-server environment:
+Python 3.12, torch 2.11 + CUDA 13, Sionna 2.0.1, PyYAML.
+
+## Server validation: smoke before formal
+
+Run from the repository root after reviewing the audit branch diff and merging on the server.
+Keep the server's existing covariance cache and checkpoints. Do not overwrite or regenerate them for this smoke.
+These commands use the T1/MCS11 paths already declared in the baseline repository.
+
+```bash
+python -c "import torch, sionna, yaml; print('torch', torch.__version__, 'sionna', sionna.__version__); assert torch.cuda.is_available()"
+python -m py_compile models/graph/gt_ep_detector.py models/baselines/detr_ep_detector.py training/train_gt_detr_lmmse.py training/train_mcs_specialists.py evaluation/evaluate_gt_detr_lmmse.py evaluation/evaluate_mcs_bler.py
+python -m unittest discover -s tests -v
+python -m training.train_gt_detr_lmmse --help
+python -m evaluation.evaluate_gt_detr_lmmse --help
+python -m evaluation.evaluate_mcs_bler --help
+
+test -s data/cache/uma_lmmse_ft_cov.pt
+test -s ckp/mcs_specialists/t1_mcs11_16qam_gt_ep_lmmseH_estR_snr7to9db/best.pth
+test -s ckp/mcs_specialists/t1_mcs11_16qam_detr_ep_lmmseH_estR_snr7to9db/best.pth
+sha256sum data/cache/uma_lmmse_ft_cov.pt
+
+python -m evaluation.evaluate_gt_detr_lmmse \
+  --bits-per-symbol 4 --snr-db 8 --channels 2 --re-per-channel 8 \
+  --chunk-size 8 --bootstrap 100 --print-every 1 --seed 20260918 \
+  --gt-checkpoint ckp/mcs_specialists/t1_mcs11_16qam_gt_ep_lmmseH_estR_snr7to9db/best.pth \
+  --detr-checkpoint ckp/mcs_specialists/t1_mcs11_16qam_detr_ep_lmmseH_estR_snr7to9db/best.pth \
+  --output results/icc_audit_smoke/ber.json
+
+python -m evaluation.evaluate_mcs_bler \
+  --tables 1 --mcs 11 --operating-point --formal-channels 2 \
+  --gt-chunk 128 --seed 20260918 --output-dir results/icc_audit_smoke/bler_point
+
+python -m evaluation.evaluate_mcs_bler \
+  --tables 1 --mcs 11 --coarse-snrs 7,8,9 \
+  --coarse-channels 1 --formal-channels 2 --formal-step-db 0.5 --formal-margin-db 0 \
+  --bracket-step-db 0.5 --max-bracket-extensions 2 --gt-chunk 128 \
+  --seed 20260918 --output-dir results/icc_audit_smoke/bler_grid
+```
+
+BLER smoke must pass the codec identity check, `y_clean = H*x` reconstruction check and detector LLR shape checks.
+Legacy specialist checkpoints may lack `mcs_table/mcs_index`; the loader records and warns about those unverified fields.
+Check them against the original training history before using a formal result. Contradictory metadata is rejected.
+A two-channel smoke can be nonmonotone or fail to bracket; that is not a performance finding.
+Its purpose is to validate execution, bounded extension and saved schema.
+
+Check ordinary training after UA cleanup with a single step per model (GPU server only):
+
+```bash
+for arch in gt_ep detr_ep; do
+  python -m training.train_gt_detr_lmmse \
+    --arch "$arch" --bits-per-symbol 4 --snr-db 8 \
+    --steps 1 --re-per-step 8 --val-channels 1 --val-re-per-channel 8 --val-every 1 \
+    --seed 20260918 --output-dir "ckp/icc_audit_smoke/$arch" \
+    --history "results/icc_audit_smoke/${arch}_history.json"
+done
+```
+
+This checks the exact EP initialization assertion, forward/backward and checkpoint save; it is not formal retraining.
+For a real-data pairing check, run the operating-point smoke again with the same seed and a new output directory,
+and compare `results` in the two JSON files. Do not infer significance from smoke BER/BLER.
+The CE sanity command defaults to a larger sample and has statistical performance assertions;
+a one-channel BER improvement is not a reliable pass/fail criterion.
+
+## Results and repeatability
+
+BER requires explicit GT/DETR checkpoint paths. Its default result name uses runtime modulation,
+SNR, requested channel/RE counts and seed; JSON also records actual RE count.
+Evaluators reject pre-existing outputs unless `--overwrite` is supplied.
+Training rejects pre-existing `best.pth` or history unless `--fresh` is supplied.
+`--fresh` overwrites only those two artifacts, leaving other files in the output directory intact; it does not resume training.
+
+Coded BLER defaults to T1/MCS11. Other MCS must be explicitly selected. Missing mappings fail before sampling.
+The built-in map also contains T2/MCS5; both use 16QAM but distinct specialist checkpoints.
+To extend it, pass `--checkpoint-map path/to/map.json` with entries such as:
+
+```json
+{"1:19": {"gt": "ckp/your_verified_64qam_gt/best.pth", "detr": "ckp/your_verified_64qam_detr/best.pth"}}
+```
+
+Those example paths are placeholders, not provided weights. Map by `(table,mcs)`, never only by Qm.
+New specialist training records the table and index in the checkpoint and validates their modulation.
+`run_all_mcs_specialists.sh` expects a server-side plan under `results/mcs_specialists/mcs_train_plan.csv`.
+Required columns: `table,mcs,qm,snr_min_db,snr_max_db,val_snr_db`; optional `enabled`.
+Archive that plan with the run. The repository does not invent unverified 64QAM operating regions.
+
+Formal bracketing extends the missing side by `--bracket-step-db` (default .5dB), adding at most
+`--max-bracket-extensions` total SNR points (default 8). Every added point evaluates all detectors,
+with the same formal channel budget and common seed. An unresolved crossing is JSON `null`,
+status `unresolved`, and a warning. Interpolation stays within measured support, including after zero-count flooring.
+`--skip-formal` is a coarse diagnostic and does not trigger additional simulations.
+
+`mcs_bler_results.json` is atomically saved after every completed SNR point; an interrupted MCS retains
+status `running` and its completed points. Automatic resume is not implemented.
+The JSON includes CLI/system configuration, Git commit/dirty state, versions, cache and checkpoint hashes, effective seed,
+block/bit counts, channel-level counts, crossings and warnings. CSV summaries are derived after a completed MCS.
+Use channel-level paired resampling for uncertainty; 16 blocks from one channel are not 16 independent channels.
+
+All historical gains in the handoff remain user-supplied results pending artifact verification.
+Preserve their exact checkpoints, cache hash, seeds and settings when locking the formal 16QAM anchor.
+Next priorities are 64QAM BER, 64QAM BLER, QPSK verification, complexity, then compact mismatch/oracle diagnostics.
+
+## Git workflow
+
+Work on `codex/icc-audit-20260918`, review and merge on the GPU server, smoke, then formal evaluation.
+No force push or merge into main from the laptop. Checkpoints, caches, generated results/logs,
+partner code and partner weights remain local and ignored by Git.

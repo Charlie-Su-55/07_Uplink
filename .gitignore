@@ -22,6 +22,8 @@ results/
 outputs/
 
 # Checkpoints
+*.pt
+*.pth
 ckp/
 checkpoints/
 

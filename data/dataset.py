@@ -62,7 +62,6 @@ class UplinkUMADataset:
             "x_grid": x_grid,
             "h_propagation": h_propagation,
             "h_true": h_true,
-            "h_hat": h_true,
             "h_hat_ls": ce_ls["h_hat"],
             "h_hat_lmmse": ce_lmmse["h_hat"],
             "h_hat_lmmse_err_var": ce_lmmse["err_var"],
@@ -75,8 +74,6 @@ class UplinkUMADataset:
             "ruu_hat": cov["ruu_hat"],
             "ruu_scm": cov["ruu_scm"],
             "ruu_shrinkage": cov["ruu_shrinkage"],
-            "ruu_views": cov["ruu_views"],
-            "ruu_view_scm": cov["ruu_view_scm"],
             "topology": topology,
             "metadata": {
                 "channel_model": "uma",
@@ -91,8 +88,6 @@ class UplinkUMADataset:
                 "rx_snr_db": self.link.rx_snr_db,
                 "covariance_mode": self.covariance_estimator.mode,
                 "covariance_snapshots": cov["num_snapshots"],
-                "covariance_snapshots_per_view": cov["num_snapshots_per_view"],
-                "covariance_view_symbols": cov["view_symbols"],
                 "channel_estimation": "ls_linear+sionna_lmmse_f_t",
             },
         }

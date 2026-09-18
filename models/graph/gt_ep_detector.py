@@ -6,7 +6,7 @@ from sionna.phy.mapping import Constellation
 
 
 class InterferenceGraphTransformerLayer(nn.Module):
-    def __init__(self, d_model=128, num_heads=8, edge_dim=32, ffn_dim=256, dropout=0.05, use_uncertainty_gate=False):
+    def __init__(self, d_model=128, num_heads=8, edge_dim=32, ffn_dim=256, dropout=0.05):
         super().__init__()
         if d_model % num_heads != 0:
             raise ValueError("d_model must be divisible by num_heads.")
@@ -14,7 +14,6 @@ class InterferenceGraphTransformerLayer(nn.Module):
         self.d_model = d_model
         self.num_heads = num_heads
         self.head_dim = d_model // num_heads
-        self.use_uncertainty_gate = bool(use_uncertainty_gate)
 
         self.norm1 = nn.LayerNorm(d_model)
         self.norm2 = nn.LayerNorm(d_model)
@@ -33,18 +32,8 @@ class InterferenceGraphTransformerLayer(nn.Module):
 
         self.dropout = nn.Dropout(dropout)
 
-        if self.use_uncertainty_gate:
-            # beta = exp(log_beta), initialized at beta=1.
-            self.log_gate_beta = nn.Parameter(torch.zeros(()))
-        else:
-            self.register_parameter("log_gate_beta", None)
 
-    def gate_beta(self):
-        if not self.use_uncertainty_gate:
-            return None
-        return torch.exp(self.log_gate_beta.clamp(-3.0, 3.0))
-
-    def forward(self, x, edge_state, cross_mask, edge_reliability=None):
+    def forward(self, x, edge_state, cross_mask):
         b, k, _ = x.shape
 
         qkv = self.qkv(self.norm1(x)).view(b, k, 3, self.num_heads, self.head_dim)
@@ -59,12 +48,6 @@ class InterferenceGraphTransformerLayer(nn.Module):
         value_j = value[:, None, :, :, :]
         messages = value_j + edge_value
 
-        if self.use_uncertainty_gate:
-            if edge_reliability is None:
-                raise ValueError("edge_reliability is required when use_uncertainty_gate=True.")
-            beta = self.gate_beta()
-            gate = edge_reliability.clamp(1e-4, 1.0).pow(beta)
-            messages = messages * gate[..., None, None].to(messages.dtype)
 
         weights = attn.permute(0, 2, 3, 1).unsqueeze(-1)
         aggregate = (weights * messages).sum(dim=2).reshape(b, k, self.d_model)
@@ -75,14 +58,13 @@ class InterferenceGraphTransformerLayer(nn.Module):
 
 
 class InterferenceGraphLogitRefiner(nn.Module):
-    def __init__(self, num_users=16, num_symbols=16, num_iterations=5, d_model=128, num_heads=8, num_layers=4, edge_dim=32, ffn_dim=256, dropout=0.05, max_logit_correction=4.0, edge_mode="full", message_mode="cross_user", use_ce_uncertainty=False):
+    def __init__(self, num_users=16, num_symbols=16, num_iterations=5, d_model=128, num_heads=8, num_layers=4, edge_dim=32, ffn_dim=256, dropout=0.05, max_logit_correction=4.0, edge_mode="full", message_mode="cross_user"):
         super().__init__()
 
         self.num_users = int(num_users)
         self.num_symbols = int(num_symbols)
         self.num_iterations = int(num_iterations)
         self.max_logit_correction = float(max_logit_correction)
-        self.use_ce_uncertainty = bool(use_ce_uncertainty)
 
         if edge_mode not in {"full", "no_edge", "shuffled"}:
             raise ValueError(f"Unknown edge_mode: {edge_mode}")
@@ -92,10 +74,7 @@ class InterferenceGraphLogitRefiner(nn.Module):
         self.edge_mode = edge_mode
         self.message_mode = message_mode
 
-        # UA-GT adds:
-        # 1) global mean log uncertainty
-        # 2) stream-relative log uncertainty
-        node_input_dim = self.num_symbols + 6 + (2 if self.use_ce_uncertainty else 0)
+        node_input_dim = self.num_symbols + 6
         edge_input_dim = 6
 
         self.node_encoder = nn.Sequential(
@@ -120,7 +99,6 @@ class InterferenceGraphLogitRefiner(nn.Module):
                 edge_dim=edge_dim,
                 ffn_dim=ffn_dim,
                 dropout=dropout,
-                use_uncertainty_gate=self.use_ce_uncertainty,
             )
             for _ in range(num_layers)
         ])
@@ -161,34 +139,8 @@ class InterferenceGraphLogitRefiner(nn.Module):
 
         return self.edge_encoder(edge_features)
 
-    def build_uncertainty_context(self, ce_uncertainty):
-        if ce_uncertainty.ndim != 2 or ce_uncertainty.shape[-1] != self.num_users:
-            raise ValueError(
-                f"Expected ce_uncertainty [B,{self.num_users}], "
-                f"got {tuple(ce_uncertainty.shape)}"
-            )
 
-        u = ce_uncertainty.real.clamp(1e-4, 1e2)
-        log_u = torch.log(u)
-
-        global_log_u = log_u.mean(dim=-1, keepdim=True)
-        relative_log_u = log_u - global_log_u
-        global_log_u = global_log_u.expand_as(log_u)
-
-        stream_reliability = 1.0 / (1.0 + u)
-        pair_reliability = torch.sqrt(
-            stream_reliability[:, :, None] *
-            stream_reliability[:, None, :]
-        ).clamp(1e-4, 1.0)
-
-        return global_log_u, relative_log_u, pair_reliability
-
-    def gate_betas(self):
-        if not self.use_ce_uncertainty:
-            return torch.empty(0, device=self.logit_head.weight.device)
-        return torch.stack([layer.gate_beta() for layer in self.layers])
-
-    def forward(self, z, gram, cavity_mean, cavity_precision, base_log_prob, iteration, edge_state, ce_uncertainty=None):
+    def forward(self, z, gram, cavity_mean, cavity_precision, base_log_prob, iteration, edge_state):
         diag = gram.diagonal(dim1=-2, dim2=-1).real.clamp_min(1e-8)
         mf = z / diag.to(z.dtype)
 
@@ -203,17 +155,6 @@ class InterferenceGraphLogitRefiner(nn.Module):
             torch.log(diag),
         ], dim=-1)
 
-        edge_reliability = None
-
-        if self.use_ce_uncertainty:
-            if ce_uncertainty is None:
-                raise ValueError("ce_uncertainty is required for UA-GT-EP.")
-            global_log_u, relative_log_u, edge_reliability = self.build_uncertainty_context(ce_uncertainty)
-            scalar_features = torch.cat([
-                scalar_features,
-                global_log_u[..., None],
-                relative_log_u[..., None],
-            ], dim=-1)
 
         node_features = torch.cat([base_log_post, scalar_features], dim=-1)
         x = self.node_encoder(node_features)
@@ -240,7 +181,6 @@ class InterferenceGraphLogitRefiner(nn.Module):
                 x,
                 edge_state,
                 attention_mask,
-                edge_reliability=edge_reliability,
             )
 
         raw_delta = self.logit_head(self.final_norm(x))
@@ -251,7 +191,7 @@ class InterferenceGraphLogitRefiner(nn.Module):
 
 
 class GraphTransformerEPDetector(nn.Module):
-    def __init__(self, cfg, num_users=16, num_iterations=5, damping=0.5, min_variance=1e-6, min_site_precision=1e-6, d_model=128, num_heads=8, num_layers=4, edge_dim=32, ffn_dim=256, dropout=0.05, max_logit_correction=4.0, edge_mode="full", message_mode="cross_user", use_ce_uncertainty=False):
+    def __init__(self, cfg, num_users=16, num_iterations=5, damping=0.5, min_variance=1e-6, min_site_precision=1e-6, d_model=128, num_heads=8, num_layers=4, edge_dim=32, ffn_dim=256, dropout=0.05, max_logit_correction=4.0, edge_mode="full", message_mode="cross_user"):
         super().__init__()
 
         self.num_users = int(num_users)
@@ -259,7 +199,6 @@ class GraphTransformerEPDetector(nn.Module):
         self.damping = float(damping)
         self.min_variance = float(min_variance)
         self.min_site_precision = float(min_site_precision)
-        self.use_ce_uncertainty = bool(use_ce_uncertainty)
 
         self.bits_per_symbol = int(cfg["modulation"]["bits_per_symbol"])
 
@@ -302,7 +241,6 @@ class GraphTransformerEPDetector(nn.Module):
             max_logit_correction=max_logit_correction,
             edge_mode=edge_mode,
             message_mode=message_mode,
-            use_ce_uncertainty=self.use_ce_uncertainty,
         )
 
     def _gaussian_marginals(self, z, gram, site_precision, site_natural):
@@ -345,7 +283,7 @@ class GraphTransformerEPDetector(nn.Module):
 
         return torch.stack(llrs, dim=-1)
 
-    def forward(self, z, gram, return_iterations=(5,), ce_uncertainty=None):
+    def forward(self, z, gram, return_iterations=(5,)):
         if z.ndim != 2:
             raise ValueError(f"Expected z [B,K], got {tuple(z.shape)}")
 
@@ -361,14 +299,6 @@ class GraphTransformerEPDetector(nn.Module):
                 f"got {tuple(gram.shape)}"
             )
 
-        if self.use_ce_uncertainty:
-            if ce_uncertainty is None:
-                raise ValueError("ce_uncertainty must be supplied to UA-GT-EP.")
-            if ce_uncertainty.shape != z.shape:
-                raise ValueError(
-                    f"Expected ce_uncertainty {tuple(z.shape)}, "
-                    f"got {tuple(ce_uncertainty.shape)}"
-                )
 
         gram = 0.5 * (gram + gram.mH)
         real_dtype = gram.real.dtype
@@ -419,7 +349,6 @@ class GraphTransformerEPDetector(nn.Module):
                 base_log_prob=base_log_prob,
                 iteration=iteration - 1,
                 edge_state=edge_state,
-                ce_uncertainty=ce_uncertainty,
             )
 
             refined_log_prob = base_log_prob + delta_log_prob
@@ -501,7 +430,5 @@ class GraphTransformerEPDetector(nn.Module):
             "site_natural": site_natural,
         }
 
-        if self.use_ce_uncertainty:
-            result["uncertainty_gate_beta"] = self.graph_refiner.gate_betas()
 
         return result
