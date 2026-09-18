@@ -4,42 +4,45 @@ __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
 
-# IDE
+# IDE / OS
 .vscode/
 .idea/
+.DS_Store
+*.swp
+*.tmp
 
-# Logs
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Logs / generated results
 logs/
-*.log
-
-# Results
 results/
 outputs/
 
-# Checkpoints / weights
+# Checkpoints
 ckp/
 checkpoints/
-*.pth
-*.ckpt
-*.pt
 
-# External / partner code
+# Generated LMMSE covariance cache
+data/cache/
+
+# Partner Flow bundle: external/private
 flow_three_input_partner/
 
-# Cached / generated data
-data/cache/
-datasets/
-*.npy
-*.npz
-*.h5
-*.hdf5
+# Final partner diagnostic artifacts: local only
+partner_diagnostic_output/
 
-# Temporary
-*.tmp
-*.swp
-.DS_Store
+# Temporary external code
+third_party/
 
 # Secrets
 .env
-*.key
 *.pem
+*.key
+
+# Local editor / manual backups
+*.bak
+*.bak_*
+*.save

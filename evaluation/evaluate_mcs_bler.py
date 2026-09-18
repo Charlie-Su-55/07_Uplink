@@ -22,20 +22,23 @@ from sionna.phy.nr.utils import decode_mcs_index, calculate_tb_size
 
 from data.dataset import UplinkUMADataset
 from detectors.classical.lmmse import LMMSESoftDetector
+from detectors.classical.ep import ExpectationPropagationDetector
 from models.graph.gt_ep_detector import GraphTransformerEPDetector
+from models.baselines.detr_ep_detector import DETREPDetector
 
-
-CHECKPOINTS = {
-    2: "ckp/gt_ep_256rx_16ue_qpsk_lsH_estR_5db/best.pth",
-    4: "ckp/gt_ep_256rx_16ue_lsH_estR_5db/best.pth",
-    6: "ckp/gt_ep_256rx_16ue_64qam_lsH_estR_5db/best.pth",
+SPECIALIST_CHECKPOINTS = {
+    (1, 11): {
+        "gt": "ckp/mcs_specialists/t1_mcs11_16qam_gt_ep_lmmseH_estR_snr7to9db/best.pth",
+        "detr": "ckp/mcs_specialists/t1_mcs11_16qam_detr_ep_lmmseH_estR_snr7to9db/best.pth",
+    },
+    (2, 5): {
+        "gt": "ckp/mcs_specialists/t2_mcs5_16qam_gt_ep_lmmseH_estR_snr6p5to8p5db/best.pth",
+        "detr": "ckp/mcs_specialists/t2_mcs5_16qam_detr_ep_lmmseH_estR_snr6p5to8p5db/best.pth",
+    },
 }
 
-MOD_NAMES = {
-    2: "QPSK",
-    4: "16-QAM",
-    6: "64-QAM",
-}
+MOD_NAMES = {2: "QPSK", 4: "16-QAM", 6: "64-QAM"}
+DETECTOR_LABELS = {"lmmse": "LMMSE", "ep5": "EP5", "gt": "GT-EP", "detr": "DETR-EP"}
 
 
 def load_yaml(path):
@@ -55,22 +58,29 @@ def as_float(x):
     return float(x)
 
 
-def make_gt_model(cfg):
-    return GraphTransformerEPDetector(
+def make_neural_model(cfg, arch):
+    common = dict(
         cfg=cfg,
         num_users=16,
         num_iterations=5,
         damping=0.5,
         d_model=128,
         num_heads=8,
-        num_layers=4,
-        edge_dim=32,
         ffn_dim=256,
         dropout=0.05,
         max_logit_correction=4.0,
-        edge_mode="full",
-        message_mode="cross_user",
     )
+    if arch == "gt":
+        return GraphTransformerEPDetector(
+            num_layers=4,
+            edge_dim=32,
+            edge_mode="full",
+            message_mode="cross_user",
+            **common,
+        )
+    if arch == "detr":
+        return DETREPDetector(num_layers=3, **common)
+    raise ValueError(f"Unknown architecture: {arch}")
 
 
 def extract_state(checkpoint):
@@ -92,24 +102,35 @@ def extract_state(checkpoint):
     return cleaned
 
 
-def load_gt_model(base_cfg, qm, device):
+def load_neural_model(base_cfg, qm, arch, path, device):
     cfg = copy.deepcopy(base_cfg)
     cfg["modulation"]["bits_per_symbol"] = int(qm)
 
-    path = Path(CHECKPOINTS[qm])
+    path = Path(path)
     if not path.exists():
-        raise FileNotFoundError(f"Missing GT checkpoint: {path}")
+        raise FileNotFoundError(f"Missing {DETECTOR_LABELS[arch]} checkpoint: {path}")
 
-    model = make_gt_model(cfg)
+    model = make_neural_model(cfg, arch)
     checkpoint = torch.load(path, map_location="cpu", weights_only=False)
     model.load_state_dict(extract_state(checkpoint), strict=True)
     model = model.to(device)
     model.eval()
 
-    print(f"Loaded {MOD_NAMES[qm]:<6} GT checkpoint | step={checkpoint.get('step', '?')} | {path}")
+    print(f"Loaded {DETECTOR_LABELS[arch]:<7} | step={checkpoint.get('step', '?')} | {path}")
     return model
 
 
+def load_specialist_models(base_cfg, table, mcs, qm, device):
+    key = (int(table), int(mcs))
+    if key not in SPECIALIST_CHECKPOINTS:
+        raise KeyError(f"No specialist checkpoint mapping for T{table} MCS{mcs}.")
+
+    paths = SPECIALIST_CHECKPOINTS[key]
+
+    return {
+        "gt": load_neural_model(base_cfg, qm, "gt", paths["gt"], device),
+        "detr": load_neural_model(base_cfg, qm, "detr", paths["detr"], device),
+    }
 @dataclass
 class MCSRuntime:
     table: int
@@ -140,11 +161,8 @@ def build_mcs_runtime(cfg, table, mcs, num_re, num_streams, bp_iters):
     qm = as_int(qm_t)
     rate = as_float(rate_t)
 
-    if qm not in CHECKPOINTS:
-        raise ValueError(
-            f"MCS table {table}, index {mcs} uses Qm={qm}, "
-            f"but only QPSK/16-QAM/64-QAM checkpoints are available."
-        )
+    if qm not in MOD_NAMES:
+        raise ValueError(f"Unsupported modulation order Qm={qm}.")
 
     num_coded_bits = int(num_re * qm)
 
@@ -306,7 +324,7 @@ def llr_grid_to_codeword(llr, runtime, num_streams):
 
 
 @torch.no_grad()
-def run_gt_chunks(model, z, gram, qm, chunk_size):
+def run_neural_chunks(model, z, gram, qm, chunk_size):
     z = z.reshape(-1, 16)
     gram = gram.reshape(-1, 16, 16)
 
@@ -314,13 +332,11 @@ def run_gt_chunks(model, z, gram, qm, chunk_size):
 
     for start in range(0, z.shape[0], chunk_size):
         stop = min(start + chunk_size, z.shape[0])
-
         out = model(
             z[start:stop],
             gram[start:stop],
             return_iterations=(5,),
         )
-
         outputs.append(out["llr"])
 
     return torch.cat(outputs, dim=0).reshape(-1, 16, qm)
@@ -423,14 +439,12 @@ def build_coded_sample(dataset, runtime, num_streams, alignment_check=False):
 
 
 @torch.no_grad()
-def evaluate_one_channel(sample, frontend, model, runtime, num_streams, gt_chunk):
+def evaluate_one_channel(sample, frontend, classical_ep, models, runtime, num_streams, gt_chunk):
     physical = frontend(
         sample["y"],
         sample["h_lmmse"],
         sample["ruu_hat"],
     )
-
-    llr_lmmse = physical["llr"]
 
     expected = (
         1,
@@ -440,131 +454,90 @@ def evaluate_one_channel(sample, frontend, model, runtime, num_streams, gt_chunk
         runtime.qm,
     )
 
-    if tuple(llr_lmmse.shape) != expected:
-        raise RuntimeError(
-            f"LMMSE LLR shape mismatch: got {tuple(llr_lmmse.shape)}, "
-            f"expected {expected}"
-        )
-
-    gt_flat = run_gt_chunks(
-        model,
-        physical["z"],
-        physical["gram"],
-        runtime.qm,
-        gt_chunk,
-    )
-
-    llr_gt = gt_flat.reshape(
-        1,
-        sample["num_data_symbols"],
-        sample["num_subcarriers"],
-        num_streams,
-        runtime.qm,
-    )
-
-    lmmse_cw = llr_grid_to_codeword(
-        llr_lmmse,
-        runtime,
-        num_streams,
-    )
-
-    gt_cw = llr_grid_to_codeword(
-        llr_gt,
-        runtime,
-        num_streams,
-    )
-
-    lmmse_bits, lmmse_crc = runtime.decoder(
-        lmmse_cw
-    )
-
-    gt_bits, gt_crc = runtime.decoder(
-        gt_cw
-    )
-
-    truth = sample["info_bits"]
-
-    lmmse_block_error = (
-        lmmse_bits != truth
-    ).any(dim=-1)
-
-    gt_block_error = (
-        gt_bits != truth
-    ).any(dim=-1)
-
-    lmmse_bit_error = (
-        lmmse_bits != truth
-    ).sum().item()
-
-    gt_bit_error = (
-        gt_bits != truth
-    ).sum().item()
-
-    fixed = (
-        lmmse_block_error
-        & (~gt_block_error)
-    ).sum().item()
-
-    broken = (
-        (~lmmse_block_error)
-        & gt_block_error
-    ).sum().item()
-
-    return {
-        "lmmse_block_errors": int(lmmse_block_error.sum().item()),
-        "gt_block_errors": int(gt_block_error.sum().item()),
-        "lmmse_bit_errors": int(lmmse_bit_error),
-        "gt_bit_errors": int(gt_bit_error),
-        "lmmse_crc_fail": int((~lmmse_crc).sum().item()),
-        "gt_crc_fail": int((~gt_crc).sum().item()),
-        "fixed": int(fixed),
-        "broken": int(broken),
+    llrs = {
+        "lmmse": physical["llr"],
+        "ep5": classical_ep(
+            physical["z"],
+            physical["gram"],
+            return_iterations=(5,),
+        )["llr"],
     }
 
+    for name, model in models.items():
+        flat = run_neural_chunks(
+            model,
+            physical["z"],
+            physical["gram"],
+            runtime.qm,
+            gt_chunk,
+        )
+        llrs[name] = flat.reshape(expected)
+
+    for name, llr in llrs.items():
+        if tuple(llr.shape) != expected:
+            raise RuntimeError(
+                f"{name} LLR shape mismatch: got {tuple(llr.shape)}, expected {expected}"
+            )
+
+    truth = sample["info_bits"]
+    block_masks = {}
+    result = {}
+
+    for name, llr in llrs.items():
+        cw = llr_grid_to_codeword(llr, runtime, num_streams)
+        bits_hat, crc_ok = runtime.decoder(cw)
+
+        block_error = (bits_hat != truth).any(dim=-1)
+        block_masks[name] = block_error
+
+        result[f"{name}_block_errors"] = int(block_error.sum().item())
+        result[f"{name}_bit_errors"] = int((bits_hat != truth).sum().item())
+        result[f"{name}_crc_fail"] = int((~crc_ok).sum().item())
+
+    ep_mask = block_masks["ep5"]
+
+    for name in ("gt", "detr"):
+        if name in block_masks:
+            result[f"{name}_fixed_vs_ep"] = int(
+                (ep_mask & (~block_masks[name])).sum().item()
+            )
+            result[f"{name}_broken_vs_ep"] = int(
+                ((~ep_mask) & block_masks[name]).sum().item()
+            )
+
+    return result
 
 @torch.no_grad()
-def evaluate_snr_point(
-    base_cfg,
-    runtime,
-    model,
-    snr_db,
-    channels,
-    seed,
-    gt_chunk,
-    verbose=True,
-):
+def evaluate_snr_point(base_cfg, runtime, models, snr_db, channels, seed, gt_chunk, verbose=True):
     cfg = copy.deepcopy(base_cfg)
-
     cfg["modulation"]["bits_per_symbol"] = runtime.qm
     cfg["link"]["rx_snr_db"] = float(snr_db)
     cfg["general"]["seed"] = int(seed)
 
     device = cfg["general"]["device"]
-
     sionna_config.device = device
     sionna_config.precision = cfg["general"]["precision"]
     sionna_config.seed = int(seed)
-
     torch.manual_seed(int(seed))
 
     dataset = UplinkUMADataset(cfg)
     frontend = LMMSESoftDetector(cfg)
-
-    num_streams = int(cfg["general"]["num_ues"]) * int(
-        cfg["general"]["streams_per_ue"]
+    classical_ep = ExpectationPropagationDetector(
+        cfg,
+        num_iterations=5,
+        damping=0.5,
     )
 
-    totals = {
-        "lmmse_block_errors": 0,
-        "gt_block_errors": 0,
-        "lmmse_bit_errors": 0,
-        "gt_bit_errors": 0,
-        "lmmse_crc_fail": 0,
-        "gt_crc_fail": 0,
-        "fixed": 0,
-        "broken": 0,
-    }
+    num_streams = (
+        int(cfg["general"]["num_ues"])
+        * int(cfg["general"]["streams_per_ue"])
+    )
 
+    detector_names = ["lmmse", "ep5"] + [
+        name for name in ("gt", "detr") if name in models
+    ]
+
+    totals = {}
     alignment_checked = False
 
     for channel_idx in range(1, channels + 1):
@@ -574,52 +547,64 @@ def evaluate_snr_point(
             num_streams,
             alignment_check=not alignment_checked,
         )
-
         alignment_checked = True
 
         result = evaluate_one_channel(
             sample,
             frontend,
-            model,
+            classical_ep,
+            models,
             runtime,
             num_streams,
             gt_chunk,
         )
 
-        for key in totals:
-            totals[key] += result[key]
+        for key, value in result.items():
+            totals[key] = totals.get(key, 0) + int(value)
 
         if verbose and (
             channel_idx % max(channels // 4, 1) == 0
             or channel_idx == channels
         ):
             n_blocks = channel_idx * num_streams
-
-            print(
-                f"    {channel_idx:4d}/{channels} | "
-                f"LMMSE BLER={totals['lmmse_block_errors']/n_blocks:.4f} | "
-                f"GT BLER={totals['gt_block_errors']/n_blocks:.4f}"
+            status = " | ".join(
+                f"{DETECTOR_LABELS[name]} BLER="
+                f"{totals[f'{name}_block_errors']/n_blocks:.4f}"
+                for name in detector_names
             )
+            print(f"    {channel_idx:4d}/{channels} | {status}")
 
     total_blocks = channels * num_streams
     total_info_bits = total_blocks * runtime.tb_size
 
-    return {
+    point = {
         "snr_db": float(snr_db),
         "channels": int(channels),
         "total_blocks": int(total_blocks),
         "tb_size": int(runtime.tb_size),
-        "lmmse_bler": totals["lmmse_block_errors"] / total_blocks,
-        "gt_bler": totals["gt_block_errors"] / total_blocks,
-        "lmmse_ber": totals["lmmse_bit_errors"] / total_info_bits,
-        "gt_ber": totals["gt_bit_errors"] / total_info_bits,
-        "lmmse_crc_fail_rate": totals["lmmse_crc_fail"] / total_blocks,
-        "gt_crc_fail_rate": totals["gt_crc_fail"] / total_blocks,
-        "fixed_blocks": totals["fixed"],
-        "broken_blocks": totals["broken"],
-        "net_fixed_blocks": totals["fixed"] - totals["broken"],
     }
 
+    for name in detector_names:
+        point[f"{name}_block_errors"] = totals[f"{name}_block_errors"]
+        point[f"{name}_bit_errors"] = totals[f"{name}_bit_errors"]
+        point[f"{name}_bler"] = totals[f"{name}_block_errors"] / total_blocks
+        point[f"{name}_ber"] = totals[f"{name}_bit_errors"] / total_info_bits
+        point[f"{name}_crc_fail_rate"] = (
+            totals[f"{name}_crc_fail"] / total_blocks
+        )
+
+    for name in ("gt", "detr"):
+        fixed_key = f"{name}_fixed_vs_ep"
+        broken_key = f"{name}_broken_vs_ep"
+
+        if fixed_key in totals:
+            point[fixed_key] = totals[fixed_key]
+            point[broken_key] = totals[broken_key]
+            point[f"{name}_net_fixed_vs_ep"] = (
+                totals[fixed_key] - totals[broken_key]
+            )
+
+    return point
 
 def interpolate_snr_at_bler(points, key, target):
     points = sorted(points, key=lambda x: x["snr_db"])
@@ -660,15 +645,19 @@ def interpolate_snr_at_bler(points, key, target):
 
 
 def choose_formal_grid(coarse_points, target, step, margin):
+    bler_keys = [
+        key for key in coarse_points[0]
+        if key.endswith("_bler")
+    ]
+
     estimates = []
 
-    for key in ("lmmse_bler", "gt_bler"):
+    for key in bler_keys:
         x = interpolate_snr_at_bler(
             coarse_points,
             key,
             target,
         )
-
         if x is not None:
             estimates.append(x)
 
@@ -682,21 +671,13 @@ def choose_formal_grid(coarse_points, target, step, margin):
                 abs(
                     math.log10(
                         max(
-                            p["lmmse_bler"],
+                            p[key],
                             0.5 / p["total_blocks"],
                         )
                     )
                     - math.log10(target)
-                ),
-                abs(
-                    math.log10(
-                        max(
-                            p["gt_bler"],
-                            0.5 / p["total_blocks"],
-                        )
-                    )
-                    - math.log10(target)
-                ),
+                )
+                for key in bler_keys
             ),
         )
 
@@ -713,7 +694,6 @@ def choose_formal_grid(coarse_points, target, step, margin):
         round(low + i * step, 6)
         for i in range(count)
     ]
-
 
 def save_csv(path, rows):
     path = Path(path)
@@ -751,90 +731,21 @@ def parse_float_list(text):
 
 def main():
     parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "--config",
-        default="configs/training/sgt_5db.yaml",
-    )
-
-    parser.add_argument(
-        "--tables",
-        default="1,2",
-    )
-
-    parser.add_argument(
-        "--mcs",
-        default="4,5,11,19",
-    )
-
-    parser.add_argument(
-        "--coarse-snrs",
-        default="-12,-8,-4,0,4,8,12,16,20,24",
-    )
-
-    parser.add_argument(
-        "--coarse-channels",
-        type=int,
-        default=20,
-    )
-
-    parser.add_argument(
-        "--formal-channels",
-        type=int,
-        default=100,
-    )
-
-    parser.add_argument(
-        "--formal-step-db",
-        type=float,
-        default=1.0,
-    )
-
-    parser.add_argument(
-        "--formal-margin-db",
-        type=float,
-        default=2.0,
-    )
-
-    parser.add_argument(
-        "--target-bler",
-        type=float,
-        default=0.1,
-    )
-
-    parser.add_argument(
-        "--bp-iters",
-        type=int,
-        default=20,
-    )
-
-    parser.add_argument(
-        "--gt-chunk",
-        type=int,
-        default=256,
-    )
-
-    parser.add_argument(
-        "--seed",
-        type=int,
-        default=20260911,
-    )
-
-    parser.add_argument(
-        "--output-dir",
-        default="results/mcs_bler",
-    )
-
-    parser.add_argument(
-        "--skip-formal",
-        action="store_true",
-        help="Skip the formal fine SNR sweep and use coarse points for summary/interpolation.",
-    )
-    parser.add_argument(
-        "--operating-point",
-        action="store_true",
-        help="Evaluate one predefined SNR per MCS instead of BLER crossing.",
-    )
+    parser.add_argument("--config", default="configs/training/sgt_5db.yaml")
+    parser.add_argument("--tables", default="1,2")
+    parser.add_argument("--mcs", default="4,5,11,19")
+    parser.add_argument("--coarse-snrs", default="-12,-8,-4,0,4,8,12,16,20,24")
+    parser.add_argument("--coarse-channels", type=int, default=20)
+    parser.add_argument("--formal-channels", type=int, default=100)
+    parser.add_argument("--formal-step-db", type=float, default=1.0)
+    parser.add_argument("--formal-margin-db", type=float, default=2.0)
+    parser.add_argument("--target-bler", type=float, default=0.1)
+    parser.add_argument("--bp-iters", type=int, default=20)
+    parser.add_argument("--gt-chunk", type=int, default=256)
+    parser.add_argument("--seed", type=int, default=20260911)
+    parser.add_argument("--output-dir", default="results/mcs_bler")
+    parser.add_argument("--skip-formal", action="store_true")
+    parser.add_argument("--operating-point", action="store_true")
     parser.add_argument("--baseline-only", action="store_true")
     args = parser.parse_args()
 
@@ -849,13 +760,8 @@ def main():
         (2, 19): 12.0,
     }
 
-    train_cfg = load_yaml(
-        args.config
-    )
-
-    base_cfg = load_yaml(
-        train_cfg["system_config"]
-    )
+    train_cfg = load_yaml(args.config)
+    base_cfg = load_yaml(train_cfg["system_config"])
 
     device = base_cfg["general"]["device"]
 
@@ -866,50 +772,28 @@ def main():
 
     sionna_config.device = device
     sionna_config.precision = base_cfg["general"]["precision"]
-
     torch.set_float32_matmul_precision("high")
 
-    tables = parse_int_list(
-        args.tables
+    tables = parse_int_list(args.tables)
+    mcs_indices = parse_int_list(args.mcs)
+    coarse_snrs = parse_float_list(args.coarse_snrs)
+
+    num_streams = (
+        int(base_cfg["general"]["num_ues"])
+        * int(base_cfg["general"]["streams_per_ue"])
     )
 
-    mcs_indices = parse_int_list(
-        args.mcs
-    )
-
-    coarse_snrs = parse_float_list(
-        args.coarse_snrs
-    )
-
-    num_streams = int(
-        base_cfg["general"]["num_ues"]
-    ) * int(
-        base_cfg["general"]["streams_per_ue"]
-    )
-
-    probe_cfg = copy.deepcopy(
-        base_cfg
-    )
-
-    probe_dataset = UplinkUMADataset(
-        probe_cfg
-    )
-
+    probe_dataset = UplinkUMADataset(copy.deepcopy(base_cfg))
     num_data_symbols = len(
         probe_dataset.channel.resource_grid.data_symbols
     )
-
     num_subcarriers = int(
         probe_dataset.channel.resource_grid.num_subcarriers
     )
-
-    num_re = (
-        num_data_symbols
-        * num_subcarriers
-    )
+    num_re = num_data_symbols * num_subcarriers
 
     print("=" * 136)
-    print("3GPP NR MCS BLER EVALUATION | LMMSE vs GT-EP v1")
+    print("3GPP NR MCS BLER EVALUATION | LMMSE / EP5 / GT-EP / DETR-EP")
     print("=" * 136)
     print(f"System              : 256 Rx / {num_streams} streams")
     print(f"Data symbols        : {num_data_symbols}")
@@ -920,63 +804,83 @@ def main():
     print(f"MCS indices         : {mcs_indices}")
     print(f"Coarse channels/SNR : {args.coarse_channels}")
     print(f"Formal channels/SNR : {args.formal_channels}")
+    print(f"Baseline only       : {args.baseline_only}")
     print("=" * 136)
 
-    output_dir = Path(
-        args.output_dir
-    )
-
-    output_dir.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+    output_dir = Path(args.output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     all_results = []
     curve_rows = []
     summary_rows = []
-
     model_cache = {}
+
     def save_progress():
         payload = {
             "config": {
-                "mode": "operating_point" if args.operating_point else "bler_crossing",
+                "mode": (
+                    "operating_point"
+                    if args.operating_point
+                    else "bler_crossing"
+                ),
                 "target_bler": args.target_bler,
                 "coarse_channels": args.coarse_channels,
                 "formal_channels": args.formal_channels,
                 "formal_step_db": args.formal_step_db,
                 "formal_margin_db": args.formal_margin_db,
                 "seed": args.seed,
+                "baseline_only": args.baseline_only,
             },
             "results": all_results,
         }
 
-        with open(output_dir / "mcs_bler_results.json", "w", encoding="utf-8") as f:
+        with open(
+            output_dir / "mcs_bler_results.json",
+            "w",
+            encoding="utf-8",
+        ) as f:
             json.dump(payload, f, indent=2)
 
-        save_csv(output_dir / "mcs_bler_curves.csv", curve_rows)
-        save_csv(output_dir / "mcs_bler_summary.csv", summary_rows)
+        save_csv(
+            output_dir / "mcs_bler_curves.csv",
+            curve_rows,
+        )
+        save_csv(
+            output_dir / "mcs_bler_summary.csv",
+            summary_rows,
+        )
+
     for table in tables:
         for mcs in mcs_indices:
-            probe_qm, _ = decode_mcs_index(
+            qm_t, _ = decode_mcs_index(
                 mcs,
                 table_index=table,
                 is_pusch=True,
                 transform_precoding=False,
                 device=device,
             )
+            qm = as_int(qm_t)
 
-            qm = as_int(
-                probe_qm
-            )
-
-            if not args.baseline_only and qm not in CHECKPOINTS:
-                print(f"SKIP | T{table} MCS{mcs} uses Qm={qm}, no matching checkpoint.")
+            if qm not in MOD_NAMES:
+                print(
+                    f"SKIP | T{table} MCS{mcs} "
+                    f"uses unsupported Qm={qm}."
+                )
                 continue
 
-            cfg_mcs = copy.deepcopy(
-                base_cfg
-            )
+            key = (table, mcs)
 
+            if (
+                not args.baseline_only
+                and key not in SPECIALIST_CHECKPOINTS
+            ):
+                print(
+                    f"SKIP | T{table} MCS{mcs}: "
+                    f"no GT/DETR specialist mapping yet."
+                )
+                continue
+
+            cfg_mcs = copy.deepcopy(base_cfg)
             cfg_mcs["modulation"]["bits_per_symbol"] = qm
 
             runtime = build_mcs_runtime(
@@ -989,19 +893,34 @@ def main():
             )
 
             if args.baseline_only:
-                model = None
+                models = {}
             else:
-                if qm not in model_cache:
-                    model_cache[qm] = load_gt_model(base_cfg, qm, device)
-                model = model_cache[qm]
+                if key not in model_cache:
+                    model_cache[key] = load_specialist_models(
+                        base_cfg,
+                        table,
+                        mcs,
+                        qm,
+                        device,
+                    )
+                models = model_cache[key]
+
+            detector_names = ["lmmse", "ep5"] + [
+                name
+                for name in ("gt", "detr")
+                if name in models
+            ]
 
             print()
             print("=" * 136)
             print(
-                f"T{table} MCS{mcs} | {MOD_NAMES[qm]} | "
-                f"Qm={qm} | R={runtime.target_rate:.6f} | "
+                f"T{table} MCS{mcs} | "
+                f"{MOD_NAMES[qm]} | "
+                f"Qm={qm} | "
+                f"R={runtime.target_rate:.6f} | "
                 f"SE={runtime.spectral_efficiency:.4f} | "
-                f"TB={runtime.tb_size} | G={runtime.num_coded_bits}"
+                f"TB={runtime.tb_size} | "
+                f"G={runtime.num_coded_bits}"
             )
             print("=" * 136)
 
@@ -1017,48 +936,33 @@ def main():
                 device,
             )
 
-            coarse_points = []
-
-            print()
+            common_seed = (
+                args.seed
+                + table * 100000
+                + mcs * 1000
+            )
 
             if args.operating_point:
-                snr = OPERATING_SNRS[(table, mcs)]
+                snr = OPERATING_SNRS[key]
 
                 print()
-                print(f"OPERATING-POINT EVALUATION | SNR={snr:+.1f} dB")
+                print(
+                    f"OPERATING-POINT EVALUATION | "
+                    f"SNR={snr:+.1f} dB"
+                )
 
                 point = evaluate_snr_point(
                     base_cfg=base_cfg,
                     runtime=runtime,
-                    model=model,
+                    models=models,
                     snr_db=snr,
                     channels=args.formal_channels,
-                    seed=args.seed + table * 100000 + mcs * 1000,
+                    seed=common_seed,
                     gt_chunk=args.gt_chunk,
                     verbose=True,
                 )
 
-                lmmse_bler = point["lmmse_bler"]
-                gt_bler = point["gt_bler"]
-                lmmse_ber = point["lmmse_ber"]
-                gt_ber = point["gt_ber"]
-
-                bler_gain = 100.0 * (lmmse_bler - gt_bler) / max(lmmse_bler, 1e-12)
-                ber_gain = 100.0 * (lmmse_ber - gt_ber) / max(lmmse_ber, 1e-12)
-
-                print()
-                print(
-                    f"T{table} MCS{mcs} | SNR={snr:+.1f} dB | "
-                    f"LMMSE BLER={lmmse_bler:.6f} | GT BLER={gt_bler:.6f} | "
-                    f"BLER gain={bler_gain:+.2f}%"
-                )
-                print(
-                    f"{'':18s}LMMSE BER ={lmmse_ber:.6e} | "
-                    f"GT BER ={gt_ber:.6e} | "
-                    f"BER gain ={ber_gain:+.2f}%"
-                )
-
-                result = {
+                metadata = {
                     "mode": "operating_point",
                     "table": table,
                     "mcs": mcs,
@@ -1068,47 +972,29 @@ def main():
                     "spectral_efficiency": runtime.spectral_efficiency,
                     "tb_size": runtime.tb_size,
                     "num_coded_bits": runtime.num_coded_bits,
-                    "snr_db": snr,
-                    "lmmse_bler": lmmse_bler,
-                    "gt_bler": gt_bler,
-                    "bler_gain_pct": bler_gain,
-                    "lmmse_ber": lmmse_ber,
-                    "gt_ber": gt_ber,
-                    "ber_gain_pct": ber_gain,
-                    "point": point,
+                }
+
+                result = {
+                    **metadata,
+                    **point,
                 }
 
                 all_results.append(result)
+                summary_rows.append(result)
+                curve_rows.append(result)
 
-                summary_rows.append({
-                    "table": table,
-                    "mcs": mcs,
-                    "modulation": MOD_NAMES[qm],
-                    "qm": qm,
-                    "target_rate": runtime.target_rate,
-                    "spectral_efficiency": runtime.spectral_efficiency,
-                    "tb_size": runtime.tb_size,
-                    "num_coded_bits": runtime.num_coded_bits,
-                    "snr_db": snr,
-                    "lmmse_bler": lmmse_bler,
-                    "gt_bler": gt_bler,
-                    "bler_gain_pct": bler_gain,
-                    "lmmse_ber": lmmse_ber,
-                    "gt_ber": gt_ber,
-                    "ber_gain_pct": ber_gain,
-                })
+                print()
 
-                curve_rows.append({
-                    "table": table,
-                    "mcs": mcs,
-                    "modulation": MOD_NAMES[qm],
-                    "qm": qm,
-                    "target_rate": runtime.target_rate,
-                    "spectral_efficiency": runtime.spectral_efficiency,
-                    "tb_size": runtime.tb_size,
-                    "num_coded_bits": runtime.num_coded_bits,
-                    **point,
-                })
+                for name in detector_names:
+                    print(
+                        f"{DETECTOR_LABELS[name]:<8} | "
+                        f"BLER={point[f'{name}_bler']:.6f} | "
+                        f"BER={point[f'{name}_ber']:.6e} | "
+                        f"block errors="
+                        f"{point[f'{name}_block_errors']} | "
+                        f"bit errors="
+                        f"{point[f'{name}_bit_errors']}"
+                    )
 
                 save_progress()
 
@@ -1117,13 +1003,10 @@ def main():
 
                 continue
 
+            print()
             print("COARSE SWEEP")
 
-            common_seed = (
-                args.seed
-                + table * 100000
-                + mcs * 1000
-            )
+            coarse_points = []
 
             for snr in coarse_snrs:
                 print(
@@ -1133,7 +1016,7 @@ def main():
                 point = evaluate_snr_point(
                     base_cfg=base_cfg,
                     runtime=runtime,
-                    model=model,
+                    models=models,
                     snr_db=snr,
                     channels=args.coarse_channels,
                     seed=common_seed,
@@ -1141,33 +1024,44 @@ def main():
                     verbose=False,
                 )
 
-                coarse_points.append(
-                    point
+                coarse_points.append(point)
+
+                status = " | ".join(
+                    f"{DETECTOR_LABELS[name]}="
+                    f"{point[f'{name}_bler']:.5f}"
+                    for name in detector_names
                 )
 
+                extra = []
+
+                for name in ("gt", "detr"):
+                    key_nf = f"{name}_net_fixed_vs_ep"
+
+                    if key_nf in point:
+                        extra.append(
+                            f"{DETECTOR_LABELS[name]} "
+                            f"net-vs-EP="
+                            f"{point[key_nf]:+d}"
+                        )
+
+                if extra:
+                    status += (
+                        " | "
+                        + " | ".join(extra)
+                    )
+
                 print(
-                    f"    LMMSE BLER={point['lmmse_bler']:.5f} | "
-                    f"GT BLER={point['gt_bler']:.5f} | "
-                    f"net fixed={point['net_fixed_blocks']:+d}"
+                    f"    {status}"
                 )
 
             if args.skip_formal:
                 print()
-                print("FORMAL SWEEP SKIPPED | using coarse points for crossing diagnostic")
-                formal_points = coarse_points
+                print(
+                    "FORMAL SWEEP SKIPPED | "
+                    "using coarse points for crossing diagnostic"
+                )
 
-                for point in formal_points:
-                    curve_rows.append({
-                        "table": table,
-                        "mcs": mcs,
-                        "modulation": MOD_NAMES[qm],
-                        "qm": qm,
-                        "target_rate": runtime.target_rate,
-                        "spectral_efficiency": runtime.spectral_efficiency,
-                        "tb_size": runtime.tb_size,
-                        "num_coded_bits": runtime.num_coded_bits,
-                        **point,
-                    })
+                formal_points = coarse_points
 
             else:
                 formal_snrs = choose_formal_grid(
@@ -1180,7 +1074,10 @@ def main():
                 print()
                 print(
                     "FORMAL GRID: "
-                    + ", ".join(f"{x:+.1f}" for x in formal_snrs)
+                    + ", ".join(
+                        f"{x:+.1f}"
+                        for x in formal_snrs
+                    )
                     + " dB"
                 )
 
@@ -1188,12 +1085,15 @@ def main():
 
                 for snr in formal_snrs:
                     print()
-                    print(f"  FORMAL SNR={snr:+.1f} dB")
+                    print(
+                        f"  FORMAL SNR="
+                        f"{snr:+.1f} dB"
+                    )
 
                     point = evaluate_snr_point(
                         base_cfg=base_cfg,
                         runtime=runtime,
-                        model=model,
+                        models=models,
                         snr_db=snr,
                         channels=args.formal_channels,
                         seed=common_seed,
@@ -1203,37 +1103,7 @@ def main():
 
                     formal_points.append(point)
 
-                    curve_rows.append({
-                        "table": table,
-                        "mcs": mcs,
-                        "modulation": MOD_NAMES[qm],
-                        "qm": qm,
-                        "target_rate": runtime.target_rate,
-                        "spectral_efficiency": runtime.spectral_efficiency,
-                        "tb_size": runtime.tb_size,
-                        "num_coded_bits": runtime.num_coded_bits,
-                        **point,
-                    })
-
-            lmmse_snr = interpolate_snr_at_bler(
-                formal_points,
-                "lmmse_bler",
-                args.target_bler,
-            )
-
-            gt_snr = interpolate_snr_at_bler(
-                formal_points,
-                "gt_bler",
-                args.target_bler,
-            )
-
-            gain_db = (
-                None
-                if lmmse_snr is None or gt_snr is None
-                else lmmse_snr - gt_snr
-            )
-
-            result = {
+            metadata = {
                 "table": table,
                 "mcs": mcs,
                 "modulation": MOD_NAMES[qm],
@@ -1242,47 +1112,109 @@ def main():
                 "spectral_efficiency": runtime.spectral_efficiency,
                 "tb_size": runtime.tb_size,
                 "num_coded_bits": runtime.num_coded_bits,
+            }
+
+            for point in formal_points:
+                curve_rows.append({
+                    **metadata,
+                    **point,
+                })
+
+            snr_at_target = {
+                name: interpolate_snr_at_bler(
+                    formal_points,
+                    f"{name}_bler",
+                    args.target_bler,
+                )
+                for name in detector_names
+            }
+
+            ep_snr = snr_at_target["ep5"]
+
+            gain_vs_ep = {
+                name: (
+                    None
+                    if (
+                        ep_snr is None
+                        or snr_at_target[name] is None
+                    )
+                    else (
+                        ep_snr
+                        - snr_at_target[name]
+                    )
+                )
+                for name in detector_names
+                if name != "ep5"
+            }
+
+            result = {
+                **metadata,
                 "target_bler": args.target_bler,
-                "lmmse_snr_at_target": lmmse_snr,
-                "gt_snr_at_target": gt_snr,
-                "gt_snr_gain_db": gain_db,
+                "snr_at_target_db": snr_at_target,
+                "gain_vs_ep5_db": gain_vs_ep,
                 "coarse_points": coarse_points,
                 "formal_points": formal_points,
             }
 
-            all_results.append(
-                result
-            )
+            all_results.append(result)
 
-            summary_rows.append({
-                "table": table,
-                "mcs": mcs,
-                "modulation": MOD_NAMES[qm],
-                "qm": qm,
-                "target_rate": runtime.target_rate,
-                "spectral_efficiency": runtime.spectral_efficiency,
-                "tb_size": runtime.tb_size,
-                "num_coded_bits": runtime.num_coded_bits,
+            summary = {
+                **metadata,
                 "target_bler": args.target_bler,
-                "lmmse_snr_at_target_db": lmmse_snr,
-                "gt_snr_at_target_db": gt_snr,
-                "gt_snr_gain_db": gain_db,
-            })
+            }
+
+            for name in detector_names:
+                summary[
+                    f"{name}_snr_at_target_db"
+                ] = snr_at_target[name]
+
+            for name, gain in gain_vs_ep.items():
+                summary[
+                    f"{name}_gain_vs_ep5_db"
+                ] = gain
+
+            summary_rows.append(summary)
 
             print()
             print("-" * 136)
+            print(
+                f"T{table} MCS{mcs} | "
+                f"target BLER="
+                f"{args.target_bler:g}"
+            )
 
-            if gain_db is None:
-                print(
-                    f"T{table} MCS{mcs} | BLER={args.target_bler:g} crossing not bracketed."
+            for name in detector_names:
+                snr_value = snr_at_target[name]
+
+                snr_text = (
+                    "N/A"
+                    if snr_value is None
+                    else f"{snr_value:.3f} dB"
                 )
-            else:
-                print(
-                    f"T{table} MCS{mcs} | "
-                    f"LMMSE@{args.target_bler:g}={lmmse_snr:.3f} dB | "
-                    f"GT@{args.target_bler:g}={gt_snr:.3f} dB | "
-                    f"GAIN={gain_db:+.3f} dB"
-                )
+
+                if name == "ep5":
+                    print(
+                        f"  {DETECTOR_LABELS[name]:<8} "
+                        f"@ target: {snr_text}"
+                    )
+
+                else:
+                    gain = gain_vs_ep.get(name)
+
+                    gain_text = (
+                        "N/A"
+                        if gain is None
+                        else (
+                            f"{gain:+.3f} dB "
+                            f"vs EP5"
+                        )
+                    )
+
+                    print(
+                        f"  {DETECTOR_LABELS[name]:<8} "
+                        f"@ target: {snr_text} | "
+                        f"{gain_text}"
+                    )
 
             print("-" * 136)
 
@@ -1293,77 +1225,100 @@ def main():
 
     print()
     print("=" * 136)
+    print("FINAL SUMMARY")
+    print("=" * 136)
 
     if args.operating_point:
-        print("FINAL MCS OPERATING-POINT TABLE")
-        print("=" * 136)
-        print(
-            f"{'Table':>6s} {'MCS':>5s} {'Mod':>8s} {'Qm':>4s} "
-            f"{'R':>8s} {'SE':>8s} {'SNR':>8s} "
-            f"{'LMMSE BLER':>12s} {'GT BLER':>12s} {'BLER Gain':>11s} "
-            f"{'LMMSE BER':>12s} {'GT BER':>12s} {'BER Gain':>10s}"
-        )
-        print("-" * 136)
-
         for row in summary_rows:
             print(
-                f"{row['table']:>6d} "
-                f"{row['mcs']:>5d} "
-                f"{row['modulation']:>8s} "
-                f"{row['qm']:>4d} "
-                f"{row['target_rate']:>8.4f} "
-                f"{row['spectral_efficiency']:>8.4f} "
-                f"{row['snr_db']:>+8.1f} "
-                f"{row['lmmse_bler']:>12.6f} "
-                f"{row['gt_bler']:>12.6f} "
-                f"{row['bler_gain_pct']:>+10.2f}% "
-                f"{row['lmmse_ber']:>12.6e} "
-                f"{row['gt_ber']:>12.6e} "
-                f"{row['ber_gain_pct']:>+9.2f}%"
+                f"T{row['table']} "
+                f"MCS{row['mcs']} | "
+                f"{row['modulation']} | "
+                f"SNR={row['snr_db']:+.1f} dB"
             )
+
+            names = ["lmmse", "ep5"] + [
+                name
+                for name in ("gt", "detr")
+                if f"{name}_bler" in row
+            ]
+
+            for name in names:
+                print(
+                    f"  {DETECTOR_LABELS[name]:<8} "
+                    f"BLER="
+                    f"{row[f'{name}_bler']:.6f} | "
+                    f"BER="
+                    f"{row[f'{name}_ber']:.6e}"
+                )
 
     else:
-        print("FINAL MCS SNR-GAIN TABLE")
-        print("=" * 136)
-        print(
-            f"{'Table':>6s} {'MCS':>5s} {'Mod':>8s} {'Qm':>4s} "
-            f"{'R':>8s} {'SE':>8s} {'LMMSE@BLER':>13s} "
-            f"{'GT@BLER':>11s} {'Gain':>10s}"
-        )
-        print("-" * 136)
-
         for row in summary_rows:
-            lmmse_snr = (
-                "N/A"
-                if row["lmmse_snr_at_target_db"] is None
-                else f"{row['lmmse_snr_at_target_db']:.3f}"
-            )
-
-            gt_snr = (
-                "N/A"
-                if row["gt_snr_at_target_db"] is None
-                else f"{row['gt_snr_at_target_db']:.3f}"
-            )
-
-            gain = (
-                "N/A"
-                if row["gt_snr_gain_db"] is None
-                else f"{row['gt_snr_gain_db']:+.3f}"
-            )
-
             print(
-                f"{row['table']:>6d} "
-                f"{row['mcs']:>5d} "
-                f"{row['modulation']:>8s} "
-                f"{row['qm']:>4d} "
-                f"{row['target_rate']:>8.4f} "
-                f"{row['spectral_efficiency']:>8.4f} "
-                f"{lmmse_snr:>13s} "
-                f"{gt_snr:>11s} "
-                f"{gain:>10s}"
+                f"T{row['table']} "
+                f"MCS{row['mcs']} | "
+                f"{row['modulation']} | "
+                f"target BLER="
+                f"{row['target_bler']:g}"
             )
 
-    print("-" * 136)
+            names = ["lmmse", "ep5"] + [
+                name
+                for name in ("gt", "detr")
+                if (
+                    f"{name}_snr_at_target_db"
+                    in row
+                )
+            ]
+
+            ep_snr = row.get(
+                "ep5_snr_at_target_db"
+            )
+
+            for name in names:
+                x = row.get(
+                    f"{name}_snr_at_target_db"
+                )
+
+                snr_text = (
+                    "N/A"
+                    if x is None
+                    else f"{x:.3f} dB"
+                )
+
+                if name == "ep5":
+                    print(
+                        f"  {DETECTOR_LABELS[name]:<8} "
+                        f"{snr_text}"
+                    )
+
+                else:
+                    gain = (
+                        None
+                        if (
+                            ep_snr is None
+                            or x is None
+                        )
+                        else ep_snr - x
+                    )
+
+                    gain_text = (
+                        "N/A"
+                        if gain is None
+                        else (
+                            f"{gain:+.3f} dB "
+                            f"vs EP5"
+                        )
+                    )
+
+                    print(
+                        f"  {DETECTOR_LABELS[name]:<8} "
+                        f"{snr_text} | "
+                        f"{gain_text}"
+                    )
+
+    print("=" * 136)
+
 
 if __name__ == "__main__":
     main()
