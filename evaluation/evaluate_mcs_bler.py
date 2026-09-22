@@ -42,7 +42,7 @@ SPECIALIST_CHECKPOINTS = {
 }
 
 MOD_NAMES = {2: "QPSK", 4: "16-QAM", 6: "64-QAM"}
-DETECTOR_LABELS = {"lmmse": "LMMSE", "ep5": "EP5", "gt": "GT-EP", "detr": "DETR-EP"}
+DETECTOR_LABELS = {"lmmse": "LMMSE", "ep5": "EP5", "gt": "GT-EP", "detr": "DETR-EP", "flow": "Flow-Matching"}
 
 
 def load_yaml(path):
@@ -114,9 +114,13 @@ def load_neural_model(base_cfg, qm, arch, path, device, table=None, mcs=None):
     if not path.exists():
         raise FileNotFoundError(f"Missing {DETECTOR_LABELS[arch]} checkpoint: {path}")
 
-    model = make_neural_model(cfg, arch)
     checkpoint = torch.load(path, map_location="cpu", weights_only=False)
-    expected = {"arch": f"{arch}_ep", "bits_per_symbol": int(qm), "csi": "lmmseH", "covariance": "estimated_Ruu"}
+    if arch == "flow":
+        from models.baselines.flow_matching_detector import flow_from_checkpoint
+        model = flow_from_checkpoint(cfg, checkpoint)
+    else:
+        model = make_neural_model(cfg, arch)
+    expected = {"arch": "flow_matching" if arch == "flow" else f"{arch}_ep", "bits_per_symbol": int(qm), "csi": "lmmseH", "covariance": "estimated_Ruu"}
     if table is not None:
         expected.update(mcs_table=int(table), mcs_index=int(mcs))
     missing = []
@@ -125,6 +129,8 @@ def load_neural_model(base_cfg, qm, arch, path, device, table=None, mcs=None):
             missing.append(key)
         elif checkpoint[key] != value:
             raise ValueError(f"Checkpoint {path}: {key}={checkpoint[key]!r}, expected {value!r}")
+    if missing and arch == "flow":
+        raise ValueError(f"Flow checkpoint {path}: missing required metadata {missing}")
     if missing:
         warnings.warn(f"Legacy checkpoint {path}: unverified metadata {missing}", RuntimeWarning)
     model.load_state_dict(extract_state(checkpoint), strict=True)
@@ -133,6 +139,7 @@ def load_neural_model(base_cfg, qm, arch, path, device, table=None, mcs=None):
     model.checkpoint_metadata = {
         "path": str(path), "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
         "step": checkpoint.get("step"), "unverified_fields": missing,
+        "model_config": checkpoint.get("model_config"),
         **{key: checkpoint.get(key) for key in expected},
     }
 
@@ -149,8 +156,8 @@ def load_specialist_models(base_cfg, table, mcs, qm, device, checkpoint_map=None
     paths = checkpoint_map[key]
 
     return {
-        "gt": load_neural_model(base_cfg, qm, "gt", paths["gt"], device, table, mcs),
-        "detr": load_neural_model(base_cfg, qm, "detr", paths["detr"], device, table, mcs),
+        name: load_neural_model(base_cfg, qm, name, paths[name], device, table, mcs)
+        for name in ("gt", "detr", "flow") if name in paths
     }
 
 
@@ -161,8 +168,9 @@ def read_checkpoint_map(path=None):
             overrides = json.load(f)
         for key, paths in overrides.items():
             table, mcs = map(int, key.split(":"))
-            if set(paths) != {"gt", "detr"} or not all(isinstance(p, str) and p for p in paths.values()):
-                raise ValueError(f"Checkpoint map {key}: expected nonempty gt/detr paths")
+            if (not {"gt", "detr"}.issubset(paths) or not set(paths).issubset({"gt", "detr", "flow"})
+                    or not all(isinstance(p, str) and p for p in paths.values())):
+                raise ValueError(f"Checkpoint map {key}: expected nonempty gt/detr paths and optional flow path")
             mapping[(table, mcs)] = paths
     return mapping
 
@@ -361,8 +369,11 @@ def llr_grid_to_codeword(llr, runtime, num_streams):
 
 @torch.no_grad()
 def run_neural_chunks(model, z, gram, qm, chunk_size):
-    z = z.reshape(-1, 16)
-    gram = gram.reshape(-1, 16, 16)
+    streams = z.shape[-1]
+    if gram.shape != (*z.shape, streams) or chunk_size <= 0:
+        raise ValueError("Invalid z/G dimensions or chunk_size")
+    z = z.reshape(-1, streams)
+    gram = gram.reshape(-1, streams, streams)
 
     outputs = []
 
@@ -373,9 +384,11 @@ def run_neural_chunks(model, z, gram, qm, chunk_size):
             gram[start:stop],
             return_iterations=(5,),
         )
+        if out["llr"].shape != (stop - start, streams, qm) or not torch.isfinite(out["llr"]).all():
+            raise RuntimeError("Neural detector returned invalid LLR dimensions or values")
         outputs.append(out["llr"])
 
-    return torch.cat(outputs, dim=0).reshape(-1, 16, qm)
+    return torch.cat(outputs, dim=0).reshape(-1, streams, qm)
 
 
 @torch.no_grad()
@@ -532,7 +545,7 @@ def evaluate_one_channel(sample, frontend, classical_ep, models, runtime, num_st
 
     ep_mask = block_masks["ep5"]
 
-    for name in ("gt", "detr"):
+    for name in ("gt", "detr", "flow"):
         if name in block_masks:
             result[f"{name}_fixed_vs_ep"] = int(
                 (ep_mask & (~block_masks[name])).sum().item()
@@ -570,7 +583,7 @@ def evaluate_snr_point(base_cfg, runtime, models, snr_db, channels, seed, gt_chu
     )
 
     detector_names = ["lmmse", "ep5"] + [
-        name for name in ("gt", "detr") if name in models
+        name for name in ("gt", "detr", "flow") if name in models
     ]
 
     totals = {}
@@ -635,7 +648,7 @@ def evaluate_snr_point(base_cfg, runtime, models, snr_db, channels, seed, gt_chu
             totals[f"{name}_crc_fail"] / total_blocks
         )
 
-    for name in ("gt", "detr"):
+    for name in ("gt", "detr", "flow"):
         fixed_key = f"{name}_fixed_vs_ep"
         broken_key = f"{name}_broken_vs_ep"
 
@@ -832,7 +845,7 @@ def main():
     parser.add_argument("--skip-formal", action="store_true")
     parser.add_argument("--operating-point", action="store_true")
     parser.add_argument("--baseline-only", action="store_true")
-    parser.add_argument("--checkpoint-map", help='JSON overrides: {"1:11": {"gt": "...", "detr": "..."}}')
+    parser.add_argument("--checkpoint-map", help='JSON overrides: {"1:11": {"gt": "...", "detr": "...", "flow": "optional..."}}')
     parser.add_argument("--bracket-step-db", type=float, default=0.5)
     parser.add_argument("--max-bracket-extensions", type=int, default=8, help="Maximum additional formal SNR points in total")
     parser.add_argument("--overwrite", action="store_true", help="Explicitly replace existing result files in output-dir")
@@ -1010,7 +1023,7 @@ def main():
 
             detector_names = ["lmmse", "ep5"] + [
                 name
-                for name in ("gt", "detr")
+                for name in ("gt", "detr", "flow")
                 if name in models
             ]
 
@@ -1138,7 +1151,7 @@ def main():
 
                 extra = []
 
-                for name in ("gt", "detr"):
+                for name in ("gt", "detr", "flow"):
                     key_nf = f"{name}_net_fixed_vs_ep"
 
                     if key_nf in point:
@@ -1337,7 +1350,7 @@ def main():
 
             names = ["lmmse", "ep5"] + [
                 name
-                for name in ("gt", "detr")
+                for name in ("gt", "detr", "flow")
                 if f"{name}_bler" in row
             ]
 
@@ -1362,7 +1375,7 @@ def main():
 
             names = ["lmmse", "ep5"] + [
                 name
-                for name in ("gt", "detr")
+                for name in ("gt", "detr", "flow")
                 if (
                     f"{name}_snr_at_target_db"
                     in row

@@ -55,7 +55,7 @@ def load_checkpoint(model, path, device, arch):
             **{key: ckpt.get(key) for key in ("step", "best_ber", "arch", "csi", "covariance", "bits_per_symbol", "mcs_table", "mcs_index", "args")}}
 
 
-def make_models(cfg, device, gt_path, detr_path):
+def make_models(cfg, device, gt_path, detr_path, flow_path=None):
     common = dict(
         cfg=cfg,
         num_users=16,
@@ -80,7 +80,15 @@ def make_models(cfg, device, gt_path, detr_path):
         "gt_ep": load_checkpoint(gt, gt_path, device, "gt_ep"),
         "detr_ep": load_checkpoint(detr, detr_path, device, "detr_ep"),
     }
-    return {"gt_ep": gt, "detr_ep": detr}, meta
+    models = {"gt_ep": gt, "detr_ep": detr}
+    if flow_path is not None:
+        from models.baselines.flow_matching_detector import flow_from_checkpoint
+        checkpoint = torch.load(flow_path, map_location="cpu", weights_only=False)
+        flow = flow_from_checkpoint(cfg, checkpoint).to(device).eval()
+        models["flow_matching"] = flow
+        meta["flow_matching"] = load_checkpoint(flow, flow_path, device, "flow_matching")
+        meta["flow_matching"]["model_config"] = flow.model_config
+    return models, meta
 
 
 def paired_bootstrap_ci(reference, candidate, num_bootstrap=20000, seed=20260915, batch_size=2000):
@@ -134,7 +142,8 @@ def sample_channel_re(dataset, frontend, ep, re_per_channel, re_generator):
 
 def default_output_path(args):
     snr = f"{args.snr_db:g}".replace("-", "m").replace(".", "p")
-    return Path(f"results/ep_refiners/lmmseH_gt_vs_detr_{MOD_NAMES[args.bits_per_symbol]}_"
+    controls = "gt_vs_detr_vs_flow" if getattr(args, "flow_checkpoint", None) else "gt_vs_detr"
+    return Path(f"results/ep_refiners/lmmseH_{controls}_{MOD_NAMES[args.bits_per_symbol]}_"
                 f"{args.channels}ch_{args.re_per_channel}re_{snr}db_seed{args.seed}.json")
 
 
@@ -152,6 +161,7 @@ def main():
     parser.add_argument("--bootstrap", type=int, default=20000)
     parser.add_argument("--gt-checkpoint", required=True)
     parser.add_argument("--detr-checkpoint", required=True)
+    parser.add_argument("--flow-checkpoint", help="Optional trained masked Flow control")
     parser.add_argument("--output", default=None)
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
@@ -163,7 +173,7 @@ def main():
     output = Path(args.output) if args.output else default_output_path(args)
     if output.exists() and not args.overwrite:
         raise FileExistsError(f"Result exists: {output}; choose --output or explicitly use --overwrite")
-    for path in (args.gt_checkpoint, args.detr_checkpoint):
+    for path in [args.gt_checkpoint, args.detr_checkpoint] + ([args.flow_checkpoint] if args.flow_checkpoint else []):
         if not Path(path).is_file():
             raise FileNotFoundError(f"Checkpoint not found: {path}")
 
@@ -191,9 +201,9 @@ def main():
     dataset = UplinkUMADataset(cfg)
     frontend = LMMSESoftDetector(cfg)
     ep = ExpectationPropagationDetector(cfg, num_iterations=5, damping=0.5)
-    models, checkpoint_meta = make_models(cfg, device, args.gt_checkpoint, args.detr_checkpoint)
+    models, checkpoint_meta = make_models(cfg, device, args.gt_checkpoint, args.detr_checkpoint, args.flow_checkpoint)
 
-    names = ["lmmse", "ep5", "gt_ep", "detr_ep", "trueH_ep5"]
+    names = ["lmmse", "ep5", *models, "trueH_ep5"]
     total_errors = {name: 0 for name in names}
     channel_bers = {name: [] for name in names}
     total_bits = 0
@@ -229,6 +239,8 @@ def main():
             for start in range(0, z.shape[0], args.chunk_size):
                 stop = min(start + args.chunk_size, z.shape[0])
                 llr = model(z[start:stop], gram[start:stop], return_iterations=(5,))["llr"]
+                if llr.shape != bits[start:stop].shape or not torch.isfinite(llr).all():
+                    raise RuntimeError(f"{name}: invalid LLR shape or nonfinite output")
                 errors += hard_errors(llr, bits[start:stop])
             per_channel_errors[name] = errors
 
@@ -244,6 +256,7 @@ def main():
                 f"channel={ch:4d}/{args.channels} | LMMSE={current['lmmse']:.6e} | "
                 f"EP5={current['ep5']:.6e} | GT={current['gt_ep']:.6e} | "
                 f"DETR={current['detr_ep']:.6e} | TrueH={current['trueH_ep5']:.6e}"
+                + (f" | Flow={current['flow_matching']:.6e}" if "flow_matching" in current else "")
             )
 
     ber = {name: total_errors[name] / total_bits for name in names}
@@ -262,7 +275,7 @@ def main():
         ("gt_ep", "GT-EP"),
         ("detr_ep", "DETR-EP"),
         ("trueH_ep5", "TrueH+EstR EP5"),
-    ]:
+    ] + ([("flow_matching", "Flow-Matching")] if "flow_matching" in models else []):
         gain_ep = 100.0 * (ep5 - ber[key]) / max(ep5, 1e-12)
         gain_lm = 100.0 * (lmmse - ber[key]) / max(lmmse, 1e-12)
         print(f"{label:20s} {ber[key]:14.8e} {gain_ep:+15.3f}% {gain_lm:+17.3f}%")
@@ -272,6 +285,12 @@ def main():
         ("detr_ep", "ep5", "DETR-EP vs EP5"),
         ("detr_ep", "gt_ep", "DETR-EP vs GT-EP"),
     ]
+    if "flow_matching" in models:
+        comparisons.extend([
+            ("flow_matching", "ep5", "Flow vs EP5"),
+            ("flow_matching", "gt_ep", "Flow vs GT-EP"),
+            ("flow_matching", "detr_ep", "Flow vs DETR-EP"),
+        ])
     ci_results = {}
     print()
     print("PAIRED CHANNEL BOOTSTRAP 95% CI | positive ΔBER means candidate is better")

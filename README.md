@@ -4,6 +4,8 @@ Practical mismatch-robust soft MU-MIMO detection for the ICC submission.
 The receiver uses DMRS -> conventional LMMSE channel estimation/interpolation ->
 `h_hat_lmmse + ruu_hat` -> covariance whitening -> LMMSE / EP5 / GT-EP / DETR-EP -> LLR -> coded BLER.
 GT-EP is the proposal; DETR-EP is a control. Report measured differences without assuming GT must win.
+An optional [Flow-Matching control](docs/FLOW_MATCHING.md) adds a discrete masked posterior
+flow with the same whitened z/G interface, a dedicated trainer, and paired BER/BLER integration.
 
 Detailed findings, baseline line references and limitations: [ICC audit](docs/ICC_AUDIT_20260918.md).
 
@@ -27,6 +29,7 @@ Detailed findings, baseline line references and limitations: [ICC audit](docs/IC
 | Purpose | Command/module |
 |---|---|
 | Train ordinary GT/DETR | `python -m training.train_gt_detr_lmmse` |
+| Train Flow control | `python -m training.train_flow_matching` |
 | Run MCS training plan | `python -m training.train_mcs_specialists` |
 | Paired uncoded BER and channel bootstrap | `python -m evaluation.evaluate_gt_detr_lmmse` |
 | Coded BLER and fixed-BLER crossing | `python -m evaluation.evaluate_mcs_bler` |
@@ -42,8 +45,9 @@ LS estimation remains available to CE sanity checks.
 ## Local CPU checks
 
 No 256Rx simulation, UMa generation or neural training on the laptop.
-The regression tests use Python's standard library and synthetic evaluator callbacks;
-they do not import or validate Sionna.
+The audit tests use Python's standard library and synthetic evaluator callbacks.
+Flow tests also use small synthetic PyTorch tensors; its Sionna 2 mapper/APP check
+skips when Sionna 2 is unavailable. No test generates UMa channels.
 
 ```bash
 python -m compileall -q data detectors models training evaluation link_level tools tests
