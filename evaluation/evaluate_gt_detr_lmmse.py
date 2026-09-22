@@ -203,7 +203,11 @@ def main():
     ep = ExpectationPropagationDetector(cfg, num_iterations=5, damping=0.5)
     models, checkpoint_meta = make_models(cfg, device, args.gt_checkpoint, args.detr_checkpoint, args.flow_checkpoint)
 
-    names = ["lmmse", "ep5", *models, "trueH_ep5"]
+    names = ["lmmse", "ep5", "gt_ep", "detr_ep"]
+    if "flow_matching" in models:
+        names += ["raw_flow", "flow_matching"]
+    names += ["trueH_ep5"]
+
     total_errors = {name: 0 for name in names}
     channel_bers = {name: [] for name in names}
     total_bits = 0
@@ -236,13 +240,26 @@ def main():
 
         for name, model in models.items():
             errors = 0
+            raw_errors = 0 if name == "flow_matching" else None
+
             for start in range(0, z.shape[0], args.chunk_size):
                 stop = min(start + args.chunk_size, z.shape[0])
-                llr = model(z[start:stop], gram[start:stop], return_iterations=(5,))["llr"]
+                out = model(z[start:stop], gram[start:stop], return_iterations=(5,))
+                llr = out["llr"]
+
                 if llr.shape != bits[start:stop].shape or not torch.isfinite(llr).all():
                     raise RuntimeError(f"{name}: invalid LLR shape or nonfinite output")
                 errors += hard_errors(llr, bits[start:stop])
+
+                if name == "flow_matching":
+                    raw_llr = out["raw_flow_llr"]
+                    if raw_llr.shape != bits[start:stop].shape or not torch.isfinite(raw_llr).all():
+                        raise RuntimeError("raw_flow: invalid LLR shape or nonfinite output")
+                    raw_errors += hard_errors(raw_llr, bits[start:stop])
+
             per_channel_errors[name] = errors
+            if name == "flow_matching":
+                per_channel_errors["raw_flow"] = raw_errors
 
         nbits = bits.numel()
         total_bits += nbits
@@ -255,8 +272,12 @@ def main():
             print(
                 f"channel={ch:4d}/{args.channels} | LMMSE={current['lmmse']:.6e} | "
                 f"EP5={current['ep5']:.6e} | GT={current['gt_ep']:.6e} | "
-                f"DETR={current['detr_ep']:.6e} | TrueH={current['trueH_ep5']:.6e}"
-                + (f" | Flow={current['flow_matching']:.6e}" if "flow_matching" in current else "")
+                f"DETR={current['detr_ep']:.6e}"
+                + (
+                    f" | RawFlow={current['raw_flow']:.6e} | Flow={current['flow_matching']:.6e}"
+                    if "flow_matching" in current else ""
+                )
+                + f" | TrueH={current['trueH_ep5']:.6e}"
             )
 
     ber = {name: total_errors[name] / total_bits for name in names}
@@ -269,13 +290,20 @@ def main():
     print("=" * 136)
     print(f"{'Detector':20s} {'BER':>14s} {'gain vs EP5':>16s} {'gain vs LMMSE':>18s}")
     print("-" * 136)
-    for key, label in [
+    rows = [
         ("lmmse", "LMMSE"),
         ("ep5", "EP5"),
         ("gt_ep", "GT-EP"),
         ("detr_ep", "DETR-EP"),
-        ("trueH_ep5", "TrueH+EstR EP5"),
-    ] + ([("flow_matching", "Flow-Matching")] if "flow_matching" in models else []):
+    ]
+    if "flow_matching" in models:
+        rows += [
+            ("raw_flow", "Raw-Flow"),
+            ("flow_matching", "Flow-Matching"),
+        ]
+    rows += [("trueH_ep5", "TrueH+EstR EP5")]
+
+    for key, label in rows:
         gain_ep = 100.0 * (ep5 - ber[key]) / max(ep5, 1e-12)
         gain_lm = 100.0 * (lmmse - ber[key]) / max(lmmse, 1e-12)
         print(f"{label:20s} {ber[key]:14.8e} {gain_ep:+15.3f}% {gain_lm:+17.3f}%")
@@ -287,9 +315,13 @@ def main():
     ]
     if "flow_matching" in models:
         comparisons.extend([
+            ("raw_flow", "ep5", "Raw-Flow vs EP5"),
+            ("raw_flow", "gt_ep", "Raw-Flow vs GT-EP"),
+            ("raw_flow", "detr_ep", "Raw-Flow vs DETR-EP"),
             ("flow_matching", "ep5", "Flow vs EP5"),
             ("flow_matching", "gt_ep", "Flow vs GT-EP"),
             ("flow_matching", "detr_ep", "Flow vs DETR-EP"),
+            ("raw_flow", "flow_matching", "Raw-Flow vs Flow"),
         ])
     ci_results = {}
     print()
