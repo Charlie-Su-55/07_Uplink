@@ -1,7 +1,7 @@
 # 07_Uplink
 
 Practical mismatch-robust soft MU-MIMO detection for the ICC submission.
-The receiver uses DMRS -> conventional LMMSE channel estimation/interpolation ->
+The legacy receiver uses DMRS -> conventional LMMSE channel estimation/interpolation ->
 `h_hat_lmmse + ruu_hat` -> covariance whitening -> LMMSE / EP5 / GT-EP / DETR-EP -> LLR -> coded BLER.
 GT-EP is the proposal; DETR-EP is a control. Report measured differences without assuming GT must win.
 An optional [Flow-Matching control](docs/FLOW_MATCHING.md) adds a discrete masked posterior
@@ -9,7 +9,103 @@ flow with the same whitened z/G interface, a dedicated trainer, and paired BER/B
 
 Detailed findings, baseline line references and limitations: [ICC audit](docs/ICC_AUDIT_20260918.md).
 
-## Fixed experiment
+## Sionna Eb/N0 reference
+
+The independent reference starts at `configs/system/uma_16ue_256rx_sionna_ebno.yaml`.
+It targets the existing GPU-server environment: Python 3.12, PyTorch 2.11, Sionna 2.0.1,
+and PyYAML. No laptop environment upgrade is required. The legacy paths remain available.
+
+The first acceptance case is **UMa / Table 1, MCS10 / 16 streams / 256Rx / native LMMSE**.
+Table 1 MCS10 is 16-QAM with target rate 340/1024; Table 2 MCS10 has target rate
+658/1024 and is a different case. Modulation is derived from the explicit table/index.
+
+The reference uses normalized raw UMa channels, perfect CSI, zero CE error variance,
+known thermal noise, no external interference and no power control. Each UE transmits
+one unit-average-energy QAM stream through the existing unit-norm equal-gain mapping
+to its four physical antennas. Aggregate expected transmit energy is 16, with no
+`1/sqrt(16)` factor. Raw channel normalization averages over Rx/Tx antennas, time
+and frequency per link. The projected effective channel is measured separately and
+is **not** normalized a second time.
+
+All 14 x 192 REs carry coded data; pilots, silent symbols, guards and DC nulls are absent.
+The native resource grid has `num_tx=16`, `num_streams_per_tx=1`, CP=14 and FFT=192.
+Its 2688 data REs per UE differ from the legacy grid's 1920; TB lengths and BLER curves
+therefore describe different experiments. This first reference is a frequency-domain
+OFDM link with native NR TB coding, not a complete standards-conformant PUSCH scheduler.
+
+`NRTransportBlockCodec` sends the actual TBEncoder output through native QAM mapping,
+ResourceGridMapper, physical rank-one antenna mapping and ApplyOFDMChannel. AWGN is added
+once. Native LMMSEEqualizer, APP Demapper and TBDecoder recover the payload. No legacy
+dataset, waveform replacement, covariance cache, checkpoint or estimated Ruu is used.
+
+The x-axis is **per-UE payload Eb/N0**. `link_level/sionna_ebno.py` calls Sionna's
+`ebnodb2no` with the actual grid and `R_payload = input_payload_bits / transmitted_coded_bits`.
+For this all-data, one-stream-per-UE grid:
+
+```text
+N0 = (1 + 14/192) / (10^(EbNo_dB/10) * Qm * R_payload)
+E[|complex_noise|^2] = N0; real and imaginary variances = N0/2
+```
+
+N0 does not depend on channel realizations, realized waveform power, batch size, or UE count.
+The output records the MCS target rate and actual payload rate separately. CP energy is
+included by the native conversion; it is not multiplied again during channel application.
+The accounting follows the pinned [Sionna conversion](https://github.com/NVlabs/sionna/blob/v2.0.1/src/sionna/phy/utils/misc.py)
+and [resource grid](https://github.com/NVlabs/sionna/blob/v2.0.1/src/sionna/phy/ofdm/resource_grid.py).
+
+Run small synthetic tests first; these never generate UMa or allocate a 256Rx link.
+Native codec/reference tests skip explicitly on the laptop's Sionna 0.15.1, and must
+run without those skips on the target server. CLI help uses lazy imports.
+
+```bash
+python -m unittest discover -s tests -v
+python -m evaluation.evaluate_sionna_bler --help
+python -m evaluation.diagnose_sionna_power --help
+```
+
+On the **GPU server only**, run power diagnostics, then a two-channel execution smoke:
+
+```bash
+python -m evaluation.diagnose_sionna_power --channels 2 --batch-size 1 --ebno-db 0 --compare-classical --output results/sionna_reference/power_t1_mcs10.json
+python -m evaluation.evaluate_sionna_bler --table 1 --mcs 10 --channels 2 --batch-size 1 --ebno-dbs=-20,-12,-4,4,12 --output results/sionna_reference/smoke_t1_mcs10.json
+```
+
+Check codec identity, `H_eff*x` reconstruction, raw channel power near 1, per-UE Tx power
+near 1, aggregate Tx power near 16, measured noise power near N0, and the small-RE
+classical/native LMMSE comparison. Finite-sample Tx/noise power fluctuates; effective
+channel power need not equal 1. `measured_rx_snr_db` is a diagnostic, not the Eb/N0 axis.
+The native equalizer constructs Rx covariance matrices across REs; use batch size 1
+initially and watch server GPU memory. A two-channel smoke cannot establish acceptance.
+
+Then collect fixed-budget paired measurements on the server:
+
+```bash
+python -m evaluation.evaluate_sionna_bler --table 1 --mcs 10 --channels 1000 --batch-size 1 --ebno-dbs=-20,-16,-12,-8,-4,0,4,8,12 --require-acceptance --output results/sionna_reference/formal_t1_mcs10.json
+```
+
+The grid is a starting range, not a promised operating region. Extend it if the measured
+points do not bracket BLER=0.1. Each Eb/N0 uses the same batch seeds, topology reset,
+payload and noise draw sequence; keep batch size and seed fixed for paired reruns.
+BLER counts payload mismatches per UE TB; CRC failures and undetected errors are also
+recorded. All K UEs in one channel form one statistical cluster.
+
+Acceptance requires a measured downward 0.1 bracket, at least 100 independent channels,
+no adjacent paired increase beyond a 3-standard-error screening threshold, and a high
+endpoint BLER <=0.01 with enough statistical support. Support uses the approximate 95%
+Wilson upper endpoint for the probability of **any** TB error in a channel, a conservative
+proxy for mean TB BLER. Thus even 100 zero-error channels do not establish low BLER.
+Raw pointwise monotonicity is recorded without smoothing; finite Monte Carlo fluctuations
+can occur. `unresolved` is not a passing result. `--require-acceptance` exits 2 for unresolved
+runs. A persistent high-Eb/N0 floor in this reference blocks migration to neural training
+and requires PHY investigation; this new evaluator never launches training.
+
+JSON records effective config, versions, Git revision/dirty state, codec/grid conventions,
+N0, first-batch powers at each Eb/N0, exact block/bit counts, per-UE and per-channel counts,
+seeds and acceptance. Outputs reject existing files unless `--overwrite` is explicit and
+save atomically after each batch; interruption retains partial results. There is no resume
+or automatic range extension. Completion means execution finished; acceptance is separate.
+
+## Legacy fixed experiment
 
 - 256 BS Rx antennas, 16 UEs with one stream each; 6.7 GHz.
 - 192 subcarriers, 14 OFDM symbols; silent 0/1, DMRS 2/13, data 3..12.
@@ -24,7 +120,7 @@ Detailed findings, baseline line references and limitations: [ICC audit](docs/IC
   `system_config` field. Its old SGT model/receiver/training fields are not used by the canonical scripts.
   Architecture and SNR come from the canonical builders and CLI. Do not edit YAML for temporary experiments.
 
-## Active entrypoints
+## Legacy entrypoints
 
 | Purpose | Command/module |
 |---|---|
@@ -58,7 +154,7 @@ The audited laptop has torch 2.6.0 / Sionna 0.15.1 and lacks PyYAML; its environ
 Real imports and the commands below require the existing GPU-server environment:
 Python 3.12, torch 2.11 + CUDA 13, Sionna 2.0.1, PyYAML.
 
-## Server validation: smoke before formal
+## Legacy server validation: smoke before formal
 
 Run from the repository root after reviewing the audit branch diff and merging on the server.
 Keep the server's existing covariance cache and checkpoints. Do not overwrite or regenerate them for this smoke.
@@ -159,6 +255,7 @@ Next priorities are 64QAM BER, 64QAM BLER, QPSK verification, complexity, then c
 
 ## Git workflow
 
-Work on `codex/icc-audit-20260918`, review and merge on the GPU server, smoke, then formal evaluation.
+Reference development uses `refactor/sionna-standard-ebno`, based on `3aed9ee`.
+Review the diff and validate on the GPU server before integrating. Do not merge old Codex branches into it.
 No force push or merge into main from the laptop. Checkpoints, caches, generated results/logs,
 partner code and partner weights remain local and ignored by Git.
