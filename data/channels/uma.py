@@ -16,14 +16,14 @@ def _build_panel_array(cfg, carrier_frequency, precision, device):
 
 
 class UMAChannelProvider:
-    def __init__(self, cfg):
+    def __init__(self, cfg, resource_grid=None):
         self.cfg = cfg
         gcfg, tcfg = cfg["general"], cfg["topology"]
         self.device = gcfg["device"]
         self.precision = gcfg["precision"]
         self.num_ues = int(gcfg["num_ues"])
         self.carrier_frequency = float(gcfg["carrier_frequency_hz"])
-        self.resource_grid = UplinkResourceGridSpec.from_config(cfg)
+        self.resource_grid = resource_grid if resource_grid is not None else UplinkResourceGridSpec.from_config(cfg)
 
         self.bs_array = _build_panel_array(cfg["bs_array"], self.carrier_frequency, self.precision, self.device)
         self.ut_array = _build_panel_array(cfg["ut_array"], self.carrier_frequency, self.precision, self.device)

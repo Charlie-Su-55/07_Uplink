@@ -1,7 +1,8 @@
 """Independent coded, normalized UMa / perfect-CSI / native LMMSE reference.
 
 Only the UMa provider and unit-norm rank-one mapper are shared with legacy.
-No dataset, waveform replacement, CE cache, estimated Ruu, or power control.
+No legacy dataset, waveform replacement, CE cache, estimated Ruu, or power control.
+Mode B uses a real pilot grid and an independently calibrated native LS/LMMSE receiver.
 """
 
 import copy
@@ -14,6 +15,7 @@ from link_level.sionna_ebno import ebno_to_noise, require_sionna2
 
 
 DEFAULT_CONFIG = "configs/system/uma_16ue_256rx_sionna_ebno.yaml"
+PAPER_CONFIG = "configs/system/uma_16ue_256rx_paper_reference.yaml"
 
 
 def load_config(path):
@@ -41,7 +43,6 @@ def validate_reference_config(cfg):
         ("general", "streams_per_ue"): 1,
         ("power_control", "mode"): "none",
         ("interference", "enabled"): False,
-        ("channel_estimation", "mode"): "perfect",
         ("link", "noise_mode"): "sionna_ebno",
         ("link", "energy_convention"): "unit_energy_per_ue",
         ("link", "coderate_convention"): "payload_bits_over_coded_bits",
@@ -62,17 +63,40 @@ def validate_reference_config(cfg):
             or not math.isfinite(float(ofdm["subcarrier_spacing_hz"]))
             or float(ofdm["subcarrier_spacing_hz"]) <= 0):
         raise ValueError("Invalid OFDM dimensions, CP, or spacing.")
-    if (ofdm["omitted_symbols"] or ofdm["dmrs_symbols"]
-            or ofdm["data_symbols"] != list(range(t))
-            or any(ofdm.get("num_guard_carriers", (0, 0)))
-            or ofdm.get("dc_null", False)
-            or ofdm.get("pilot_pattern", "empty") != "empty"):
-        raise ValueError("First reference requires all REs to carry data, with no pilots/guards/DC null.")
-    if "modulation" in cfg:
-        raise ValueError("Reference modulation comes from nr.mcs_table/index; remove modulation overrides.")
     k, m, a = int(cfg["general"]["num_ues"]), antenna_count(cfg["bs_array"]), antenna_count(cfg["ut_array"])
     if not 1 <= k <= m or a <= 0:
         raise ValueError("Reference needs positive antenna counts and num_rx >= num_ues >= 1.")
+    mode = cfg.get("mode", "level0")
+    csi = cfg["channel_estimation"]["mode"]
+    if mode not in ("level0", "paper_reference") or csi not in ("perfect", "practical"):
+        raise ValueError("Unsupported reference/CSI mode.")
+    pilots = ofdm["dmrs_symbols"]
+    if mode == "level0":
+        if csi != "perfect" or pilots or ofdm.get("pilot_pattern", "empty") != "empty":
+            raise ValueError("Level-0 requires perfect CSI and no pilots.")
+    else:
+        if (ofdm.get("pilot_pattern") != "kronecker" or len(pilots) < 2
+                or len(set(pilots)) != len(pilots) or any(p < 0 or p >= t for p in pilots)
+                or f % int(cfg["general"]["num_ues"]) != 0
+                or not isinstance(ofdm.get("pilot_seed"), int)):
+            raise ValueError("Paper reference requires a fixed orthogonal Kronecker pilot grid/seed.")
+        if (cfg["nr"]["mcs_table"], cfg["nr"]["mcs_index"]) != (1, 10):
+            raise ValueError("Paper reference is fixed to T1/MCS10.")
+        if cfg["channel_estimation"].get("interpolation_order") != "f-t":
+            raise ValueError("Paper CE uses native LS + LMMSE interpolation in f-t order.")
+        if int(cfg["channel_estimation"].get("rx_chunk_size", 0)) < 1:
+            raise ValueError("CE rx_chunk_size must be positive.")
+        contract = cfg.get("paper_contract", {})
+        if (contract.get("num_data_symbols") != (t - len(pilots)) * f
+                or contract.get("coded_bits_per_ue") != 4 * (t - len(pilots)) * f
+                or not 0 < contract.get("info_bits_per_ue", 0) <= contract["coded_bits_per_ue"]):
+            raise ValueError("Paper grid/G/TB contract mismatch.")
+    if (ofdm["omitted_symbols"] or len(pilots) >= t
+            or ofdm["data_symbols"] != [i for i in range(t) if i not in pilots]
+            or any(ofdm.get("num_guard_carriers", (0, 0))) or ofdm.get("dc_null", False)):
+        raise ValueError("Data/pilot symbols must partition the actual transmitted grid; no silent REs/guards/DC null.")
+    if "modulation" in cfg:
+        raise ValueError("Reference modulation comes from nr.mcs_table/index; remove modulation overrides.")
     if cfg["general"]["precision"] not in ("single", "double"):
         raise ValueError("Precision must be single or double.")
     if cfg["nr"]["mcs_table"] not in (1, 2) or int(cfg["nr"]["num_bp_iter"]) <= 0:
@@ -80,16 +104,25 @@ def validate_reference_config(cfg):
     if not str(cfg["general"]["device"]).startswith("cuda") and m > 32:
         raise ValueError("Large reference simulations require the GPU server; CPU is limited to <=32 Rx.")
     return dict(num_ues=k, num_rx=m, num_tx_antennas=a,
-                num_ofdm_symbols=t, fft_size=f, num_data_symbols=t * f,
+                num_ofdm_symbols=t, fft_size=f, num_data_symbols=(t - len(pilots)) * f,
                 cyclic_prefix_length=cp, num_tx=k, num_streams_per_tx=1,
-                pilot_pattern="empty", num_guard_carriers=[0, 0], dc_null=False,
-                cp_energy_factor=1 + cp / f)
+                pilot_pattern="kronecker" if pilots else "empty", pilot_symbols=list(pilots),
+                pilot_seed=ofdm.get("pilot_seed"), reserved_pilot_re_per_ue=len(pilots) * f,
+                nonzero_pilots_per_ue=len(pilots) * f // k,
+                active_pilot_energy=float(k) if pilots else 0.,
+                num_guard_carriers=[0, 0], dc_null=False,
+                cp_energy_factor=1 + cp / f,
+                grid_energy_factor=(1 + cp / f) * t / (t - len(pilots)))
 
 
 class SionnaReferenceLink:
     def __init__(self, cfg, *, channel_provider=None):
         self.cfg = copy.deepcopy(cfg)
         self.grid_metadata = validate_reference_config(self.cfg)
+        self.mode = self.cfg.get("mode", "level0")
+        self.csi = self.cfg["channel_estimation"]["mode"]
+        self.channel_estimator = None
+        self.covariance_metadata = None
         self.sionna_version = require_sionna2()
         import numpy as np
         import torch
@@ -107,28 +140,49 @@ class SionnaReferenceLink:
         self.num_ues, self.num_rx = self.grid_metadata["num_ues"], self.grid_metadata["num_rx"]
         self.dtype = torch.float32 if self.precision == "single" else torch.float64
         self.options = dict(precision=self.precision, device=self.device)
-        sionna_config.seed = int(g["seed"])
+        # v2.0.1 Kronecker pilots draw from the global RNG. Freeze their seed
+        # independently of evaluation seeds and CSI mode.
+        sionna_config.seed = int(ofdm.get("pilot_seed", g["seed"]))
         self.resource_grid = ResourceGrid(
             num_ofdm_symbols=ofdm["num_ofdm_symbols"], fft_size=ofdm["fft_size"],
             subcarrier_spacing=ofdm["subcarrier_spacing_hz"], num_tx=self.num_ues,
             num_streams_per_tx=1, cyclic_prefix_length=ofdm["cyclic_prefix_length"],
-            num_guard_carriers=(0, 0), dc_null=False, pilot_pattern="empty", **self.options)
+            num_guard_carriers=(0, 0), dc_null=False,
+            pilot_pattern=self.grid_metadata["pilot_pattern"],
+            pilot_ofdm_symbol_indices=ofdm["dmrs_symbols"] or None, **self.options)
+        sionna_config.seed = int(g["seed"])
+        mask = self.resource_grid.pilot_pattern.mask
+        if not torch.equal(mask, mask[:1, :1].expand_as(mask)):
+            raise RuntimeError("Reference requires a common data-RE mask for all UEs.")
+        self.data_indices = torch.where(mask[0, 0].flatten() == 0)[0]
+        if self.mode == "paper_reference":
+            import hashlib
+            pilots = self.resource_grid.pilot_pattern.pilots.detach().cpu()
+            self.grid_metadata["pilot_sha256"] = hashlib.sha256(pilots.numpy().tobytes()).hexdigest()
+            if not torch.allclose(pilots.abs().square().mean(-1), torch.ones_like(pilots.real.mean(-1)), atol=1e-6):
+                raise RuntimeError("Pilot energy must average one over reserved REs for ebnodb2no.")
         self.codec = NRTransportBlockCodec(
             int(self.resource_grid.num_data_symbols), self.num_ues,
             table=nr["mcs_table"], index=nr["mcs_index"],
             num_bp_iter=nr["num_bp_iter"], **self.options)
+        if self.mode == "paper_reference":
+            if (self.codec.info_bits != self.cfg["paper_contract"]["info_bits_per_ue"]
+                    or self.codec.coded_bits != self.cfg["paper_contract"]["coded_bits_per_ue"]):
+                raise RuntimeError("Native NR codec does not match the frozen paper G/TB contract.")
         self.grid_mapper = ResourceGridMapper(self.resource_grid, **self.options)
         self.stream_mapper = RankOneStreamMapper(
             self.grid_metadata["num_tx_antennas"], mode="equal_gain", **self.options)
         if channel_provider is None:
             from data.channels.uma import UMAChannelProvider
-            channel_provider = UMAChannelProvider(self.cfg)
+            channel_provider = UMAChannelProvider(self.cfg, resource_grid=self.resource_grid)
         self.channel_provider = channel_provider
         self.apply_channel = ApplyOFDMChannel(**self.options)
         self.awgn = AWGN(**self.options)
         stream_management = StreamManagement(np.ones((1, self.num_ues), dtype=int), 1)
         self.equalizer = LMMSEEqualizer(self.resource_grid, stream_management, **self.options)
         self.demapper = Demapper("app", "qam", self.codec.qm, **self.options)
+        if self.csi == "practical":
+            self._ensure_channel_estimator()
 
     def noise_variance(self, ebno_db):
         return ebno_to_noise(ebno_db, self.codec.qm, self.codec.info_bits,
@@ -148,16 +202,7 @@ class SionnaReferenceLink:
                                  dtype=self.dtype, device=self.device, generator=rng)
             coded, symbols = self.codec.encode(info)
             x = self.grid_mapper(symbols)  # [B,K,1,T,F], actual coded symbols
-            # Rebuild stochastic topology state for reproducible paired Eb/N0 points.
-            if hasattr(self.channel_provider, "channel_model"):
-                self.channel_provider.channel_model.reset_topology()
-            h_raw, _ = self.channel_provider.sample(batch_size)
-            expected = (batch_size, 1, self.num_rx, self.num_ues,
-                        self.grid_metadata["num_tx_antennas"],
-                        self.grid_metadata["num_ofdm_symbols"], self.grid_metadata["fft_size"])
-            if tuple(h_raw.shape) != expected:
-                raise RuntimeError(f"Expected raw channel {expected}, got {tuple(h_raw.shape)}.")
-            h_eff = self.stream_mapper(h_raw)  # [B,T,F,M,K]; no second normalization
+            h_raw, h_eff = self.sample_channel(batch_size)
             h = h_eff.permute(0, 3, 4, 1, 2).unsqueeze(1).unsqueeze(4)
             x_ant = self.stream_mapper.map_symbols(x[:, :, 0].permute(0, 2, 3, 1))
             y_clean = self.apply_channel(x_ant, h_raw)
@@ -168,11 +213,61 @@ class SionnaReferenceLink:
                         h=h, h_eff=h_eff, y_clean=y_clean, y=y, no=no,
                         ebno_db=float(ebno_db), seed=int(seed))
 
-    def receive(self, sample):
+    def sample_channel(self, batch_size):
+        """Sample only the channel; caller controls its independent RNG seed."""
+        # Rebuild stochastic topology state for reproducible paired Eb/N0 points.
+        if hasattr(self.channel_provider, "channel_model"):
+            self.channel_provider.channel_model.reset_topology()
+        h_raw, _ = self.channel_provider.sample(batch_size)
+        expected = (batch_size, 1, self.num_rx, self.num_ues,
+                    self.grid_metadata["num_tx_antennas"],
+                    self.grid_metadata["num_ofdm_symbols"], self.grid_metadata["fft_size"])
+        if tuple(h_raw.shape) != expected:
+            raise RuntimeError(f"Expected raw channel {expected}, got {tuple(h_raw.shape)}.")
+        h_eff = self.stream_mapper(h_raw)  # [B,T,F,M,K]; no second normalization
+        return h_raw, h_eff
+
+    def _ensure_channel_estimator(self):
+        if self.channel_estimator is None:
+            if self.mode != "paper_reference":
+                raise ValueError("Practical CSI requires the paper reference's transmitted pilots.")
+            from link_level.sionna_ce import build_estimator
+            self.channel_estimator, self.covariance_metadata = build_estimator(self)
+
+    def estimate_channel(self, sample, csi=None):
+        import torch
+
+        csi = csi or self.csi
+        if csi not in ("perfect", "practical"):
+            raise ValueError("CSI mode must be perfect or practical.")
+        cache = sample.setdefault("csi_estimates", {})
+        if csi not in cache:
+            if csi == "perfect":
+                cache[csi] = (sample["h"], torch.zeros((), dtype=self.dtype, device=self.device))
+            else:
+                self._ensure_channel_estimator()
+                if sample["seed"] in self.covariance_metadata["calibration_seeds"]:
+                    raise ValueError("Evaluation seed overlaps CE calibration seeds.")
+                estimates, variances = [], []
+                size = int(self.cfg["channel_estimation"]["rx_chunk_size"])
+                with torch.no_grad():
+                    for start in range(0, self.num_rx, size):
+                        h_hat, err_var = self.channel_estimator(sample["y"][:, :, start:start + size], sample["no"])
+                        estimates.append(h_hat)
+                        variances.append(err_var.expand_as(h_hat))
+                    h_hat, err_var = torch.cat(estimates, 2), torch.cat(variances, 2)
+                if (h_hat.shape != sample["h"].shape or not torch.isfinite(h_hat).all()
+                        or not torch.isfinite(err_var).all() or (err_var < 0).any()):
+                    raise RuntimeError("Invalid native channel estimate/error variance.")
+                cache[csi] = (h_hat, err_var)
+        return cache[csi]
+
+    def receive(self, sample, csi=None):
         import torch
 
         with torch.no_grad():
-            x_hat, no_eff = self.equalizer(sample["y"], sample["h"], 0.0, sample["no"])
+            h_hat, err_var = self.estimate_channel(sample, csi)
+            x_hat, no_eff = self.equalizer(sample["y"], h_hat, err_var, sample["no"])
             if (not torch.isfinite(x_hat).all() or not torch.isfinite(no_eff).all()
                     or not (no_eff > 0).all()):
                 raise RuntimeError("Invalid LMMSE output/variance; inspect precision and channel conditioning.")
@@ -180,7 +275,8 @@ class SionnaReferenceLink:
             if not torch.isfinite(llr).all():
                 raise RuntimeError("Non-finite APP LLRs.")
             decoded, crc_ok = self.codec.decode(llr)
-            return dict(x_hat=x_hat, no_eff=no_eff, llr=llr, decoded=decoded, crc_ok=crc_ok)
+            return dict(x_hat=x_hat, no_eff=no_eff, llr=llr, decoded=decoded, crc_ok=crc_ok,
+                        h_hat=h_hat, err_var=err_var)
 
     def check_codec_identity(self, sample):
         """Validate the actual run's MCS/TB/scrambling configuration before BLER."""
@@ -195,13 +291,15 @@ class SionnaReferenceLink:
             return {"status": "pass", "blocks": int(crc.numel()), "demapper_n0": 0.001}
 
     def metadata(self):
-        return dict(config=self.cfg, grid=self.grid_metadata, codec=self.codec.metadata(),
+        return dict(config=self.cfg, mode=self.mode, csi=self.csi, grid=self.grid_metadata, codec=self.codec.metadata(),
+                    covariance=self.covariance_metadata,
                     sionna_version=self.sionna_version, receiver="Sionna LMMSEEqualizer + APP + TBDecoder",
                     noise_convention="complex AWGN: E[|n|^2]=N0, real/imag variance=N0/2",
                     ebno_convention="per-UE payload Eb/N0, actual k/n, CP included by ebnodb2no",
                     channel_normalization="raw link over Rx/Tx antennas, time and frequency; no post-projection renormalization",
                     tx_energy="E[|x_UE|^2]=1, aggregate=K; unit-norm rank-one antenna mapping",
-                    channel_estimation_error_variance=0.0, external_interference=False)
+                    channel_estimation_error_variance=0.0 if self.csi == "perfect" else "native LS/LMMSE err_var",
+                    external_interference=False)
 
 
 def power_diagnostics(sample):
@@ -254,12 +352,14 @@ def compare_classical_lmmse(link, sample, received, num_re=16):
         raise ValueError("num_re must be positive.")
     cfg = copy.deepcopy(link.cfg)
     cfg["modulation"] = {"bits_per_symbol": link.codec.qm}
+    if link.csi != "perfect":
+        raise ValueError("Use the paper detector adapter with an explicit CE policy for practical CSI.")
     detector = LMMSESoftDetector(cfg)
     b = sample["y"].shape[0]
     m, k = link.num_rx, link.num_ues
     count = min(num_re, link.grid_metadata["num_data_symbols"])
-    y = sample["y"][:, 0].permute(0, 2, 3, 1).reshape(b, 1, -1, m)[:, :, :count]
-    h = sample["h_eff"].reshape(b, 1, -1, m, k)[:, :, :count]
+    y = sample["y"][:, 0].permute(0, 2, 3, 1).reshape(b, 1, -1, m)[:, :, link.data_indices[:count]]
+    h = sample["h_eff"].reshape(b, 1, -1, m, k)[:, :, link.data_indices[:count]]
     ruu = sample["no"] * torch.eye(m, dtype=h.dtype, device=h.device).expand(b, m, m)
     with torch.no_grad():
         actual = detector(y, h, ruu)

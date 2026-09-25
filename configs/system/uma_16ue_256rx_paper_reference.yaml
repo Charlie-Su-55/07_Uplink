@@ -1,0 +1,81 @@
+# Fixed Mode B paper distribution. Both CSI modes transmit this identical waveform.
+mode: paper_reference
+general:
+  seed: 20260925
+  device: "cuda:0"
+  precision: "single"
+  carrier_frequency_hz: 6700000000.0
+  num_ues: 16
+  streams_per_ue: 1
+
+ofdm:
+  num_subcarriers: 192
+  fft_size: 192
+  subcarrier_spacing_hz: 30000.0
+  num_ofdm_symbols: 14
+  cyclic_prefix_length: 14
+  omitted_symbols: []
+  dmrs_symbols: [2, 11]
+  data_symbols: [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13]
+  pilot_pattern: kronecker
+  pilot_seed: 314159
+
+bs_array:
+  num_rows_per_panel: 8
+  num_cols_per_panel: 16
+  polarization: "dual"
+  polarization_type: "cross"
+  antenna_pattern: "38.901"
+  element_horizontal_spacing_lambda: 0.5
+  element_vertical_spacing_lambda: 0.6085714286
+
+ut_array:
+  num_rows_per_panel: 2
+  num_cols_per_panel: 1
+  polarization: "dual"
+  polarization_type: "cross"
+  antenna_pattern: "omni"
+  element_horizontal_spacing_lambda: 0.5
+  element_vertical_spacing_lambda: 1.0
+
+topology:
+  scenario: "uma"
+  o2i_model: "low"
+  indoor_probability: 0.5
+  outdoor_max_speed_kmh: 30.0
+  indoor_max_speed_kmh: 3.0
+  force_nlos: true
+  enable_pathloss: true
+  enable_shadow_fading: true
+  always_generate_lsp: false
+
+channel:
+  normalize_channel: true
+stream_mapping:
+  mode: "equal_gain"
+power_control:
+  mode: "none"
+interference:
+  enabled: false
+channel_estimation:
+  mode: "perfect"
+  covariance_path: data/cache/paper_reference_ft_cov.pt
+  interpolation_order: f-t
+  rx_chunk_size: 4
+link:
+  noise_mode: "sionna_ebno"
+  energy_convention: "unit_energy_per_ue"
+  coderate_convention: "payload_bits_over_coded_bits"
+nr:
+  mcs_table: 1
+  mcs_index: 10
+  num_bp_iter: 20
+
+# Fail if a future edit silently changes the paper's G or payload size.
+paper_contract:
+  num_data_symbols: 2304
+  coded_bits_per_ue: 9216
+  info_bits_per_ue: 3104
+checkpoint_policy:
+  existing_distribution: legacy-distribution
+  allow_existing_checkpoints: false

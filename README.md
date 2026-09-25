@@ -9,7 +9,28 @@ flow with the same whitened z/G interface, a dedicated trainer, and paired BER/B
 
 Detailed findings, baseline line references and limitations: [ICC audit](docs/ICC_AUDIT_20260918.md).
 
-## Sionna Eb/N0 reference
+## Mode B paper reference
+
+The fixed paper distribution is in `configs/system/uma_16ue_256rx_paper_reference.yaml`:
+16 UEs, one stream/UE, 256 Rx, four physical Tx elements/UE, normalized UMa,
+no power control or external interference, and T1/MCS10. Real orthogonal Kronecker
+pilots occupy OFDM symbols 2 and 11. Both CSI modes use the same 2304 data REs,
+G=9216, payload TB=3104, CP and native Eb/N0 accounting.
+
+`python -m evaluation.evaluate_paper_reference` supports `--csi perfect` and
+`--csi practical`. Practical runs also retain a same-realization perfect-CSI
+control. Native LS + LMMSE interpolation uses an independently calibrated prior
+and passes its `err_var` to LMMSEEqualizer. The separate adapter exposes raw
+`Ruu=N0 I` and CE uncertainty, and enables native LMMSE, existing custom LMMSE
+and EP5 on one shared received batch. GT/DETR remain gated; Flow is excluded.
+Existing checkpoints are classified as `legacy-distribution` and are not loaded
+or modified. There is no neural training in this entrypoint.
+
+See [Mode B implementation, uncertainty policy and all five server validation commands](docs/PAPER_REFERENCE.md).
+The practical receiver first needs the dedicated covariance artifact built by
+`python -m tools.build_sionna_reference_covariance`; legacy CE caches are rejected.
+
+## Level-0 Sionna Eb/N0 reference
 
 The independent reference starts at `configs/system/uma_16ue_256rx_sionna_ebno.yaml`.
 It targets the existing GPU-server environment: Python 3.12, PyTorch 2.11, Sionna 2.0.1,
