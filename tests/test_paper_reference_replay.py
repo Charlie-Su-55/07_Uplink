@@ -282,7 +282,7 @@ class NativeReplayTests(unittest.TestCase):
             self.skipTest("Requires existing server Sionna 2.x; no local install/upgrade")
 
     def test_small_native_practical_replay_and_real_tb_decoder(self):
-        from test_paper_reference import FlatChannel, paper_fixture
+        from tests.test_paper_reference import FlatChannel, paper_fixture
         from link_level.sionna_ce import COVARIANCE_KIND, distribution_id, regularize_covariance
 
         previous_threads = torch.get_num_threads()
