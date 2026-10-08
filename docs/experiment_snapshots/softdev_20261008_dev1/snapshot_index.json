@@ -1,0 +1,61 @@
+{
+  "run_id": "softdev_20261008_dev1",
+  "created_utc": "2026-10-08T15:29:00.087761+00:00",
+  "snapshot_code_commit": "d22ccbf22fb22bd87305a8c78d7bf45e74e61fa2",
+  "verification": {
+    "summary_complete": true,
+    "raw_redecode_passed": true,
+    "positive_scale_hard_bits_unchanged": true
+  },
+  "files": [
+    {
+      "source": "results/paper_soft_output_dev/softdev_20261008_dev1/summary.json",
+      "archived": "summary.json",
+      "bytes": 260863,
+      "sha256": "bf8d645d2c7956cdea239fd428c73da6d324674ecccf9729606f1a645c04f2e5"
+    },
+    {
+      "source": "results/paper_soft_output_dev/softdev_20261008_dev1/summary.csv",
+      "archived": "summary.csv",
+      "bytes": 14107,
+      "sha256": "a94eeea3eb28ac02bf02867bac08f4c66b403ce3f7f2b800c6ed6fb2800058d4"
+    },
+    {
+      "source": "results/paper_soft_output_calibration/softdev_20261008_dev1/temperatures.json",
+      "archived": "temperatures.json",
+      "bytes": 395315,
+      "sha256": "18a36cc3859372ddcda6479ebe66e3e73731373026ce5d1480edc3b340461054"
+    },
+    {
+      "source": "results/paper_soft_output_dev/softdev_20261008_dev1/channels.jsonl",
+      "archived": "channels.jsonl",
+      "bytes": 5221553,
+      "sha256": "756bed4f80926c4e26d268dbf5e8d7676ff2e9ce3d0fd79cb8a6dc08fd7931c2"
+    },
+    {
+      "source": "data/cache/paper_soft_output_dev/softdev_20261008_dev1/manifest.json",
+      "archived": "cache_manifest.json",
+      "bytes": 550551,
+      "sha256": "4b6fde85c44644cb5d56f8139cdfe42094cc94068033f1507e3a5eddaa590371"
+    },
+    {
+      "source": "logs/paper_soft_output_dev/softdev_20261008_dev1/runner_status.txt",
+      "archived": "runner_status.txt",
+      "bytes": 177,
+      "sha256": "97b73437a5895fe8f7f87831ce890e63ab9db3ebeeff6e4f4f0ddcd5fa4ccc74"
+    },
+    {
+      "source": "logs/paper_soft_output_dev/softdev_20261008_dev1/stages.tsv",
+      "archived": "stages.tsv",
+      "bytes": 763,
+      "sha256": "6293290cc3d8115280ed411503a8a21ba14fdbb6d1d9cf23365d19767db81fcc"
+    },
+    {
+      "source": "configs/evaluation/paper_soft_output_dev.yaml",
+      "archived": "paper_soft_output_dev.yaml",
+      "bytes": 1684,
+      "sha256": "a443aa8e0bf22b2308a93ec838f19a2c86af063844e330d9c302c7648d022f5d"
+    }
+  ],
+  "note": "Original file bytes preserved. No cached tensors, decoded .pt files or weights included."
+}

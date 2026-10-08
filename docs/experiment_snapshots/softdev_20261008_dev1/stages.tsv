@@ -1,0 +1,10 @@
+run_id	pid	stage	state	elapsed_seconds	exit_code	utc
+softdev_20261008_dev1	1415457	preflight	complete	1	0	2026-10-08T14:22:33Z
+softdev_20261008_dev1	1415457	lightweight_tests	complete	3	0	2026-10-08T14:22:36Z
+softdev_20261008_dev1	1415457	smoke_cache	complete	13	0	2026-10-08T14:22:49Z
+softdev_20261008_dev1	1415457	smoke_fit	complete	1	0	2026-10-08T14:22:50Z
+softdev_20261008_dev1	1415457	smoke_evaluate	complete	3	0	2026-10-08T14:22:53Z
+softdev_20261008_dev1	1415457	development_cache	complete	1330	0	2026-10-08T14:45:03Z
+softdev_20261008_dev1	1415457	calibration_fit	complete	65	0	2026-10-08T14:46:08Z
+softdev_20261008_dev1	1415457	development_evaluate	complete	77	0	2026-10-08T14:47:25Z
+softdev_20261008_dev1	1415457	summary	complete	0	0	2026-10-08T14:47:25Z
