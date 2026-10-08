@@ -1,0 +1,7 @@
+{
+  "1:11": {
+    "gt": "ckp/mcs_specialists/t1_mcs11_16qam_gt_ep_lmmseH_estR_snr7to9db/best.pth",
+    "detr": "ckp/mcs_specialists/t1_mcs11_16qam_detr_ep_lmmseH_estR_snr7to9db/best.pth",
+    "flow": "ckp/mcs_specialists/t1_mcs11_16qam_flow_matching_lmmseH_estR_snr7to9db/best.pth"
+  }
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "run": "paper_reference_gt_ep_smoke300",
+    "status": "complete",
+    "lr": 5e-05,
+    "last_logged_step": 300,
+    "best_logged_step": 150,
+    "best_logged_ber": 0.112518310546875,
+    "relative_ber_change": -0.011528150134048258
+  },
+  {
+    "run": "paper_reference_detr_ep_smoke300",
+    "status": "complete",
+    "lr": 5e-05,
+    "last_logged_step": 300,
+    "best_logged_step": 275,
+    "best_logged_ber": 0.112274169921875,
+    "relative_ber_change": -0.013672922252010724
+  },
+  {
+    "run": "paper_reference_gt_ep_smoke300_lr2e5",
+    "status": "running",
+    "lr": 2e-05,
+    "last_logged_step": 25,
+    "best_logged_step": 25,
+    "best_logged_ber": 0.113250732421875,
+    "relative_ber_change": -0.005093833780160858
+  }
+]

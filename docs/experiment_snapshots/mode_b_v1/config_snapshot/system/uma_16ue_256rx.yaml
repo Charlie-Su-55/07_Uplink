@@ -1,0 +1,87 @@
+general:
+  seed: 42
+  device: "cuda:0"
+  precision: "single"
+  carrier_frequency_hz: 6700000000.0
+  num_ues: 16
+  streams_per_ue: 1
+
+ofdm:
+  num_subcarriers: 192
+  fft_size: 192
+  subcarrier_spacing_hz: 30000.0
+  num_ofdm_symbols: 14
+  cyclic_prefix_length: 14
+  omitted_symbols: [0, 1]
+  dmrs_symbols: [2, 13]
+  data_symbols: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
+bs_array:
+  num_rows_per_panel: 8
+  num_cols_per_panel: 16
+  polarization: "dual"
+  polarization_type: "cross"
+  antenna_pattern: "38.901"
+  element_horizontal_spacing_lambda: 0.5
+  element_vertical_spacing_lambda: 0.6085714286
+
+ut_array:
+  num_rows_per_panel: 2
+  num_cols_per_panel: 1
+  polarization: "dual"
+  polarization_type: "cross"
+  antenna_pattern: "omni"
+  element_horizontal_spacing_lambda: 0.5
+  element_vertical_spacing_lambda: 1.0
+
+topology:
+  scenario: "uma"
+  o2i_model: "low"
+  indoor_probability: 0.5 # 没给比例，先凑活用
+  outdoor_max_speed_kmh: 30.0
+  indoor_max_speed_kmh: 3.0
+  force_nlos: true
+  enable_pathloss: true
+  enable_shadow_fading: true
+  always_generate_lsp: false
+
+channel:
+  normalize_channel: false
+
+stream_mapping:
+  mode: "equal_gain"
+
+modulation:
+  type: "qam"
+  bits_per_symbol: 4
+
+link:
+  noise_mode: "rx_snr"
+  rx_snr_db: 20.0
+
+power_control:
+  mode: "fractional"
+  alpha: 0.8
+  max_boost_db: 30.0
+  max_attenuation_db: 30.0
+
+interference:
+  enabled: true
+  num_interferers: 4
+  iot_db: 10.0
+  iot_definition: "i_over_n"
+  relative_strength_db: [5.229, 5.229, 5.229, 1.0914]
+
+covariance_estimation:
+  observation_symbols: [0, 1]
+  mode: "shrinkage"
+  shrinkage_lambda: 0.10
+
+dmrs:
+  scheme: "interleaved_comb"
+  pilot_amplitude: 1.0
+
+channel_estimation:
+  mode: "ls_linear"
+  frequency_interpolation: "linear"
+  time_interpolation: "linear"

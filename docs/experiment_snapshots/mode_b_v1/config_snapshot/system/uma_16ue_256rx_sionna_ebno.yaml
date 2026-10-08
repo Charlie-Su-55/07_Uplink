@@ -1,0 +1,66 @@
+# Independent perfect-CSI reference; the legacy YAML is deliberately unchanged.
+general:
+  seed: 20260925
+  device: "cuda:0"
+  precision: "single"
+  carrier_frequency_hz: 6700000000.0
+  num_ues: 16
+  streams_per_ue: 1
+
+ofdm:
+  num_subcarriers: 192
+  fft_size: 192
+  subcarrier_spacing_hz: 30000.0
+  num_ofdm_symbols: 14
+  cyclic_prefix_length: 14
+  omitted_symbols: []
+  dmrs_symbols: []
+  data_symbols: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+
+bs_array:
+  num_rows_per_panel: 8
+  num_cols_per_panel: 16
+  polarization: "dual"
+  polarization_type: "cross"
+  antenna_pattern: "38.901"
+  element_horizontal_spacing_lambda: 0.5
+  element_vertical_spacing_lambda: 0.6085714286
+
+ut_array:
+  num_rows_per_panel: 2
+  num_cols_per_panel: 1
+  polarization: "dual"
+  polarization_type: "cross"
+  antenna_pattern: "omni"
+  element_horizontal_spacing_lambda: 0.5
+  element_vertical_spacing_lambda: 1.0
+
+topology:
+  scenario: "uma"
+  o2i_model: "low"
+  indoor_probability: 0.5
+  outdoor_max_speed_kmh: 30.0
+  indoor_max_speed_kmh: 3.0
+  force_nlos: true
+  enable_pathloss: true
+  enable_shadow_fading: true
+  always_generate_lsp: false
+
+channel:
+  normalize_channel: true
+stream_mapping:
+  mode: "equal_gain"
+power_control:
+  mode: "none"
+interference:
+  enabled: false
+channel_estimation:
+  mode: "perfect"
+link:
+  noise_mode: "sionna_ebno"
+  energy_convention: "unit_energy_per_ue"
+  coderate_convention: "payload_bits_over_coded_bits"
+nr:
+  mcs_table: 1
+  mcs_index: 10
+  num_bp_iter: 20

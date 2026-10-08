@@ -1,0 +1,5731 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "experiment": "paper_reference",
+  "distribution_id": "c3732839f5cbfbfd9c4818bd36404c7d47a597e163a9d46b4ced18b6bfdfa25f",
+  "reference": {
+    "config": {
+      "mode": "paper_reference",
+      "general": {
+        "seed": 20260925,
+        "device": "cuda:0",
+        "precision": "single",
+        "carrier_frequency_hz": 6700000000.0,
+        "num_ues": 16,
+        "streams_per_ue": 1
+      },
+      "ofdm": {
+        "num_subcarriers": 192,
+        "fft_size": 192,
+        "subcarrier_spacing_hz": 30000.0,
+        "num_ofdm_symbols": 14,
+        "cyclic_prefix_length": 14,
+        "omitted_symbols": [],
+        "dmrs_symbols": [
+          2,
+          11
+        ],
+        "data_symbols": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          12,
+          13
+        ],
+        "pilot_pattern": "kronecker",
+        "pilot_seed": 314159
+      },
+      "bs_array": {
+        "num_rows_per_panel": 8,
+        "num_cols_per_panel": 16,
+        "polarization": "dual",
+        "polarization_type": "cross",
+        "antenna_pattern": "38.901",
+        "element_horizontal_spacing_lambda": 0.5,
+        "element_vertical_spacing_lambda": 0.6085714286
+      },
+      "ut_array": {
+        "num_rows_per_panel": 2,
+        "num_cols_per_panel": 1,
+        "polarization": "dual",
+        "polarization_type": "cross",
+        "antenna_pattern": "omni",
+        "element_horizontal_spacing_lambda": 0.5,
+        "element_vertical_spacing_lambda": 1.0
+      },
+      "topology": {
+        "scenario": "uma",
+        "o2i_model": "low",
+        "indoor_probability": 0.5,
+        "outdoor_max_speed_kmh": 30.0,
+        "indoor_max_speed_kmh": 3.0,
+        "force_nlos": true,
+        "enable_pathloss": true,
+        "enable_shadow_fading": true,
+        "always_generate_lsp": false
+      },
+      "channel": {
+        "normalize_channel": true
+      },
+      "stream_mapping": {
+        "mode": "equal_gain"
+      },
+      "power_control": {
+        "mode": "none"
+      },
+      "interference": {
+        "enabled": false
+      },
+      "channel_estimation": {
+        "mode": "practical",
+        "covariance_path": "data/cache/paper_reference_ft_cov.pt",
+        "interpolation_order": "f-t",
+        "rx_chunk_size": 4
+      },
+      "link": {
+        "noise_mode": "sionna_ebno",
+        "energy_convention": "unit_energy_per_ue",
+        "coderate_convention": "payload_bits_over_coded_bits"
+      },
+      "nr": {
+        "mcs_table": 1,
+        "mcs_index": 10,
+        "num_bp_iter": 20
+      },
+      "paper_contract": {
+        "num_data_symbols": 2304,
+        "coded_bits_per_ue": 9216,
+        "info_bits_per_ue": 3104
+      },
+      "checkpoint_policy": {
+        "existing_distribution": "legacy-distribution",
+        "allow_existing_checkpoints": false
+      }
+    },
+    "mode": "paper_reference",
+    "csi": "practical",
+    "grid": {
+      "num_ues": 16,
+      "num_rx": 256,
+      "num_tx_antennas": 4,
+      "num_ofdm_symbols": 14,
+      "fft_size": 192,
+      "num_data_symbols": 2304,
+      "cyclic_prefix_length": 14,
+      "num_tx": 16,
+      "num_streams_per_tx": 1,
+      "pilot_pattern": "kronecker",
+      "pilot_symbols": [
+        2,
+        11
+      ],
+      "pilot_seed": 314159,
+      "reserved_pilot_re_per_ue": 384,
+      "nonzero_pilots_per_ue": 24,
+      "active_pilot_energy": 16.0,
+      "num_guard_carriers": [
+        0,
+        0
+      ],
+      "dc_null": false,
+      "cp_energy_factor": 1.0729166666666667,
+      "grid_energy_factor": 1.2517361111111112,
+      "pilot_sha256": "971ba250926c2e955e9e106703e53e9570b5840c4a642d84650e2ab2dbcd0e3a"
+    },
+    "codec": {
+      "mcs_table": 1,
+      "mcs_index": 10,
+      "bits_per_symbol": 4,
+      "target_coderate": 0.33203125,
+      "payload_coderate": 0.3368055555555556,
+      "info_bits_per_ue": 3104,
+      "coded_bits_per_ue": 9216,
+      "tb_size": 3104,
+      "padding_bits": 0,
+      "num_bp_iter": 20,
+      "llr_convention": "log(P(bit=1)/P(bit=0))",
+      "scrambling": true
+    },
+    "covariance": {
+      "kind": "paper_reference_ft_covariance_v1",
+      "distribution_id": "c3732839f5cbfbfd9c4818bd36404c7d47a597e163a9d46b4ced18b6bfdfa25f",
+      "distribution": {
+        "ofdm": {
+          "num_subcarriers": 192,
+          "fft_size": 192,
+          "subcarrier_spacing_hz": 30000.0,
+          "num_ofdm_symbols": 14,
+          "cyclic_prefix_length": 14,
+          "omitted_symbols": [],
+          "dmrs_symbols": [
+            2,
+            11
+          ],
+          "data_symbols": [
+            0,
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            12,
+            13
+          ],
+          "pilot_pattern": "kronecker",
+          "pilot_seed": 314159
+        },
+        "bs_array": {
+          "num_rows_per_panel": 8,
+          "num_cols_per_panel": 16,
+          "polarization": "dual",
+          "polarization_type": "cross",
+          "antenna_pattern": "38.901",
+          "element_horizontal_spacing_lambda": 0.5,
+          "element_vertical_spacing_lambda": 0.6085714286
+        },
+        "ut_array": {
+          "num_rows_per_panel": 2,
+          "num_cols_per_panel": 1,
+          "polarization": "dual",
+          "polarization_type": "cross",
+          "antenna_pattern": "omni",
+          "element_horizontal_spacing_lambda": 0.5,
+          "element_vertical_spacing_lambda": 1.0
+        },
+        "topology": {
+          "scenario": "uma",
+          "o2i_model": "low",
+          "indoor_probability": 0.5,
+          "outdoor_max_speed_kmh": 30.0,
+          "indoor_max_speed_kmh": 3.0,
+          "force_nlos": true,
+          "enable_pathloss": true,
+          "enable_shadow_fading": true,
+          "always_generate_lsp": false
+        },
+        "channel": {
+          "normalize_channel": true
+        },
+        "stream_mapping": {
+          "mode": "equal_gain"
+        },
+        "link": {
+          "noise_mode": "sionna_ebno",
+          "energy_convention": "unit_energy_per_ue",
+          "coderate_convention": "payload_bits_over_coded_bits"
+        },
+        "paper_contract": {
+          "num_data_symbols": 2304,
+          "coded_bits_per_ue": 9216,
+          "info_bits_per_ue": 3104
+        },
+        "general": {
+          "precision": "single",
+          "carrier_frequency_hz": 6700000000.0,
+          "num_ues": 16,
+          "streams_per_ue": 1
+        },
+        "nr": {
+          "mcs_table": 1,
+          "mcs_index": 10
+        },
+        "mode": "paper_reference"
+      },
+      "channels": 200,
+      "batch_size": 1,
+      "calibration_seeds": [
+        4000000,
+        4000001,
+        4000002,
+        4000003,
+        4000004,
+        4000005,
+        4000006,
+        4000007,
+        4000008,
+        4000009,
+        4000010,
+        4000011,
+        4000012,
+        4000013,
+        4000014,
+        4000015,
+        4000016,
+        4000017,
+        4000018,
+        4000019,
+        4000020,
+        4000021,
+        4000022,
+        4000023,
+        4000024,
+        4000025,
+        4000026,
+        4000027,
+        4000028,
+        4000029,
+        4000030,
+        4000031,
+        4000032,
+        4000033,
+        4000034,
+        4000035,
+        4000036,
+        4000037,
+        4000038,
+        4000039,
+        4000040,
+        4000041,
+        4000042,
+        4000043,
+        4000044,
+        4000045,
+        4000046,
+        4000047,
+        4000048,
+        4000049,
+        4000050,
+        4000051,
+        4000052,
+        4000053,
+        4000054,
+        4000055,
+        4000056,
+        4000057,
+        4000058,
+        4000059,
+        4000060,
+        4000061,
+        4000062,
+        4000063,
+        4000064,
+        4000065,
+        4000066,
+        4000067,
+        4000068,
+        4000069,
+        4000070,
+        4000071,
+        4000072,
+        4000073,
+        4000074,
+        4000075,
+        4000076,
+        4000077,
+        4000078,
+        4000079,
+        4000080,
+        4000081,
+        4000082,
+        4000083,
+        4000084,
+        4000085,
+        4000086,
+        4000087,
+        4000088,
+        4000089,
+        4000090,
+        4000091,
+        4000092,
+        4000093,
+        4000094,
+        4000095,
+        4000096,
+        4000097,
+        4000098,
+        4000099,
+        4000100,
+        4000101,
+        4000102,
+        4000103,
+        4000104,
+        4000105,
+        4000106,
+        4000107,
+        4000108,
+        4000109,
+        4000110,
+        4000111,
+        4000112,
+        4000113,
+        4000114,
+        4000115,
+        4000116,
+        4000117,
+        4000118,
+        4000119,
+        4000120,
+        4000121,
+        4000122,
+        4000123,
+        4000124,
+        4000125,
+        4000126,
+        4000127,
+        4000128,
+        4000129,
+        4000130,
+        4000131,
+        4000132,
+        4000133,
+        4000134,
+        4000135,
+        4000136,
+        4000137,
+        4000138,
+        4000139,
+        4000140,
+        4000141,
+        4000142,
+        4000143,
+        4000144,
+        4000145,
+        4000146,
+        4000147,
+        4000148,
+        4000149,
+        4000150,
+        4000151,
+        4000152,
+        4000153,
+        4000154,
+        4000155,
+        4000156,
+        4000157,
+        4000158,
+        4000159,
+        4000160,
+        4000161,
+        4000162,
+        4000163,
+        4000164,
+        4000165,
+        4000166,
+        4000167,
+        4000168,
+        4000169,
+        4000170,
+        4000171,
+        4000172,
+        4000173,
+        4000174,
+        4000175,
+        4000176,
+        4000177,
+        4000178,
+        4000179,
+        4000180,
+        4000181,
+        4000182,
+        4000183,
+        4000184,
+        4000185,
+        4000186,
+        4000187,
+        4000188,
+        4000189,
+        4000190,
+        4000191,
+        4000192,
+        4000193,
+        4000194,
+        4000195,
+        4000196,
+        4000197,
+        4000198,
+        4000199
+      ],
+      "shrinkage": 0.001,
+      "provenance": {
+        "arguments": {
+          "config": "configs/system/uma_16ue_256rx_paper_reference.yaml",
+          "device": null,
+          "table": null,
+          "mcs": null,
+          "bp_iters": null,
+          "seed": 4000000,
+          "batch_size": 1,
+          "output": "data/cache/paper_reference_ft_cov.pt",
+          "overwrite": false,
+          "channels": 200,
+          "shrinkage": 0.001
+        },
+        "versions": {
+          "python": "3.12.13",
+          "torch": "2.11.0",
+          "sionna": "2.0.1",
+          "numpy": "2.4.4",
+          "PyYAML": "6.0.3"
+        },
+        "git_commit": "f7741e53a9cad31cf62eda44b4607dfd1e3c9147",
+        "git_branch": "refactor/sionna-standard-ebno",
+        "git_dirty": false,
+        "git_status": "",
+        "cuda_version": "13.0",
+        "gpus": [
+          "NVIDIA GeForce RTX 5090"
+        ]
+      },
+      "prior": "E[h_i conj(h_j)] of effective H; pooled channels/UEs/Rx; absolute power retained",
+      "path": "data/cache/paper_reference_ft_cov.pt",
+      "sha256": "76a11f88598eef9a22033d221dda9f00d415ece6b046af78d0c8de037601fbc4",
+      "estimator": "Sionna LSChannelEstimator + LMMSEInterpolator(f-t)",
+      "spatial_smoothing": false,
+      "rx_chunk_size": 4
+    },
+    "sionna_version": "2.0.1",
+    "receiver": "Sionna LMMSEEqualizer + APP + TBDecoder",
+    "noise_convention": "complex AWGN: E[|n|^2]=N0, real/imag variance=N0/2",
+    "ebno_convention": "per-UE payload Eb/N0, actual k/n, CP included by ebnodb2no",
+    "channel_normalization": "raw link over Rx/Tx antennas, time and frequency; no post-projection renormalization",
+    "tx_energy": "E[|x_UE|^2]=1, aggregate=K; unit-norm rank-one antenna mapping",
+    "channel_estimation_error_variance": "native LS/LMMSE err_var",
+    "external_interference": false
+  },
+  "provenance": {
+    "arguments": {
+      "config": "configs/system/uma_16ue_256rx_paper_reference.yaml",
+      "device": null,
+      "table": null,
+      "mcs": null,
+      "bp_iters": null,
+      "seed": 20260925,
+      "batch_size": 1,
+      "output": "results/paper_reference/classical_paired_10ch.json",
+      "overwrite": false,
+      "csi": "both",
+      "ce_covariance": "data/cache/paper_reference_ft_cov.pt",
+      "channels": 10,
+      "ebno_dbs": [
+        -18.0,
+        -12.0,
+        -6.0,
+        0.0
+      ],
+      "detectors": "sionna_lmmse,custom_lmmse,ep5",
+      "custom_ce_policy": "sionna_diagonal",
+      "re_chunk": 128
+    },
+    "versions": {
+      "python": "3.12.13",
+      "torch": "2.11.0",
+      "sionna": "2.0.1",
+      "numpy": "2.4.4",
+      "PyYAML": "6.0.3"
+    },
+    "git_commit": "f7741e53a9cad31cf62eda44b4607dfd1e3c9147",
+    "git_branch": "refactor/sionna-standard-ebno",
+    "git_dirty": false,
+    "git_status": "",
+    "cuda_version": "13.0",
+    "gpus": [
+      "NVIDIA GeForce RTX 5090"
+    ]
+  },
+  "requested_csi": "both",
+  "csi_modes": [
+    "perfect",
+    "practical"
+  ],
+  "detectors": [
+    "sionna_lmmse",
+    "custom_lmmse",
+    "ep5"
+  ],
+  "custom_ce_policy": "sionna_diagonal",
+  "existing_checkpoints_distribution": "legacy-distribution",
+  "neural_enabled": false,
+  "sampling": "One transmit per batch/EbNo; same y, Hhat, err_var, N0, grid and bits for every detector; paired seeds across EbNo",
+  "points": [
+    {
+      "status": "complete",
+      "ebno_db": -18.0,
+      "n0": 58.62376022338867,
+      "receivers": {
+        "perfect/sionna_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 26,
+          "bit_errors": 9346,
+          "crc_failures": 26,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            4,
+            1,
+            1,
+            2,
+            0,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            3,
+            2,
+            1
+          ],
+          "per_channel_block_errors": [
+            1,
+            1,
+            4,
+            0,
+            3,
+            5,
+            1,
+            6,
+            3,
+            2
+          ],
+          "per_channel_bit_errors": [
+            2,
+            559,
+            1876,
+            0,
+            507,
+            2004,
+            3,
+            1460,
+            1353,
+            1582
+          ],
+          "bler": 0.1625,
+          "ber": 0.01881846005154639
+        },
+        "perfect/custom_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 26,
+          "bit_errors": 9346,
+          "crc_failures": 26,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            4,
+            1,
+            1,
+            2,
+            0,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            3,
+            2,
+            1
+          ],
+          "per_channel_block_errors": [
+            1,
+            1,
+            4,
+            0,
+            3,
+            5,
+            1,
+            6,
+            3,
+            2
+          ],
+          "per_channel_bit_errors": [
+            2,
+            559,
+            1876,
+            0,
+            507,
+            2004,
+            3,
+            1460,
+            1353,
+            1582
+          ],
+          "bler": 0.1625,
+          "ber": 0.01881846005154639
+        },
+        "perfect/ep5": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 24,
+          "bit_errors": 8600,
+          "crc_failures": 24,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            3,
+            1,
+            1,
+            2,
+            0,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            2,
+            3,
+            2,
+            1
+          ],
+          "per_channel_block_errors": [
+            1,
+            1,
+            4,
+            0,
+            3,
+            5,
+            0,
+            5,
+            3,
+            2
+          ],
+          "per_channel_bit_errors": [
+            2,
+            556,
+            1838,
+            0,
+            314,
+            1752,
+            0,
+            1296,
+            1261,
+            1581
+          ],
+          "bler": 0.15,
+          "ber": 0.017316365979381444
+        },
+        "practical/sionna_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 130,
+          "bit_errors": 91476,
+          "crc_failures": 130,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            8,
+            7,
+            7,
+            8,
+            8,
+            8,
+            7,
+            9,
+            8,
+            10,
+            7,
+            9,
+            9,
+            8,
+            7,
+            10
+          ],
+          "per_channel_block_errors": [
+            12,
+            13,
+            12,
+            11,
+            12,
+            16,
+            12,
+            15,
+            13,
+            14
+          ],
+          "per_channel_bit_errors": [
+            7150,
+            7509,
+            10157,
+            7032,
+            9822,
+            12044,
+            7805,
+            12536,
+            7597,
+            9824
+          ],
+          "bler": 0.8125,
+          "ber": 0.18418975515463917
+        },
+        "practical/custom_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 130,
+          "bit_errors": 91477,
+          "crc_failures": 130,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            8,
+            7,
+            7,
+            8,
+            8,
+            8,
+            7,
+            9,
+            8,
+            10,
+            7,
+            9,
+            9,
+            8,
+            7,
+            10
+          ],
+          "per_channel_block_errors": [
+            12,
+            13,
+            12,
+            11,
+            12,
+            16,
+            12,
+            15,
+            13,
+            14
+          ],
+          "per_channel_bit_errors": [
+            7150,
+            7509,
+            10157,
+            7032,
+            9822,
+            12044,
+            7805,
+            12536,
+            7598,
+            9824
+          ],
+          "bler": 0.8125,
+          "ber": 0.184191768685567
+        },
+        "practical/ep5": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 130,
+          "bit_errors": 90730,
+          "crc_failures": 130,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            8,
+            7,
+            7,
+            8,
+            8,
+            8,
+            7,
+            9,
+            8,
+            10,
+            7,
+            9,
+            9,
+            8,
+            7,
+            10
+          ],
+          "per_channel_block_errors": [
+            12,
+            13,
+            12,
+            11,
+            12,
+            16,
+            12,
+            15,
+            13,
+            14
+          ],
+          "per_channel_bit_errors": [
+            7104,
+            7482,
+            10101,
+            6998,
+            9770,
+            12026,
+            7771,
+            12426,
+            7340,
+            9712
+          ],
+          "bler": 0.8125,
+          "ber": 0.18268766108247422
+        }
+      },
+      "diagnostics": [
+        {
+          "first_channel": 0,
+          "batch_size": 1,
+          "seed": 20260925,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.627565542454249e-07,
+                "no_eff_relative_rms": 2.2281656129052863e-06,
+                "llr_relative_rms": 2.3245761440193746e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.45620211958885193,
+              "data_h_nmse": 0.4561668336391449,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.3307841420173645,
+                  0.5525593161582947,
+                  0.4624943137168884,
+                  0.3860165476799011,
+                  0.9766092300415039,
+                  0.25495287775993347,
+                  0.26507964730262756,
+                  0.48276424407958984,
+                  0.8389785885810852,
+                  0.5309450626373291,
+                  0.3894154727458954,
+                  0.3419736623764038,
+                  0.5589073896408081,
+                  0.4495975375175476,
+                  0.22562527656555176,
+                  0.525751531124115
+                ]
+              ],
+              "mean_err_var": 0.446217805147171,
+              "median_err_var": 0.432720422744751,
+              "data_mean_err_var": 0.4462491571903229,
+              "data_median_err_var": 0.4327404499053955,
+              "data_empirical_mse": 0.46209844946861267,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.510574396794254e-07,
+                "no_eff_relative_rms": 1.4631023077527061e-06,
+                "llr_relative_rms": 1.294909679927514e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 1,
+          "batch_size": 1,
+          "seed": 20260926,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.996056984258757e-07,
+                "no_eff_relative_rms": 2.2335668745654402e-06,
+                "llr_relative_rms": 2.3150585093389964e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.41488200426101685,
+              "data_h_nmse": 0.4148077070713043,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.3840596675872803,
+                  0.24190934002399445,
+                  0.5411864519119263,
+                  0.25661733746528625,
+                  0.3732350766658783,
+                  0.296621173620224,
+                  0.6054120659828186,
+                  0.7999832630157471,
+                  0.4046560525894165,
+                  0.40408533811569214,
+                  0.5131339430809021,
+                  0.35479065775871277,
+                  0.42478707432746887,
+                  0.28067830204963684,
+                  0.6242045760154724,
+                  0.4366357624530792
+                ]
+              ],
+              "mean_err_var": 0.446217805147171,
+              "median_err_var": 0.432720422744751,
+              "data_mean_err_var": 0.4462491571903229,
+              "data_median_err_var": 0.4327404499053955,
+              "data_empirical_mse": 0.4236167371273041,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.629818247143703e-07,
+                "no_eff_relative_rms": 1.5747854149594787e-06,
+                "llr_relative_rms": 1.363725573355623e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 2,
+          "batch_size": 1,
+          "seed": 20260927,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.852438675901794e-07,
+                "no_eff_relative_rms": 1.7217707863892429e-06,
+                "llr_relative_rms": 2.1220901089691324e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.5063422322273254,
+              "data_h_nmse": 0.5063007473945618,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.5003212690353394,
+                  0.2546848654747009,
+                  0.8317670226097107,
+                  0.3639245629310608,
+                  0.5821746587753296,
+                  0.5848367810249329,
+                  0.3278294503688812,
+                  0.8775131702423096,
+                  0.665114164352417,
+                  0.4958711862564087,
+                  0.31108954548835754,
+                  0.24692589044570923,
+                  1.0887176990509033,
+                  1.1135201454162598,
+                  0.5107563734054565,
+                  0.5177960395812988
+                ]
+              ],
+              "mean_err_var": 0.446217805147171,
+              "median_err_var": 0.432720422744751,
+              "data_mean_err_var": 0.4462491571903229,
+              "data_median_err_var": 0.4327404499053955,
+              "data_empirical_mse": 0.4590524733066559,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.311466111379559e-07,
+                "no_eff_relative_rms": 1.2317160553720896e-06,
+                "llr_relative_rms": 1.212842562381411e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 3,
+          "batch_size": 1,
+          "seed": 20260928,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.809228582620563e-07,
+                "no_eff_relative_rms": 2.3696190964983543e-06,
+                "llr_relative_rms": 2.3204020180855878e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.43759238719940186,
+              "data_h_nmse": 0.4375632405281067,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.8648338913917542,
+                  0.30278509855270386,
+                  0.27996209263801575,
+                  0.2923564910888672,
+                  0.46548187732696533,
+                  0.33560046553611755,
+                  0.27205124497413635,
+                  0.8623220324516296,
+                  0.2990545928478241,
+                  0.3688768446445465,
+                  0.37323862314224243,
+                  0.559490978717804,
+                  0.7622464299201965,
+                  0.24311169981956482,
+                  0.39596402645111084,
+                  0.5638939142227173
+                ]
+              ],
+              "mean_err_var": 0.446217805147171,
+              "median_err_var": 0.432720422744751,
+              "data_mean_err_var": 0.4462491571903229,
+              "data_median_err_var": 0.4327404499053955,
+              "data_empirical_mse": 0.48781004548072815,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.549248385250394e-07,
+                "no_eff_relative_rms": 1.453742697776761e-06,
+                "llr_relative_rms": 1.3560961633629631e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 4,
+          "batch_size": 1,
+          "seed": 20260929,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.081017431824876e-07,
+                "no_eff_relative_rms": 2.243065864604432e-06,
+                "llr_relative_rms": 2.2536514734383672e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.48875609040260315,
+              "data_h_nmse": 0.4887116849422455,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.5892866849899292,
+                  0.247719407081604,
+                  0.4807649552822113,
+                  0.40297064185142517,
+                  0.2803950011730194,
+                  0.49615195393562317,
+                  0.5490118861198425,
+                  0.9507352709770203,
+                  1.0831469297409058,
+                  1.0060559511184692,
+                  0.2882402539253235,
+                  0.44961240887641907,
+                  0.2209390252828598,
+                  0.8122297525405884,
+                  0.2100038230419159,
+                  0.44614967703819275
+                ]
+              ],
+              "mean_err_var": 0.446217805147171,
+              "median_err_var": 0.432720422744751,
+              "data_mean_err_var": 0.4462491571903229,
+              "data_median_err_var": 0.4327404499053955,
+              "data_empirical_mse": 0.5395901799201965,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.539528729059384e-07,
+                "no_eff_relative_rms": 1.2839778946727165e-06,
+                "llr_relative_rms": 1.449444880563533e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 5,
+          "batch_size": 1,
+          "seed": 20260930,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.456880328187253e-07,
+                "no_eff_relative_rms": 1.9596354832174256e-06,
+                "llr_relative_rms": 1.7558014633323182e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.5471121668815613,
+              "data_h_nmse": 0.5470361709594727,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.46380069851875305,
+                  0.2865130305290222,
+                  0.477331280708313,
+                  0.4956977963447571,
+                  0.6564880609512329,
+                  0.7394594550132751,
+                  0.8014005422592163,
+                  0.32085272669792175,
+                  0.7128164768218994,
+                  0.28052693605422974,
+                  0.46492689847946167,
+                  0.5940805673599243,
+                  0.43645888566970825,
+                  0.6956143975257874,
+                  0.7814574241638184,
+                  0.8193385004997253
+                ]
+              ],
+              "mean_err_var": 0.446217805147171,
+              "median_err_var": 0.432720422744751,
+              "data_mean_err_var": 0.4462491571903229,
+              "data_median_err_var": 0.4327404499053955,
+              "data_empirical_mse": 0.47811615467071533,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.510157734534005e-07,
+                "no_eff_relative_rms": 1.3243558214526274e-06,
+                "llr_relative_rms": 1.0816138455993496e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 6,
+          "batch_size": 1,
+          "seed": 20260931,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.058238568584784e-07,
+                "no_eff_relative_rms": 2.3299685381061863e-06,
+                "llr_relative_rms": 3.521025291775004e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.40563833713531494,
+              "data_h_nmse": 0.40562182664871216,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.3547220826148987,
+                  0.4098239541053772,
+                  0.3713979125022888,
+                  0.31312131881713867,
+                  0.39189934730529785,
+                  0.1859687864780426,
+                  0.6609852313995361,
+                  0.3630116581916809,
+                  0.24714304506778717,
+                  0.4075302183628082,
+                  0.16003189980983734,
+                  1.0073350667953491,
+                  0.9709029793739319,
+                  0.515608012676239,
+                  0.4709348976612091,
+                  0.5423752665519714
+                ]
+              ],
+              "mean_err_var": 0.446217805147171,
+              "median_err_var": 0.432720422744751,
+              "data_mean_err_var": 0.4462491571903229,
+              "data_median_err_var": 0.4327404499053955,
+              "data_empirical_mse": 0.4986894428730011,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.662359967573138e-07,
+                "no_eff_relative_rms": 1.4614254268963123e-06,
+                "llr_relative_rms": 2.079961177514633e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 7,
+          "batch_size": 1,
+          "seed": 20260932,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.1097574644009e-07,
+                "no_eff_relative_rms": 1.8698015082918573e-06,
+                "llr_relative_rms": 1.5879677448538132e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.5697649717330933,
+              "data_h_nmse": 0.5696417689323425,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.35343489050865173,
+                  0.26963329315185547,
+                  0.36500945687294006,
+                  1.2345393896102905,
+                  0.509477972984314,
+                  1.0200514793395996,
+                  1.1438955068588257,
+                  0.7011981010437012,
+                  0.49860820174217224,
+                  0.30187368392944336,
+                  0.369369238615036,
+                  0.6351685523986816,
+                  0.6252225637435913,
+                  0.3522363603115082,
+                  0.43465080857276917,
+                  1.0026826858520508
+                ]
+              ],
+              "mean_err_var": 0.446217805147171,
+              "median_err_var": 0.432720422744751,
+              "data_mean_err_var": 0.4462491571903229,
+              "data_median_err_var": 0.4327404499053955,
+              "data_empirical_mse": 0.45479637384414673,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.562204705711338e-07,
+                "no_eff_relative_rms": 1.2128239177400246e-06,
+                "llr_relative_rms": 1.0377052603871562e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 8,
+          "batch_size": 1,
+          "seed": 20260933,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 7.027642823231872e-07,
+                "no_eff_relative_rms": 2.228795892733615e-06,
+                "llr_relative_rms": 2.362020950386068e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.3701433539390564,
+              "data_h_nmse": 0.3700840473175049,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.3597125709056854,
+                  0.5473923683166504,
+                  0.18236544728279114,
+                  0.6552721261978149,
+                  0.255813866853714,
+                  0.2853928804397583,
+                  0.21545451879501343,
+                  0.6210390329360962,
+                  0.5374101400375366,
+                  0.4793558120727539,
+                  0.2733611464500427,
+                  0.3389262855052948,
+                  0.5989348292350769,
+                  0.7278108596801758,
+                  0.24903106689453125,
+                  0.42165863513946533
+                ]
+              ],
+              "mean_err_var": 0.446217805147171,
+              "median_err_var": 0.432720422744751,
+              "data_mean_err_var": 0.4462491571903229,
+              "data_median_err_var": 0.4327404499053955,
+              "data_empirical_mse": 0.40231481194496155,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.933661100243626e-07,
+                "no_eff_relative_rms": 1.5364130376838148e-06,
+                "llr_relative_rms": 1.6778303688624874e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 9,
+          "batch_size": 1,
+          "seed": 20260934,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.884401730327227e-07,
+                "no_eff_relative_rms": 1.4847420288788271e-06,
+                "llr_relative_rms": 2.148104613297619e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.5131708383560181,
+              "data_h_nmse": 0.5130636692047119,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  1.0999428033828735,
+                  2.1599841117858887,
+                  0.3391384780406952,
+                  0.654168963432312,
+                  0.510341465473175,
+                  0.4634144604206085,
+                  0.3464256227016449,
+                  0.3465726673603058,
+                  0.9664215445518494,
+                  0.32949525117874146,
+                  0.5271246433258057,
+                  0.2756221294403076,
+                  0.4220876097679138,
+                  0.45007774233818054,
+                  0.27979251742362976,
+                  0.5915607810020447
+                ]
+              ],
+              "mean_err_var": 0.446217805147171,
+              "median_err_var": 0.432720422744751,
+              "data_mean_err_var": 0.4462491571903229,
+              "data_median_err_var": 0.4327404499053955,
+              "data_empirical_mse": 0.45370134711265564,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.542166832128714e-07,
+                "no_eff_relative_rms": 1.3015140893912758e-06,
+                "llr_relative_rms": 1.2515578191596433e-06
+              }
+            }
+          }
+        }
+      ],
+      "batch_seeds": [
+        {
+          "first_channel": 0,
+          "batch_size": 1,
+          "seed": 20260925
+        },
+        {
+          "first_channel": 1,
+          "batch_size": 1,
+          "seed": 20260926
+        },
+        {
+          "first_channel": 2,
+          "batch_size": 1,
+          "seed": 20260927
+        },
+        {
+          "first_channel": 3,
+          "batch_size": 1,
+          "seed": 20260928
+        },
+        {
+          "first_channel": 4,
+          "batch_size": 1,
+          "seed": 20260929
+        },
+        {
+          "first_channel": 5,
+          "batch_size": 1,
+          "seed": 20260930
+        },
+        {
+          "first_channel": 6,
+          "batch_size": 1,
+          "seed": 20260931
+        },
+        {
+          "first_channel": 7,
+          "batch_size": 1,
+          "seed": 20260932
+        },
+        {
+          "first_channel": 8,
+          "batch_size": 1,
+          "seed": 20260933
+        },
+        {
+          "first_channel": 9,
+          "batch_size": 1,
+          "seed": 20260934
+        }
+      ],
+      "first_batch_power_diagnostic": {
+        "seed": 20260925,
+        "ebno_db": -18.0,
+        "n0": 58.62376022338867,
+        "tx_power_per_ue": [
+          [
+            0.980654776096344,
+            1.0062499046325684,
+            0.9886904358863831,
+            1.006845235824585,
+            1.015476107597351,
+            0.9922618269920349,
+            0.9767856597900391,
+            0.9940476417541504,
+            0.9907737374305725,
+            0.9999999403953552,
+            1.0175594091415405,
+            1.0056546926498413,
+            1.0026785135269165,
+            1.0089285373687744,
+            0.981249988079071,
+            1.0008928775787354
+          ]
+        ],
+        "aggregate_tx_power": [
+          15.96875
+        ],
+        "tx_antenna_sum_power_per_ue": [
+          [
+            0.980654776096344,
+            1.0062499046325684,
+            0.9886904358863831,
+            1.006845235824585,
+            1.015476107597351,
+            0.9922618269920349,
+            0.9767856597900391,
+            0.9940476417541504,
+            0.9907737374305725,
+            0.9999999403953552,
+            1.0175594091415405,
+            1.0056546926498413,
+            1.0026785135269165,
+            1.0089285373687744,
+            0.981249988079071,
+            1.0008928775787354
+          ]
+        ],
+        "raw_channel_power_per_link": [
+          [
+            1.0,
+            1.0,
+            1.0,
+            0.9999998211860657,
+            0.9999999403953552,
+            0.9999998211860657,
+            1.0,
+            0.9999999403953552,
+            1.0,
+            1.0,
+            0.9999998211860657,
+            1.0,
+            1.0,
+            0.9999998211860657,
+            0.9999998211860657,
+            1.0
+          ]
+        ],
+        "effective_channel_power_per_ue": [
+          [
+            1.3633685111999512,
+            0.8846433162689209,
+            1.1401866674423218,
+            0.7756699919700623,
+            1.2842271327972412,
+            1.5861202478408813,
+            1.0742884874343872,
+            1.1269935369491577,
+            0.6156012415885925,
+            0.7854829430580139,
+            0.9575777053833008,
+            1.0880240201950073,
+            0.5739617347717285,
+            0.6908974647521973,
+            1.1962772607803345,
+            1.0647304058074951
+          ]
+        ],
+        "received_signal_power": [
+          16.136085510253906
+        ],
+        "measured_noise_power": [
+          58.59067153930664
+        ],
+        "measured_noise_over_n0": [
+          0.999435544013977
+        ],
+        "measured_rx_snr_db": [
+          -5.600302696228027
+        ],
+        "reconstruction_relative_rms": 1.0466283839605239e-07,
+        "sampled_re_count": 32,
+        "sampled_min_singular_value": 7.619431018829346,
+        "sampled_max_condition_number": 3.0527846813201904,
+        "singular_channel_seen": false
+      }
+    },
+    {
+      "status": "complete",
+      "ebno_db": -12.0,
+      "n0": 14.725621223449707,
+      "receivers": {
+        "perfect/sionna_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 0,
+          "bit_errors": 0,
+          "crc_failures": 0,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_bit_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "bler": 0.0,
+          "ber": 0.0
+        },
+        "perfect/custom_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 0,
+          "bit_errors": 0,
+          "crc_failures": 0,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_bit_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "bler": 0.0,
+          "ber": 0.0
+        },
+        "perfect/ep5": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 0,
+          "bit_errors": 0,
+          "crc_failures": 0,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_bit_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "bler": 0.0,
+          "ber": 0.0
+        },
+        "practical/sionna_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 26,
+          "bit_errors": 15852,
+          "crc_failures": 26,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            1,
+            1,
+            1,
+            2,
+            1,
+            1,
+            1,
+            4,
+            3,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2
+          ],
+          "per_channel_block_errors": [
+            1,
+            1,
+            4,
+            1,
+            4,
+            2,
+            2,
+            6,
+            2,
+            3
+          ],
+          "per_channel_bit_errors": [
+            720,
+            509,
+            2302,
+            489,
+            2945,
+            1085,
+            1148,
+            3870,
+            6,
+            2778
+          ],
+          "bler": 0.1625,
+          "ber": 0.031918492268041235
+        },
+        "practical/custom_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 26,
+          "bit_errors": 15865,
+          "crc_failures": 26,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            1,
+            1,
+            1,
+            2,
+            1,
+            1,
+            1,
+            4,
+            3,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2
+          ],
+          "per_channel_block_errors": [
+            1,
+            1,
+            4,
+            1,
+            4,
+            2,
+            2,
+            6,
+            2,
+            3
+          ],
+          "per_channel_bit_errors": [
+            720,
+            508,
+            2303,
+            489,
+            2953,
+            1080,
+            1147,
+            3871,
+            6,
+            2788
+          ],
+          "bler": 0.1625,
+          "ber": 0.031944668170103094
+        },
+        "practical/ep5": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 24,
+          "bit_errors": 15413,
+          "crc_failures": 24,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            4,
+            2,
+            1,
+            1,
+            2,
+            2,
+            2,
+            1,
+            2
+          ],
+          "per_channel_block_errors": [
+            1,
+            1,
+            4,
+            1,
+            4,
+            2,
+            2,
+            6,
+            0,
+            3
+          ],
+          "per_channel_bit_errors": [
+            722,
+            445,
+            2353,
+            269,
+            2887,
+            1065,
+            1132,
+            3742,
+            0,
+            2798
+          ],
+          "bler": 0.15,
+          "ber": 0.03103455219072165
+        }
+      },
+      "diagnostics": [
+        {
+          "first_channel": 0,
+          "batch_size": 1,
+          "seed": 20260925,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.553736173169455e-07,
+                "no_eff_relative_rms": 7.008968168520369e-06,
+                "llr_relative_rms": 9.745002898853272e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.25154244899749756,
+              "data_h_nmse": 0.2514939606189728,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.14502006769180298,
+                  0.3316802978515625,
+                  0.19124549627304077,
+                  0.19836099445819855,
+                  0.8370283246040344,
+                  0.10128889232873917,
+                  0.12686577439308167,
+                  0.29015427827835083,
+                  0.39106279611587524,
+                  0.2551667094230652,
+                  0.17435485124588013,
+                  0.143660768866539,
+                  0.24402110278606415,
+                  0.21512731909751892,
+                  0.10911016911268234,
+                  0.310541570186615
+                ]
+              ],
+              "mean_err_var": 0.21920418739318848,
+              "median_err_var": 0.212804913520813,
+              "data_mean_err_var": 0.21924911439418793,
+              "data_median_err_var": 0.21283400058746338,
+              "data_empirical_mse": 0.254764199256897,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.432413558992266e-07,
+                "no_eff_relative_rms": 4.74920125270728e-06,
+                "llr_relative_rms": 7.367031685134862e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 1,
+          "batch_size": 1,
+          "seed": 20260926,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.982739139653859e-07,
+                "no_eff_relative_rms": 6.901074812049046e-06,
+                "llr_relative_rms": 9.49949480855139e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.21382710337638855,
+              "data_h_nmse": 0.21372337639331818,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.17310789227485657,
+                  0.10802053660154343,
+                  0.30148497223854065,
+                  0.12466353178024292,
+                  0.19811885058879852,
+                  0.14251498878002167,
+                  0.29923659563064575,
+                  0.5184400677680969,
+                  0.14624525606632233,
+                  0.2112930715084076,
+                  0.31863173842430115,
+                  0.18426750600337982,
+                  0.20378932356834412,
+                  0.14284344017505646,
+                  0.3530687987804413,
+                  0.19127415120601654
+                ]
+              ],
+              "mean_err_var": 0.21920418739318848,
+              "median_err_var": 0.212804913520813,
+              "data_mean_err_var": 0.21924911439418793,
+              "data_median_err_var": 0.21283400058746338,
+              "data_empirical_mse": 0.21826210618019104,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.766331128143065e-07,
+                "no_eff_relative_rms": 5.226996108831372e-06,
+                "llr_relative_rms": 7.589973847643705e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 2,
+          "batch_size": 1,
+          "seed": 20260927,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.846518433827441e-07,
+                "no_eff_relative_rms": 5.1133433771610726e-06,
+                "llr_relative_rms": 8.97133577382192e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.26637470722198486,
+              "data_h_nmse": 0.2663199305534363,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.24119742214679718,
+                  0.12439913302659988,
+                  0.5573297142982483,
+                  0.16900473833084106,
+                  0.23897434771060944,
+                  0.43015411496162415,
+                  0.11987574398517609,
+                  0.4580726623535156,
+                  0.31410980224609375,
+                  0.22718825936317444,
+                  0.14317645132541656,
+                  0.11610043048858643,
+                  0.7079684734344482,
+                  0.7152877449989319,
+                  0.2853735685348511,
+                  0.2345118224620819
+                ]
+              ],
+              "mean_err_var": 0.21920418739318848,
+              "median_err_var": 0.212804913520813,
+              "data_mean_err_var": 0.21924911439418793,
+              "data_median_err_var": 0.21283400058746338,
+              "data_empirical_mse": 0.24146679043769836,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.455996756609238e-07,
+                "no_eff_relative_rms": 3.2373086469306145e-06,
+                "llr_relative_rms": 6.727334039169364e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 3,
+          "batch_size": 1,
+          "seed": 20260928,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.818891395392711e-07,
+                "no_eff_relative_rms": 7.60345255912398e-06,
+                "llr_relative_rms": 9.804511137190275e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.23286189138889313,
+              "data_h_nmse": 0.232823446393013,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.5139188766479492,
+                  0.13466878235340118,
+                  0.13278372585773468,
+                  0.1351875364780426,
+                  0.22532570362091064,
+                  0.14003096520900726,
+                  0.13339655101299286,
+                  0.6420342326164246,
+                  0.13287723064422607,
+                  0.18713010847568512,
+                  0.18824373185634613,
+                  0.24979354441165924,
+                  0.37936079502105713,
+                  0.09429114311933517,
+                  0.20574286580085754,
+                  0.29832470417022705
+                ]
+              ],
+              "mean_err_var": 0.21920418739318848,
+              "median_err_var": 0.212804913520813,
+              "data_mean_err_var": 0.21924911439418793,
+              "data_median_err_var": 0.21283400058746338,
+              "data_empirical_mse": 0.25955930352211,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.567586640609079e-07,
+                "no_eff_relative_rms": 4.84119573229691e-06,
+                "llr_relative_rms": 6.913211564096855e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 4,
+          "batch_size": 1,
+          "seed": 20260929,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.093180786592711e-07,
+                "no_eff_relative_rms": 6.8570311668736394e-06,
+                "llr_relative_rms": 9.394592780154198e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.27603083848953247,
+              "data_h_nmse": 0.27597203850746155,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.2653803527355194,
+                  0.11067811399698257,
+                  0.2401551604270935,
+                  0.15558220446109772,
+                  0.10405184328556061,
+                  0.20587657392024994,
+                  0.22594763338565826,
+                  0.6627368330955505,
+                  0.7431116700172424,
+                  0.8203681111335754,
+                  0.13092151284217834,
+                  0.2285064458847046,
+                  0.10730430483818054,
+                  0.4844021201133728,
+                  0.09278032183647156,
+                  0.19584743678569794
+                ]
+              ],
+              "mean_err_var": 0.21920418739318848,
+              "median_err_var": 0.212804913520813,
+              "data_mean_err_var": 0.21924911439418793,
+              "data_median_err_var": 0.21283400058746338,
+              "data_empirical_mse": 0.3047027587890625,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.811993446513952e-07,
+                "no_eff_relative_rms": 3.921294592146296e-06,
+                "llr_relative_rms": 7.34641889721388e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 5,
+          "batch_size": 1,
+          "seed": 20260930,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.87777173880022e-07,
+                "no_eff_relative_rms": 5.802312898595119e-06,
+                "llr_relative_rms": 7.315225957427174e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.29844027757644653,
+              "data_h_nmse": 0.29834166169166565,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.24635210633277893,
+                  0.1505076289176941,
+                  0.22571073472499847,
+                  0.3356204032897949,
+                  0.34913307428359985,
+                  0.3977294862270355,
+                  0.47927725315093994,
+                  0.1542176604270935,
+                  0.3612365126609802,
+                  0.12565328180789948,
+                  0.24727387726306915,
+                  0.35768744349479675,
+                  0.2278165966272354,
+                  0.3684976398944855,
+                  0.45506322383880615,
+                  0.4376712739467621
+                ]
+              ],
+              "mean_err_var": 0.21920418739318848,
+              "median_err_var": 0.212804913520813,
+              "data_mean_err_var": 0.21924911439418793,
+              "data_median_err_var": 0.21283400058746338,
+              "data_empirical_mse": 0.26075416803359985,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.829907081533747e-07,
+                "no_eff_relative_rms": 4.075853212270886e-06,
+                "llr_relative_rms": 5.30772922502365e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 6,
+          "batch_size": 1,
+          "seed": 20260931,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.178942157930578e-07,
+                "no_eff_relative_rms": 7.304110567929456e-06,
+                "llr_relative_rms": 1.4728716450918e-05
+              }
+            },
+            "practical": {
+              "h_nmse": 0.2172084003686905,
+              "data_h_nmse": 0.2171802818775177,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.1808760017156601,
+                  0.214163675904274,
+                  0.21267622709274292,
+                  0.1651163250207901,
+                  0.1794160008430481,
+                  0.08165979385375977,
+                  0.327608585357666,
+                  0.16667267680168152,
+                  0.11514563113451004,
+                  0.1719726026058197,
+                  0.07116146385669708,
+                  0.6245430707931519,
+                  0.7762740850448608,
+                  0.3185880482196808,
+                  0.2154073566198349,
+                  0.2777414917945862
+                ]
+              ],
+              "mean_err_var": 0.21920418739318848,
+              "median_err_var": 0.212804913520813,
+              "data_mean_err_var": 0.21924911439418793,
+              "data_median_err_var": 0.21283400058746338,
+              "data_empirical_mse": 0.2670110762119293,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.632239208352985e-07,
+                "no_eff_relative_rms": 4.227339559292886e-06,
+                "llr_relative_rms": 1.0813337212312035e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 7,
+          "batch_size": 1,
+          "seed": 20260932,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.400028951247805e-07,
+                "no_eff_relative_rms": 5.522684205061523e-06,
+                "llr_relative_rms": 6.821006081736414e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.34021180868148804,
+              "data_h_nmse": 0.3400510847568512,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.1627388596534729,
+                  0.14208781719207764,
+                  0.17597104609012604,
+                  0.9396019577980042,
+                  0.2664918899536133,
+                  0.7834670543670654,
+                  0.7805088758468628,
+                  0.37415316700935364,
+                  0.23616619408130646,
+                  0.13707119226455688,
+                  0.1464107781648636,
+                  0.31107693910598755,
+                  0.2893379032611847,
+                  0.15113404393196106,
+                  0.20281380414962769,
+                  0.8166239857673645
+                ]
+              ],
+              "mean_err_var": 0.21920418739318848,
+              "median_err_var": 0.212804913520813,
+              "data_mean_err_var": 0.21924911439418793,
+              "data_median_err_var": 0.21283400058746338,
+              "data_empirical_mse": 0.27149343490600586,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.767743118667568e-07,
+                "no_eff_relative_rms": 3.171886191921658e-06,
+                "llr_relative_rms": 5.244479325483553e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 8,
+          "batch_size": 1,
+          "seed": 20260933,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 7.581543286505621e-07,
+                "no_eff_relative_rms": 7.021550572972046e-06,
+                "llr_relative_rms": 9.666902769822627e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.16702908277511597,
+              "data_h_nmse": 0.16694557666778564,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.14988259971141815,
+                  0.2607648968696594,
+                  0.08493638783693314,
+                  0.31189194321632385,
+                  0.12537403404712677,
+                  0.12078892439603806,
+                  0.10080403834581375,
+                  0.27661681175231934,
+                  0.26055896282196045,
+                  0.20717549324035645,
+                  0.11274034529924393,
+                  0.14265838265419006,
+                  0.2570783793926239,
+                  0.3994310200214386,
+                  0.1250053346157074,
+                  0.16921263933181763
+                ]
+              ],
+              "mean_err_var": 0.21920418739318848,
+              "median_err_var": 0.212804913520813,
+              "data_mean_err_var": 0.21924911439418793,
+              "data_median_err_var": 0.21283400058746338,
+              "data_empirical_mse": 0.18148493766784668,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.595916488549847e-07,
+                "no_eff_relative_rms": 5.265274921839591e-06,
+                "llr_relative_rms": 7.971611012180801e-06
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 9,
+          "batch_size": 1,
+          "seed": 20260934,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.780811420663667e-07,
+                "no_eff_relative_rms": 4.340848590800306e-06,
+                "llr_relative_rms": 8.963655091065448e-06
+              }
+            },
+            "practical": {
+              "h_nmse": 0.30212897062301636,
+              "data_h_nmse": 0.30198994278907776,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.6041663289070129,
+                  1.2459499835968018,
+                  0.16000725328922272,
+                  0.47127842903137207,
+                  0.2422516644001007,
+                  0.25636789202690125,
+                  0.16428446769714355,
+                  0.18023258447647095,
+                  0.8354145884513855,
+                  0.16838933527469635,
+                  0.26251643896102905,
+                  0.1429424285888672,
+                  0.1804676651954651,
+                  0.1975238025188446,
+                  0.11592497676610947,
+                  0.2744673490524292
+                ]
+              ],
+              "mean_err_var": 0.21920418739318848,
+              "median_err_var": 0.212804913520813,
+              "data_mean_err_var": 0.21924911439418793,
+              "data_median_err_var": 0.21283400058746338,
+              "data_empirical_mse": 0.26704922318458557,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.542586336559907e-07,
+                "no_eff_relative_rms": 3.2385191843786743e-06,
+                "llr_relative_rms": 6.443464826588752e-06
+              }
+            }
+          }
+        }
+      ],
+      "batch_seeds": [
+        {
+          "first_channel": 0,
+          "batch_size": 1,
+          "seed": 20260925
+        },
+        {
+          "first_channel": 1,
+          "batch_size": 1,
+          "seed": 20260926
+        },
+        {
+          "first_channel": 2,
+          "batch_size": 1,
+          "seed": 20260927
+        },
+        {
+          "first_channel": 3,
+          "batch_size": 1,
+          "seed": 20260928
+        },
+        {
+          "first_channel": 4,
+          "batch_size": 1,
+          "seed": 20260929
+        },
+        {
+          "first_channel": 5,
+          "batch_size": 1,
+          "seed": 20260930
+        },
+        {
+          "first_channel": 6,
+          "batch_size": 1,
+          "seed": 20260931
+        },
+        {
+          "first_channel": 7,
+          "batch_size": 1,
+          "seed": 20260932
+        },
+        {
+          "first_channel": 8,
+          "batch_size": 1,
+          "seed": 20260933
+        },
+        {
+          "first_channel": 9,
+          "batch_size": 1,
+          "seed": 20260934
+        }
+      ],
+      "first_batch_power_diagnostic": {
+        "seed": 20260925,
+        "ebno_db": -12.0,
+        "n0": 14.725621223449707,
+        "tx_power_per_ue": [
+          [
+            0.980654776096344,
+            1.0062499046325684,
+            0.9886904358863831,
+            1.006845235824585,
+            1.015476107597351,
+            0.9922618269920349,
+            0.9767856597900391,
+            0.9940476417541504,
+            0.9907737374305725,
+            0.9999999403953552,
+            1.0175594091415405,
+            1.0056546926498413,
+            1.0026785135269165,
+            1.0089285373687744,
+            0.981249988079071,
+            1.0008928775787354
+          ]
+        ],
+        "aggregate_tx_power": [
+          15.96875
+        ],
+        "tx_antenna_sum_power_per_ue": [
+          [
+            0.980654776096344,
+            1.0062499046325684,
+            0.9886904358863831,
+            1.006845235824585,
+            1.015476107597351,
+            0.9922618269920349,
+            0.9767856597900391,
+            0.9940476417541504,
+            0.9907737374305725,
+            0.9999999403953552,
+            1.0175594091415405,
+            1.0056546926498413,
+            1.0026785135269165,
+            1.0089285373687744,
+            0.981249988079071,
+            1.0008928775787354
+          ]
+        ],
+        "raw_channel_power_per_link": [
+          [
+            1.0,
+            1.0,
+            1.0,
+            0.9999998211860657,
+            0.9999999403953552,
+            0.9999998211860657,
+            1.0,
+            0.9999999403953552,
+            1.0,
+            1.0,
+            0.9999998211860657,
+            1.0,
+            1.0,
+            0.9999998211860657,
+            0.9999998211860657,
+            1.0
+          ]
+        ],
+        "effective_channel_power_per_ue": [
+          [
+            1.3633685111999512,
+            0.8846433162689209,
+            1.1401866674423218,
+            0.7756699919700623,
+            1.2842271327972412,
+            1.5861202478408813,
+            1.0742884874343872,
+            1.1269935369491577,
+            0.6156012415885925,
+            0.7854829430580139,
+            0.9575777053833008,
+            1.0880240201950073,
+            0.5739617347717285,
+            0.6908974647521973,
+            1.1962772607803345,
+            1.0647304058074951
+          ]
+        ],
+        "received_signal_power": [
+          16.136085510253906
+        ],
+        "measured_noise_power": [
+          14.71730899810791
+        ],
+        "measured_noise_over_n0": [
+          0.9994356036186218
+        ],
+        "measured_rx_snr_db": [
+          0.3996979594230652
+        ],
+        "reconstruction_relative_rms": 1.0466283839605239e-07,
+        "sampled_re_count": 32,
+        "sampled_min_singular_value": 7.619431018829346,
+        "sampled_max_condition_number": 3.0527846813201904,
+        "singular_channel_seen": false
+      }
+    },
+    {
+      "status": "complete",
+      "ebno_db": -6.0,
+      "n0": 3.6989083290100098,
+      "receivers": {
+        "perfect/sionna_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 0,
+          "bit_errors": 0,
+          "crc_failures": 0,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_bit_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "bler": 0.0,
+          "ber": 0.0
+        },
+        "perfect/custom_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 0,
+          "bit_errors": 0,
+          "crc_failures": 0,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_bit_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "bler": 0.0,
+          "ber": 0.0
+        },
+        "perfect/ep5": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 0,
+          "bit_errors": 0,
+          "crc_failures": 0,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_bit_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "bler": 0.0,
+          "ber": 0.0
+        },
+        "practical/sionna_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 4,
+          "bit_errors": 2904,
+          "crc_failures": 4,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "per_channel_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            2,
+            0,
+            1
+          ],
+          "per_channel_bit_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            757,
+            1184,
+            0,
+            963
+          ],
+          "bler": 0.025,
+          "ber": 0.00584729381443299
+        },
+        "practical/custom_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 4,
+          "bit_errors": 2787,
+          "crc_failures": 4,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "per_channel_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            2,
+            0,
+            1
+          ],
+          "per_channel_bit_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            735,
+            1136,
+            0,
+            916
+          ],
+          "bler": 0.025,
+          "ber": 0.005611710695876289
+        },
+        "practical/ep5": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 5,
+          "bit_errors": 2397,
+          "crc_failures": 5,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1
+          ],
+          "per_channel_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            3,
+            0,
+            1
+          ],
+          "per_channel_bit_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            625,
+            856,
+            0,
+            916
+          ],
+          "bler": 0.03125,
+          "ber": 0.004826433634020619
+        }
+      },
+      "diagnostics": [
+        {
+          "first_channel": 0,
+          "batch_size": 1,
+          "seed": 20260925,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.658023951582436e-07,
+                "no_eff_relative_rms": 2.6717525543062948e-05,
+                "llr_relative_rms": 3.986137016909197e-05
+              }
+            },
+            "practical": {
+              "h_nmse": 0.13371822237968445,
+              "data_h_nmse": 0.13366618752479553,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.05998469516634941,
+                  0.14268337190151215,
+                  0.07435763627290726,
+                  0.08766479045152664,
+                  0.639395534992218,
+                  0.04545734450221062,
+                  0.054984305053949356,
+                  0.15730036795139313,
+                  0.12813270092010498,
+                  0.09380311518907547,
+                  0.06786888092756271,
+                  0.06225347891449928,
+                  0.10308091342449188,
+                  0.08871559798717499,
+                  0.04940050467848778,
+                  0.1984260380268097
+                ]
+              ],
+              "mean_err_var": 0.1039264127612114,
+              "median_err_var": 0.10186713933944702,
+              "data_mean_err_var": 0.10398135334253311,
+              "data_median_err_var": 0.10183513164520264,
+              "data_empirical_mse": 0.13540427386760712,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.472244311022223e-07,
+                "no_eff_relative_rms": 1.6770665752119385e-05,
+                "llr_relative_rms": 2.7441708880360238e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 1,
+          "batch_size": 1,
+          "seed": 20260926,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.210357241798192e-07,
+                "no_eff_relative_rms": 2.618766484374646e-05,
+                "llr_relative_rms": 3.971630576415919e-05
+              }
+            },
+            "practical": {
+              "h_nmse": 0.10257501155138016,
+              "data_h_nmse": 0.10246141999959946,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.07546549290418625,
+                  0.045540958642959595,
+                  0.13218988478183746,
+                  0.05476223677396774,
+                  0.0947798416018486,
+                  0.05616149678826332,
+                  0.12017782032489777,
+                  0.3390519618988037,
+                  0.04838436096906662,
+                  0.09453178197145462,
+                  0.18873532116413116,
+                  0.08798182755708694,
+                  0.09380915015935898,
+                  0.06481526046991348,
+                  0.16289031505584717,
+                  0.07829272001981735
+                ]
+              ],
+              "mean_err_var": 0.1039264127612114,
+              "median_err_var": 0.10186713933944702,
+              "data_mean_err_var": 0.10398135334253311,
+              "data_median_err_var": 0.10183513164520264,
+              "data_empirical_mse": 0.10463733226060867,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.935527838119015e-07,
+                "no_eff_relative_rms": 1.7499327441328205e-05,
+                "llr_relative_rms": 2.7794474590336904e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 2,
+          "batch_size": 1,
+          "seed": 20260927,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.076811587263364e-07,
+                "no_eff_relative_rms": 1.8866870959755033e-05,
+                "llr_relative_rms": 3.711886893142946e-05
+              }
+            },
+            "practical": {
+              "h_nmse": 0.12128075957298279,
+              "data_h_nmse": 0.12121973186731339,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.10534423589706421,
+                  0.05558544024825096,
+                  0.3156377077102661,
+                  0.0729655846953392,
+                  0.07601950317621231,
+                  0.32050228118896484,
+                  0.04540757089853287,
+                  0.1942758709192276,
+                  0.11294514685869217,
+                  0.08222172409296036,
+                  0.061993446201086044,
+                  0.05163545534014702,
+                  0.2862846851348877,
+                  0.3582669496536255,
+                  0.12552694976329803,
+                  0.08630914241075516
+                ]
+              ],
+              "mean_err_var": 0.1039264127612114,
+              "median_err_var": 0.10186713933944702,
+              "data_mean_err_var": 0.10398135334253311,
+              "data_median_err_var": 0.10183513164520264,
+              "data_empirical_mse": 0.10990742594003677,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.595620677922852e-07,
+                "no_eff_relative_rms": 1.0811471838678699e-05,
+                "llr_relative_rms": 2.5881068722810596e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 3,
+          "batch_size": 1,
+          "seed": 20260928,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.006147259540739e-07,
+                "no_eff_relative_rms": 2.8692926207440905e-05,
+                "llr_relative_rms": 3.9117541746236384e-05
+              }
+            },
+            "practical": {
+              "h_nmse": 0.1117340624332428,
+              "data_h_nmse": 0.11169371753931046,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.20408198237419128,
+                  0.05704788118600845,
+                  0.06069103255867958,
+                  0.057863593101501465,
+                  0.09619123488664627,
+                  0.05114554613828659,
+                  0.05899176001548767,
+                  0.4600488543510437,
+                  0.05261189863085747,
+                  0.08432973921298981,
+                  0.07869415730237961,
+                  0.09029406309127808,
+                  0.14330877363681793,
+                  0.03784579783678055,
+                  0.08946280181407928,
+                  0.12785524129867554
+                ]
+              ],
+              "mean_err_var": 0.1039264127612114,
+              "median_err_var": 0.10186713933944702,
+              "data_mean_err_var": 0.10398135334253311,
+              "data_median_err_var": 0.10183513164520264,
+              "data_empirical_mse": 0.12451986223459244,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.745825433223217e-07,
+                "no_eff_relative_rms": 1.799021083570551e-05,
+                "llr_relative_rms": 2.5606625058571808e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 4,
+          "batch_size": 1,
+          "seed": 20260929,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.335415037028724e-07,
+                "no_eff_relative_rms": 2.5718107281136326e-05,
+                "llr_relative_rms": 3.823407314484939e-05
+              }
+            },
+            "practical": {
+              "h_nmse": 0.1470199078321457,
+              "data_h_nmse": 0.14695782959461212,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.101258784532547,
+                  0.05185645446181297,
+                  0.09717748314142227,
+                  0.057787053287029266,
+                  0.04309229180216789,
+                  0.0752033069729805,
+                  0.085405632853508,
+                  0.440167099237442,
+                  0.3930342495441437,
+                  0.5555673241615295,
+                  0.053665127605199814,
+                  0.10315211117267609,
+                  0.04901820048689842,
+                  0.2484647035598755,
+                  0.04047507792711258,
+                  0.08674272149801254
+                ]
+              ],
+              "mean_err_var": 0.1039264127612114,
+              "median_err_var": 0.10186713933944702,
+              "data_mean_err_var": 0.10398135334253311,
+              "data_median_err_var": 0.10183513164520264,
+              "data_empirical_mse": 0.16225722432136536,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.961414899502415e-07,
+                "no_eff_relative_rms": 1.3747914636041969e-05,
+                "llr_relative_rms": 2.662676342879422e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 5,
+          "batch_size": 1,
+          "seed": 20260930,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 7.453717785210756e-07,
+                "no_eff_relative_rms": 2.134620262950193e-05,
+                "llr_relative_rms": 3.0189246899681166e-05
+              }
+            },
+            "practical": {
+              "h_nmse": 0.1387307494878769,
+              "data_h_nmse": 0.13862568140029907,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.11042871326208115,
+                  0.06835274398326874,
+                  0.09040406346321106,
+                  0.24101753532886505,
+                  0.13407321274280548,
+                  0.14337167143821716,
+                  0.2087632119655609,
+                  0.07481323927640915,
+                  0.1502634584903717,
+                  0.052451424300670624,
+                  0.11010802537202835,
+                  0.2349497377872467,
+                  0.10081535577774048,
+                  0.16131910681724548,
+                  0.190825417637825,
+                  0.18212772905826569
+                ]
+              ],
+              "mean_err_var": 0.1039264127612114,
+              "median_err_var": 0.10186713933944702,
+              "data_mean_err_var": 0.10398135334253311,
+              "data_median_err_var": 0.10183513164520264,
+              "data_empirical_mse": 0.12116049230098724,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.367652645167254e-07,
+                "no_eff_relative_rms": 1.3874329852114897e-05,
+                "llr_relative_rms": 1.9203096599085256e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 6,
+          "batch_size": 1,
+          "seed": 20260931,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.48149466542236e-07,
+                "no_eff_relative_rms": 2.74286085186759e-05,
+                "llr_relative_rms": 6.0514401411637664e-05
+              }
+            },
+            "practical": {
+              "h_nmse": 0.10678330808877945,
+              "data_h_nmse": 0.10674750059843063,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.08119029551744461,
+                  0.09818238765001297,
+                  0.09739476442337036,
+                  0.07466483861207962,
+                  0.07275956869125366,
+                  0.036708567291498184,
+                  0.1352192908525467,
+                  0.05588824301958084,
+                  0.04328371584415436,
+                  0.06550058722496033,
+                  0.03192475438117981,
+                  0.273907333612442,
+                  0.7132816910743713,
+                  0.16372516751289368,
+                  0.08024447411298752,
+                  0.11141877621412277
+                ]
+              ],
+              "mean_err_var": 0.1039264127612114,
+              "median_err_var": 0.10186713933944702,
+              "data_mean_err_var": 0.10398135334253311,
+              "data_median_err_var": 0.10183513164520264,
+              "data_empirical_mse": 0.1312400996685028,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.079227432564949e-07,
+                "no_eff_relative_rms": 1.595586581970565e-05,
+                "llr_relative_rms": 3.983287751907483e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 7,
+          "batch_size": 1,
+          "seed": 20260932,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.719394605170237e-07,
+                "no_eff_relative_rms": 2.010317621170543e-05,
+                "llr_relative_rms": 2.7962889362243004e-05
+              }
+            },
+            "practical": {
+              "h_nmse": 0.19896437227725983,
+              "data_h_nmse": 0.1987953633069992,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0696880891919136,
+                  0.0730334222316742,
+                  0.08755914121866226,
+                  0.6056254506111145,
+                  0.11950729787349701,
+                  0.6313404440879822,
+                  0.3856006860733032,
+                  0.1527014970779419,
+                  0.09569790959358215,
+                  0.058991964906454086,
+                  0.058095596730709076,
+                  0.11603467911481857,
+                  0.10806024074554443,
+                  0.06342589855194092,
+                  0.08757284283638,
+                  0.6633834838867188
+                ]
+              ],
+              "mean_err_var": 0.1039264127612114,
+              "median_err_var": 0.10186713933944702,
+              "data_mean_err_var": 0.10398135334253311,
+              "data_median_err_var": 0.10183513164520264,
+              "data_empirical_mse": 0.15871626138687134,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.174860232022183e-07,
+                "no_eff_relative_rms": 1.058476664184127e-05,
+                "llr_relative_rms": 1.941740083566401e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 8,
+          "batch_size": 1,
+          "seed": 20260933,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 8.243858928835834e-07,
+                "no_eff_relative_rms": 2.6608107873471454e-05,
+                "llr_relative_rms": 3.9597485738340765e-05
+              }
+            },
+            "practical": {
+              "h_nmse": 0.0685044378042221,
+              "data_h_nmse": 0.06841441243886948,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.05826212465763092,
+                  0.09535673260688782,
+                  0.03871030732989311,
+                  0.1334947943687439,
+                  0.05554630979895592,
+                  0.05184444785118103,
+                  0.04507683962583542,
+                  0.10714639723300934,
+                  0.11261015385389328,
+                  0.08919661492109299,
+                  0.053321219980716705,
+                  0.057618603110313416,
+                  0.09101948142051697,
+                  0.16514942049980164,
+                  0.052266061305999756,
+                  0.06218099966645241
+                ]
+              ],
+              "mean_err_var": 0.1039264127612114,
+              "median_err_var": 0.10186713933944702,
+              "data_mean_err_var": 0.10398135334253311,
+              "data_median_err_var": 0.10183513164520264,
+              "data_empirical_mse": 0.07437264919281006,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 7.284676826202485e-07,
+                "no_eff_relative_rms": 1.808555498428177e-05,
+                "llr_relative_rms": 2.8782545996364206e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 9,
+          "batch_size": 1,
+          "seed": 20260934,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.898792778680217e-07,
+                "no_eff_relative_rms": 1.6046456948970445e-05,
+                "llr_relative_rms": 3.710385499289259e-05
+              }
+            },
+            "practical": {
+              "h_nmse": 0.17767556011676788,
+              "data_h_nmse": 0.17753127217292786,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.2526497542858124,
+                  0.5092353820800781,
+                  0.06417234987020493,
+                  0.38442763686180115,
+                  0.10211577266454697,
+                  0.13793958723545074,
+                  0.07608799636363983,
+                  0.0797266960144043,
+                  0.6835838556289673,
+                  0.07506392151117325,
+                  0.10717610269784927,
+                  0.0681896060705185,
+                  0.07335575670003891,
+                  0.079803466796875,
+                  0.04834458976984024,
+                  0.08891396224498749
+                ]
+              ],
+              "mean_err_var": 0.1039264127612114,
+              "median_err_var": 0.10186713933944702,
+              "data_mean_err_var": 0.10398135334253311,
+              "data_median_err_var": 0.10183513164520264,
+              "data_empirical_mse": 0.15699060261249542,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.655494987877319e-07,
+                "no_eff_relative_rms": 9.548514753987547e-06,
+                "llr_relative_rms": 2.424604281259235e-05
+              }
+            }
+          }
+        }
+      ],
+      "batch_seeds": [
+        {
+          "first_channel": 0,
+          "batch_size": 1,
+          "seed": 20260925
+        },
+        {
+          "first_channel": 1,
+          "batch_size": 1,
+          "seed": 20260926
+        },
+        {
+          "first_channel": 2,
+          "batch_size": 1,
+          "seed": 20260927
+        },
+        {
+          "first_channel": 3,
+          "batch_size": 1,
+          "seed": 20260928
+        },
+        {
+          "first_channel": 4,
+          "batch_size": 1,
+          "seed": 20260929
+        },
+        {
+          "first_channel": 5,
+          "batch_size": 1,
+          "seed": 20260930
+        },
+        {
+          "first_channel": 6,
+          "batch_size": 1,
+          "seed": 20260931
+        },
+        {
+          "first_channel": 7,
+          "batch_size": 1,
+          "seed": 20260932
+        },
+        {
+          "first_channel": 8,
+          "batch_size": 1,
+          "seed": 20260933
+        },
+        {
+          "first_channel": 9,
+          "batch_size": 1,
+          "seed": 20260934
+        }
+      ],
+      "first_batch_power_diagnostic": {
+        "seed": 20260925,
+        "ebno_db": -6.0,
+        "n0": 3.6989083290100098,
+        "tx_power_per_ue": [
+          [
+            0.980654776096344,
+            1.0062499046325684,
+            0.9886904358863831,
+            1.006845235824585,
+            1.015476107597351,
+            0.9922618269920349,
+            0.9767856597900391,
+            0.9940476417541504,
+            0.9907737374305725,
+            0.9999999403953552,
+            1.0175594091415405,
+            1.0056546926498413,
+            1.0026785135269165,
+            1.0089285373687744,
+            0.981249988079071,
+            1.0008928775787354
+          ]
+        ],
+        "aggregate_tx_power": [
+          15.96875
+        ],
+        "tx_antenna_sum_power_per_ue": [
+          [
+            0.980654776096344,
+            1.0062499046325684,
+            0.9886904358863831,
+            1.006845235824585,
+            1.015476107597351,
+            0.9922618269920349,
+            0.9767856597900391,
+            0.9940476417541504,
+            0.9907737374305725,
+            0.9999999403953552,
+            1.0175594091415405,
+            1.0056546926498413,
+            1.0026785135269165,
+            1.0089285373687744,
+            0.981249988079071,
+            1.0008928775787354
+          ]
+        ],
+        "raw_channel_power_per_link": [
+          [
+            1.0,
+            1.0,
+            1.0,
+            0.9999998211860657,
+            0.9999999403953552,
+            0.9999998211860657,
+            1.0,
+            0.9999999403953552,
+            1.0,
+            1.0,
+            0.9999998211860657,
+            1.0,
+            1.0,
+            0.9999998211860657,
+            0.9999998211860657,
+            1.0
+          ]
+        ],
+        "effective_channel_power_per_ue": [
+          [
+            1.3633685111999512,
+            0.8846433162689209,
+            1.1401866674423218,
+            0.7756699919700623,
+            1.2842271327972412,
+            1.5861202478408813,
+            1.0742884874343872,
+            1.1269935369491577,
+            0.6156012415885925,
+            0.7854829430580139,
+            0.9575777053833008,
+            1.0880240201950073,
+            0.5739617347717285,
+            0.6908974647521973,
+            1.1962772607803345,
+            1.0647304058074951
+          ]
+        ],
+        "received_signal_power": [
+          16.136085510253906
+        ],
+        "measured_noise_power": [
+          3.6968207359313965
+        ],
+        "measured_noise_over_n0": [
+          0.9994356036186218
+        ],
+        "measured_rx_snr_db": [
+          6.399698257446289
+        ],
+        "reconstruction_relative_rms": 1.0466283839605239e-07,
+        "sampled_re_count": 32,
+        "sampled_min_singular_value": 7.619431018829346,
+        "sampled_max_condition_number": 3.0527846813201904,
+        "singular_channel_seen": false
+      }
+    },
+    {
+      "status": "complete",
+      "ebno_db": 0.0,
+      "n0": 0.9291237592697144,
+      "receivers": {
+        "perfect/sionna_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 0,
+          "bit_errors": 0,
+          "crc_failures": 0,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_bit_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "bler": 0.0,
+          "ber": 0.0
+        },
+        "perfect/custom_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 0,
+          "bit_errors": 0,
+          "crc_failures": 0,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_bit_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "bler": 0.0,
+          "ber": 0.0
+        },
+        "perfect/ep5": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 0,
+          "bit_errors": 0,
+          "crc_failures": 0,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "per_channel_bit_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "bler": 0.0,
+          "ber": 0.0
+        },
+        "practical/sionna_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 3,
+          "bit_errors": 1436,
+          "crc_failures": 3,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "per_channel_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1
+          ],
+          "per_channel_bit_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            561,
+            1,
+            0,
+            874
+          ],
+          "bler": 0.01875,
+          "ber": 0.002891430412371134
+        },
+        "practical/custom_lmmse": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 3,
+          "bit_errors": 1496,
+          "crc_failures": 3,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "per_channel_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1
+          ],
+          "per_channel_bit_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            632,
+            1,
+            0,
+            863
+          ],
+          "bler": 0.01875,
+          "ber": 0.0030122422680412373
+        },
+        "practical/ep5": {
+          "channels": 10,
+          "blocks": 160,
+          "bits": 496640,
+          "block_errors": 4,
+          "bit_errors": 1515,
+          "crc_failures": 4,
+          "undetected_block_errors": 0,
+          "crc_failures_without_payload_error": 0,
+          "per_ue_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1
+          ],
+          "per_channel_block_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            2,
+            0,
+            1
+          ],
+          "per_channel_bit_errors": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            635,
+            9,
+            0,
+            871
+          ],
+          "bler": 0.025,
+          "ber": 0.003050499355670103
+        }
+      },
+      "diagnostics": [
+        {
+          "first_channel": 0,
+          "batch_size": 1,
+          "seed": 20260925,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.524692596736713e-07,
+                "no_eff_relative_rms": 0.00010263384319841862,
+                "llr_relative_rms": 0.00015621710917912424
+              }
+            },
+            "practical": {
+              "h_nmse": 0.07597131282091141,
+              "data_h_nmse": 0.07592113316059113,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.027622347697615623,
+                  0.049124982208013535,
+                  0.03419886901974678,
+                  0.03510051220655441,
+                  0.4680338501930237,
+                  0.02129787765443325,
+                  0.021456824615597725,
+                  0.0812084823846817,
+                  0.04121417924761772,
+                  0.03332366794347763,
+                  0.025306109338998795,
+                  0.02682241052389145,
+                  0.04239737614989281,
+                  0.03325904533267021,
+                  0.02029791846871376,
+                  0.14766541123390198
+                ]
+              ],
+              "mean_err_var": 0.056421030312776566,
+              "median_err_var": 0.05601322650909424,
+              "data_mean_err_var": 0.05648595839738846,
+              "data_median_err_var": 0.05631071329116821,
+              "data_empirical_mse": 0.07690834254026413,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.483015002027969e-07,
+                "no_eff_relative_rms": 5.003989645047113e-05,
+                "llr_relative_rms": 7.943338277982548e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 1,
+          "batch_size": 1,
+          "seed": 20260926,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.003275530019891e-07,
+                "no_eff_relative_rms": 9.992743434850127e-05,
+                "llr_relative_rms": 0.00015574682038277388
+              }
+            },
+            "practical": {
+              "h_nmse": 0.051945846527814865,
+              "data_h_nmse": 0.05183728411793709,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.03310292959213257,
+                  0.017821725457906723,
+                  0.04867111146450043,
+                  0.021378887817263603,
+                  0.042658355087041855,
+                  0.0205557718873024,
+                  0.0507180318236351,
+                  0.24771350622177124,
+                  0.01702157035470009,
+                  0.03643331304192543,
+                  0.12893077731132507,
+                  0.036873288452625275,
+                  0.04402923956513405,
+                  0.029362235218286514,
+                  0.06338208168745041,
+                  0.031721897423267365
+                ]
+              ],
+              "mean_err_var": 0.056421030312776566,
+              "median_err_var": 0.05601322650909424,
+              "data_mean_err_var": 0.05648595839738846,
+              "data_median_err_var": 0.05631071329116821,
+              "data_empirical_mse": 0.05293812230229378,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.943076075709541e-07,
+                "no_eff_relative_rms": 4.955043914378621e-05,
+                "llr_relative_rms": 7.981391536304727e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 2,
+          "batch_size": 1,
+          "seed": 20260927,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.894738137612876e-07,
+                "no_eff_relative_rms": 7.204345456557348e-05,
+                "llr_relative_rms": 0.00014749985712114722
+              }
+            },
+            "practical": {
+              "h_nmse": 0.058820467442274094,
+              "data_h_nmse": 0.058758869767189026,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.046097248792648315,
+                  0.023008255288004875,
+                  0.1974940150976181,
+                  0.028072115033864975,
+                  0.02635578066110611,
+                  0.27421730756759644,
+                  0.017884621396660805,
+                  0.07198172062635422,
+                  0.03829561546444893,
+                  0.027160348370671272,
+                  0.026052096858620644,
+                  0.022187860682606697,
+                  0.09127862006425858,
+                  0.15611906349658966,
+                  0.046475935727357864,
+                  0.03176429867744446
+                ]
+              ],
+              "mean_err_var": 0.056421030312776566,
+              "median_err_var": 0.05601322650909424,
+              "data_mean_err_var": 0.05648595839738846,
+              "data_median_err_var": 0.05631071329116821,
+              "data_empirical_mse": 0.0532754547894001,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.784972358924279e-07,
+                "no_eff_relative_rms": 3.3911252103280276e-05,
+                "llr_relative_rms": 7.514454773627222e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 3,
+          "batch_size": 1,
+          "seed": 20260928,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.84243082357716e-07,
+                "no_eff_relative_rms": 0.00011142208677483723,
+                "llr_relative_rms": 0.0001542289974167943
+              }
+            },
+            "practical": {
+              "h_nmse": 0.06157081201672554,
+              "data_h_nmse": 0.06153152137994766,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.07566075026988983,
+                  0.02278929203748703,
+                  0.027167150750756264,
+                  0.023738902062177658,
+                  0.037658266723155975,
+                  0.01861570030450821,
+                  0.023022305220365524,
+                  0.39943012595176697,
+                  0.019911084324121475,
+                  0.03476092964410782,
+                  0.0289269108325243,
+                  0.03129648417234421,
+                  0.052518829703330994,
+                  0.015702543780207634,
+                  0.03569545969367027,
+                  0.047682322561740875
+                ]
+              ],
+              "mean_err_var": 0.056421030312776566,
+              "median_err_var": 0.05601322650909424,
+              "data_mean_err_var": 0.05648595839738846,
+              "data_median_err_var": 0.05631071329116821,
+              "data_empirical_mse": 0.06859738379716873,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.897220489714528e-07,
+                "no_eff_relative_rms": 5.488559327204712e-05,
+                "llr_relative_rms": 7.803401240380481e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 4,
+          "batch_size": 1,
+          "seed": 20260929,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.192975661178934e-07,
+                "no_eff_relative_rms": 9.923012839863077e-05,
+                "llr_relative_rms": 0.00015046399494167417
+              }
+            },
+            "practical": {
+              "h_nmse": 0.08606831729412079,
+              "data_h_nmse": 0.08600875735282898,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.03917878493666649,
+                  0.026264509186148643,
+                  0.035237159579992294,
+                  0.021871335804462433,
+                  0.018479008227586746,
+                  0.026296216994524002,
+                  0.03211082145571709,
+                  0.3375810980796814,
+                  0.20353305339813232,
+                  0.4049844443798065,
+                  0.020646438002586365,
+                  0.0428357869386673,
+                  0.020723285153508186,
+                  0.10165862739086151,
+                  0.01708529330790043,
+                  0.04482952505350113
+                ]
+              ],
+              "mean_err_var": 0.056421030312776566,
+              "median_err_var": 0.05601322650909424,
+              "data_mean_err_var": 0.05648595839738846,
+              "data_median_err_var": 0.05631071329116821,
+              "data_empirical_mse": 0.09496290236711502,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.16878480741434e-07,
+                "no_eff_relative_rms": 4.506076584220864e-05,
+                "llr_relative_rms": 7.689981430303305e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 5,
+          "batch_size": 1,
+          "seed": 20260930,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 7.161039548009285e-07,
+                "no_eff_relative_rms": 8.077835809672251e-05,
+                "llr_relative_rms": 0.00011800812353612855
+              }
+            },
+            "practical": {
+              "h_nmse": 0.06993034482002258,
+              "data_h_nmse": 0.06982933729887009,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.04412388056516647,
+                  0.027009526267647743,
+                  0.04340777546167374,
+                  0.20080485939979553,
+                  0.043081462383270264,
+                  0.04631984606385231,
+                  0.06611193716526031,
+                  0.03586909547448158,
+                  0.07133366167545319,
+                  0.02239183336496353,
+                  0.04212620481848717,
+                  0.19256018102169037,
+                  0.03887307271361351,
+                  0.06304169446229935,
+                  0.0723491832613945,
+                  0.08258066326379776
+                ]
+              ],
+              "mean_err_var": 0.056421030312776566,
+              "median_err_var": 0.05601322650909424,
+              "data_mean_err_var": 0.05648595839738846,
+              "data_median_err_var": 0.05631071329116821,
+              "data_empirical_mse": 0.06103167310357094,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.835294925622293e-07,
+                "no_eff_relative_rms": 4.065569009981118e-05,
+                "llr_relative_rms": 5.83532964810729e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 6,
+          "batch_size": 1,
+          "seed": 20260931,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.277504667195899e-07,
+                "no_eff_relative_rms": 0.00010513769666431472,
+                "llr_relative_rms": 0.0002398780343355611
+              }
+            },
+            "practical": {
+              "h_nmse": 0.060677677392959595,
+              "data_h_nmse": 0.06063949316740036,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.03326471522450447,
+                  0.045078057795763016,
+                  0.03759976103901863,
+                  0.029314087703824043,
+                  0.02831890620291233,
+                  0.014721998944878578,
+                  0.06932574510574341,
+                  0.017788566648960114,
+                  0.01487695425748825,
+                  0.02476484514772892,
+                  0.013393544591963291,
+                  0.11881750077009201,
+                  0.7445871829986572,
+                  0.06908460706472397,
+                  0.028002995997667313,
+                  0.04249238967895508
+                ]
+              ],
+              "mean_err_var": 0.056421030312776566,
+              "median_err_var": 0.05601322650909424,
+              "data_mean_err_var": 0.05648595839738846,
+              "data_median_err_var": 0.05631071329116821,
+              "data_empirical_mse": 0.07455287873744965,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.234499778656755e-07,
+                "no_eff_relative_rms": 5.035728099755943e-05,
+                "llr_relative_rms": 0.00012761370453517884
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 7,
+          "batch_size": 1,
+          "seed": 20260932,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.533344958370435e-07,
+                "no_eff_relative_rms": 7.684538286412135e-05,
+                "llr_relative_rms": 0.00010957977792713791
+              }
+            },
+            "practical": {
+              "h_nmse": 0.13203899562358856,
+              "data_h_nmse": 0.13187983632087708,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.028452396392822266,
+                  0.037923865020275116,
+                  0.04713381081819534,
+                  0.4237988293170929,
+                  0.05356748774647713,
+                  0.5410479307174683,
+                  0.1688489019870758,
+                  0.05497048422694206,
+                  0.03590726479887962,
+                  0.02324753627181053,
+                  0.024785470217466354,
+                  0.04050406068563461,
+                  0.038525111973285675,
+                  0.025603750720620155,
+                  0.03592463210225105,
+                  0.5837641954421997
+                ]
+              ],
+              "mean_err_var": 0.056421030312776566,
+              "median_err_var": 0.05601322650909424,
+              "data_mean_err_var": 0.05648595839738846,
+              "data_median_err_var": 0.05631071329116821,
+              "data_empirical_mse": 0.10529156029224396,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 6.52178584914509e-07,
+                "no_eff_relative_rms": 3.500554885249585e-05,
+                "llr_relative_rms": 5.784106906503439e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 8,
+          "batch_size": 1,
+          "seed": 20260933,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 7.986407126736594e-07,
+                "no_eff_relative_rms": 0.0001015445013763383,
+                "llr_relative_rms": 0.00015657393669243902
+              }
+            },
+            "practical": {
+              "h_nmse": 0.0281900092959404,
+              "data_h_nmse": 0.028105271980166435,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.022173458710312843,
+                  0.03603300079703331,
+                  0.017218392342329025,
+                  0.05571308732032776,
+                  0.02224189229309559,
+                  0.020529309287667274,
+                  0.017897427082061768,
+                  0.04342534765601158,
+                  0.04426881670951843,
+                  0.0404573529958725,
+                  0.029030416160821915,
+                  0.022198062390089035,
+                  0.03470279276371002,
+                  0.058713629841804504,
+                  0.020207855850458145,
+                  0.026267360895872116
+                ]
+              ],
+              "mean_err_var": 0.056421030312776566,
+              "median_err_var": 0.05601322650909424,
+              "data_mean_err_var": 0.05648595839738846,
+              "data_median_err_var": 0.05631071329116821,
+              "data_empirical_mse": 0.030552970245480537,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 7.769572789584345e-07,
+                "no_eff_relative_rms": 5.140179200679995e-05,
+                "llr_relative_rms": 8.329094998771325e-05
+              }
+            }
+          }
+        },
+        {
+          "first_channel": 9,
+          "batch_size": 1,
+          "seed": 20260934,
+          "csi": {
+            "perfect": {
+              "h_nmse": 0.0,
+              "data_h_nmse": 0.0,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              ],
+              "mean_err_var": 0.0,
+              "median_err_var": 0.0,
+              "data_mean_err_var": 0.0,
+              "data_median_err_var": 0.0,
+              "data_empirical_mse": 0.0,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.701934355784033e-07,
+                "no_eff_relative_rms": 6.142432539490983e-05,
+                "llr_relative_rms": 0.00014630018267780542
+              }
+            },
+            "practical": {
+              "h_nmse": 0.1282215118408203,
+              "data_h_nmse": 0.12808696925640106,
+              "data_h_nmse_per_channel_ue": [
+                [
+                  0.10918387770652771,
+                  0.19110655784606934,
+                  0.027208086103200912,
+                  0.34410375356674194,
+                  0.038743238896131516,
+                  0.07977066189050674,
+                  0.0374237485229969,
+                  0.031176021322607994,
+                  0.6460583209991455,
+                  0.029294323176145554,
+                  0.042149074375629425,
+                  0.03217051550745964,
+                  0.027921883389353752,
+                  0.03182534873485565,
+                  0.020491139963269234,
+                  0.031559888273477554
+                ]
+              ],
+              "mean_err_var": 0.056421030312776566,
+              "median_err_var": 0.05601322650909424,
+              "data_mean_err_var": 0.05648595839738846,
+              "data_median_err_var": 0.05631071329116821,
+              "data_empirical_mse": 0.11326709389686584,
+              "median_definition": "torch.median, lower middle for an even number of elements",
+              "lmmse_comparison": {
+                "x_hat_relative_rms": 5.709793526875728e-07,
+                "no_eff_relative_rms": 2.8208844014443457e-05,
+                "llr_relative_rms": 7.40500254323706e-05
+              }
+            }
+          }
+        }
+      ],
+      "batch_seeds": [
+        {
+          "first_channel": 0,
+          "batch_size": 1,
+          "seed": 20260925
+        },
+        {
+          "first_channel": 1,
+          "batch_size": 1,
+          "seed": 20260926
+        },
+        {
+          "first_channel": 2,
+          "batch_size": 1,
+          "seed": 20260927
+        },
+        {
+          "first_channel": 3,
+          "batch_size": 1,
+          "seed": 20260928
+        },
+        {
+          "first_channel": 4,
+          "batch_size": 1,
+          "seed": 20260929
+        },
+        {
+          "first_channel": 5,
+          "batch_size": 1,
+          "seed": 20260930
+        },
+        {
+          "first_channel": 6,
+          "batch_size": 1,
+          "seed": 20260931
+        },
+        {
+          "first_channel": 7,
+          "batch_size": 1,
+          "seed": 20260932
+        },
+        {
+          "first_channel": 8,
+          "batch_size": 1,
+          "seed": 20260933
+        },
+        {
+          "first_channel": 9,
+          "batch_size": 1,
+          "seed": 20260934
+        }
+      ],
+      "first_batch_power_diagnostic": {
+        "seed": 20260925,
+        "ebno_db": 0.0,
+        "n0": 0.9291237592697144,
+        "tx_power_per_ue": [
+          [
+            0.980654776096344,
+            1.0062499046325684,
+            0.9886904358863831,
+            1.006845235824585,
+            1.015476107597351,
+            0.9922618269920349,
+            0.9767856597900391,
+            0.9940476417541504,
+            0.9907737374305725,
+            0.9999999403953552,
+            1.0175594091415405,
+            1.0056546926498413,
+            1.0026785135269165,
+            1.0089285373687744,
+            0.981249988079071,
+            1.0008928775787354
+          ]
+        ],
+        "aggregate_tx_power": [
+          15.96875
+        ],
+        "tx_antenna_sum_power_per_ue": [
+          [
+            0.980654776096344,
+            1.0062499046325684,
+            0.9886904358863831,
+            1.006845235824585,
+            1.015476107597351,
+            0.9922618269920349,
+            0.9767856597900391,
+            0.9940476417541504,
+            0.9907737374305725,
+            0.9999999403953552,
+            1.0175594091415405,
+            1.0056546926498413,
+            1.0026785135269165,
+            1.0089285373687744,
+            0.981249988079071,
+            1.0008928775787354
+          ]
+        ],
+        "raw_channel_power_per_link": [
+          [
+            1.0,
+            1.0,
+            1.0,
+            0.9999998211860657,
+            0.9999999403953552,
+            0.9999998211860657,
+            1.0,
+            0.9999999403953552,
+            1.0,
+            1.0,
+            0.9999998211860657,
+            1.0,
+            1.0,
+            0.9999998211860657,
+            0.9999998211860657,
+            1.0
+          ]
+        ],
+        "effective_channel_power_per_ue": [
+          [
+            1.3633685111999512,
+            0.8846433162689209,
+            1.1401866674423218,
+            0.7756699919700623,
+            1.2842271327972412,
+            1.5861202478408813,
+            1.0742884874343872,
+            1.1269935369491577,
+            0.6156012415885925,
+            0.7854829430580139,
+            0.9575777053833008,
+            1.0880240201950073,
+            0.5739617347717285,
+            0.6908974647521973,
+            1.1962772607803345,
+            1.0647304058074951
+          ]
+        ],
+        "received_signal_power": [
+          16.136085510253906
+        ],
+        "measured_noise_power": [
+          0.9285992383956909
+        ],
+        "measured_noise_over_n0": [
+          0.9994354248046875
+        ],
+        "measured_rx_snr_db": [
+          12.399698257446289
+        ],
+        "reconstruction_relative_rms": 1.0466283839605239e-07,
+        "sampled_re_count": 32,
+        "sampled_min_singular_value": 7.619431018829346,
+        "sampled_max_condition_number": 3.0527846813201904,
+        "singular_channel_seen": false
+      }
+    }
+  ],
+  "codec_identity": {
+    "status": "pass",
+    "blocks": 16,
+    "demapper_n0": 0.001
+  },
+  "screening": {
+    "perfect/sionna_lmmse": {
+      "status": "unresolved",
+      "reasons": [
+        "Too few independent channels for acceptance.",
+        "High-Eb/N0 endpoint has not established low BLER; increase support or investigate a floor."
+      ],
+      "measured_crossing_brackets": [
+        [
+          -18.0,
+          -12.0
+        ]
+      ],
+      "target_bler": 0.1,
+      "low_bler_threshold": 0.01,
+      "minimum_channels": 100,
+      "high_endpoint_bler": 0.0,
+      "high_endpoint_channel_any_error_wilson_upper95": 0.2775327998628892,
+      "observed_monotone": true,
+      "significant_paired_increases": [],
+      "uncertainty_unit": "independent channel, not UE",
+      "neural_training_gate": "reference_pass_required; persistent floor requires PHY investigation"
+    },
+    "perfect/custom_lmmse": {
+      "status": "unresolved",
+      "reasons": [
+        "Too few independent channels for acceptance.",
+        "High-Eb/N0 endpoint has not established low BLER; increase support or investigate a floor."
+      ],
+      "measured_crossing_brackets": [
+        [
+          -18.0,
+          -12.0
+        ]
+      ],
+      "target_bler": 0.1,
+      "low_bler_threshold": 0.01,
+      "minimum_channels": 100,
+      "high_endpoint_bler": 0.0,
+      "high_endpoint_channel_any_error_wilson_upper95": 0.2775327998628892,
+      "observed_monotone": true,
+      "significant_paired_increases": [],
+      "uncertainty_unit": "independent channel, not UE",
+      "neural_training_gate": "reference_pass_required; persistent floor requires PHY investigation"
+    },
+    "perfect/ep5": {
+      "status": "unresolved",
+      "reasons": [
+        "Too few independent channels for acceptance.",
+        "High-Eb/N0 endpoint has not established low BLER; increase support or investigate a floor."
+      ],
+      "measured_crossing_brackets": [
+        [
+          -18.0,
+          -12.0
+        ]
+      ],
+      "target_bler": 0.1,
+      "low_bler_threshold": 0.01,
+      "minimum_channels": 100,
+      "high_endpoint_bler": 0.0,
+      "high_endpoint_channel_any_error_wilson_upper95": 0.2775327998628892,
+      "observed_monotone": true,
+      "significant_paired_increases": [],
+      "uncertainty_unit": "independent channel, not UE",
+      "neural_training_gate": "reference_pass_required; persistent floor requires PHY investigation"
+    },
+    "practical/sionna_lmmse": {
+      "status": "unresolved",
+      "reasons": [
+        "Too few independent channels for acceptance.",
+        "High-Eb/N0 endpoint has not established low BLER; increase support or investigate a floor."
+      ],
+      "measured_crossing_brackets": [
+        [
+          -12.0,
+          -6.0
+        ]
+      ],
+      "target_bler": 0.1,
+      "low_bler_threshold": 0.01,
+      "minimum_channels": 100,
+      "high_endpoint_bler": 0.01875,
+      "high_endpoint_channel_any_error_wilson_upper95": 0.6032218525388546,
+      "observed_monotone": true,
+      "significant_paired_increases": [],
+      "uncertainty_unit": "independent channel, not UE",
+      "neural_training_gate": "reference_pass_required; persistent floor requires PHY investigation"
+    },
+    "practical/custom_lmmse": {
+      "status": "unresolved",
+      "reasons": [
+        "Too few independent channels for acceptance.",
+        "High-Eb/N0 endpoint has not established low BLER; increase support or investigate a floor."
+      ],
+      "measured_crossing_brackets": [
+        [
+          -12.0,
+          -6.0
+        ]
+      ],
+      "target_bler": 0.1,
+      "low_bler_threshold": 0.01,
+      "minimum_channels": 100,
+      "high_endpoint_bler": 0.01875,
+      "high_endpoint_channel_any_error_wilson_upper95": 0.6032218525388546,
+      "observed_monotone": true,
+      "significant_paired_increases": [],
+      "uncertainty_unit": "independent channel, not UE",
+      "neural_training_gate": "reference_pass_required; persistent floor requires PHY investigation"
+    },
+    "practical/ep5": {
+      "status": "unresolved",
+      "reasons": [
+        "Too few independent channels for acceptance.",
+        "High-Eb/N0 endpoint has not established low BLER; increase support or investigate a floor."
+      ],
+      "measured_crossing_brackets": [
+        [
+          -12.0,
+          -6.0
+        ]
+      ],
+      "target_bler": 0.1,
+      "low_bler_threshold": 0.01,
+      "minimum_channels": 100,
+      "high_endpoint_bler": 0.025,
+      "high_endpoint_channel_any_error_wilson_upper95": 0.6032218525388546,
+      "observed_monotone": true,
+      "significant_paired_increases": [],
+      "uncertainty_unit": "independent channel, not UE",
+      "neural_training_gate": "reference_pass_required; persistent floor requires PHY investigation"
+    }
+  }
+}

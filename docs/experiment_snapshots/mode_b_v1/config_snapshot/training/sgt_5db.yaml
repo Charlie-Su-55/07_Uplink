@@ -1,0 +1,39 @@
+experiment:
+  name: "sgt_256rx_16ue_estR_5db"
+
+system_config: "configs/system/uma_16ue_256rx.yaml"
+
+receiver:
+  channel_source: "h_true"
+  covariance_source: "ruu_hat"
+
+model:
+  bits_per_symbol: 4
+  d_model: 128
+  num_heads: 8
+  num_layers: 8
+  ffn_hidden: 128
+  dropout: 0.1
+
+training:
+  snr_db: 5.0
+  num_channel_batches: 2000
+
+  re_per_channel: 64
+  graph_batch_size: 8
+
+  learning_rate: 0.0001
+  min_learning_rate: 0.00001
+  warmup_steps: 500
+  weight_decay: 0.00001
+  grad_clip: 5.0
+
+  validation_interval_channels: 50
+  num_validation_channel_batches: 32
+  validation_re_per_channel: 64
+  validation_batch_size: 16
+
+  use_bfloat16: true
+
+  early_stopping_patience: 12
+  early_stopping_min_delta: 0.00005
