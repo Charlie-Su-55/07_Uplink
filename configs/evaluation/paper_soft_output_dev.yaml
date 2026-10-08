@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "reference_config": "configs/system/uma_16ue_256rx_paper_reference.yaml",
+  "snapshot_dir": "docs/experiment_snapshots/mode_b_v1",
+  "covariance_path": "data/cache/paper_reference_ft_cov.pt",
+  "checkpoints": {
+    "gt_best": {"arch": "gt_ep", "path": "ckp/paper_reference_gt_ep_smoke300/best.pth"},
+    "gt_last": {"arch": "gt_ep", "path": "ckp/paper_reference_gt_ep_smoke300/last.pth"},
+    "detr_best": {"arch": "detr_ep", "path": "ckp/paper_reference_detr_ep_smoke300/best.pth"},
+    "detr_last": {"arch": "detr_ep", "path": "ckp/paper_reference_detr_ep_smoke300/last.pth"}
+  },
+  "splits": {
+    "calibration": {"start_seed": 81000000, "channels": 32},
+    "development": {"start_seed": 82000000, "channels": 64}
+  },
+  "ebno_dbs": [-12.0, -10.5, -9.0],
+  "batch_size": 1,
+  "re_chunk": 128,
+  "runtime": {
+    "device": "cuda:0",
+    "precision": "single",
+    "torch_threads": 2,
+    "deterministic": true,
+    "allow_tf32": false,
+    "expected_sionna": "2.0.1",
+    "expected_torch": "2.11.0"
+  },
+  "outputs": {
+    "cache_root": "data/cache/paper_soft_output_dev",
+    "results_root": "results/paper_soft_output_dev",
+    "calibration_root": "results/paper_soft_output_calibration",
+    "logs_root": "logs/paper_soft_output_dev"
+  },
+  "calibration": {
+    "method": "bounded_derivative_bisection",
+    "alpha_min": 0.05,
+    "alpha_max": 8.0,
+    "alpha_tolerance": 0.00001,
+    "gradient_tolerance": 0.0000001,
+    "max_iterations": 40,
+    "precision": "float64"
+  },
+  "bootstrap": {"replicates": 2000, "seed": 83000000, "confidence": 0.95},
+  "features": {"residual_atol": 0.00001, "residual_rtol": 0.000005, "ce_epsilon": 0.000000000001}
+}
