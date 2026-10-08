@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "source_cache": "data/cache/paper_soft_output_dev/softdev_20261008_dev1",
+  "source_archive": "docs/experiment_snapshots/softdev_20261008_dev1",
+  "frozen_archive": "docs/experiment_snapshots/cachedscale_20261008_dev1",
+  "frozen_training_root": "ckp/cached_llr_scaling/cachedscale_20261008_dev1",
+  "historical_archive": "docs/experiment_snapshots/mode_b_v1",
+  "protocol": {
+    "train_channels": 24,
+    "validation_channels": 8,
+    "development_channels": 64,
+    "ebno_dbs": [
+      -12,
+      -10.5,
+      -9
+    ]
+  },
+  "confirmation": {
+    "channels": 512,
+    "start_seed": 90000000,
+    "ebno_dbs": [
+      -12,
+      -11.5,
+      -11,
+      -10.5,
+      -10,
+      -9.5,
+      -9
+    ],
+    "checkpoint_selection": "best",
+    "fixed_budget": true,
+    "save_raw_tensors": false
+  },
+  "candidates": [
+    "full_mlp",
+    "mlp_without_residual",
+    "mlp_without_eta",
+    "mlp_without_both",
+    "affine_all_features"
+  ],
+  "features": {
+    "names": [
+      "mean_real",
+      "mean_imag",
+      "log_variance",
+      "log_gram_diagonal",
+      "log_residual",
+      "eta"
+    ],
+    "log_epsilon": 1e-08,
+    "log_clip": [
+      -18,
+      18
+    ],
+    "raw_clip": [
+      -20,
+      20
+    ],
+    "normalization_epsilon": 1e-06,
+    "standardized_clip": [
+      -8,
+      8
+    ],
+    "edge_epsilon": 1e-08,
+    "edge_clip": [
+      -1,
+      1
+    ]
+  },
+  "model": {
+    "hidden": 32,
+    "layers": 2,
+    "alpha_min": 0.05,
+    "alpha_max": 8.0,
+    "saturation_tolerance": 1e-05
+  },
+  "training": {
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "steps": 3000,
+    "re_per_step": 256,
+    "validate_every": 100,
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "grad_clip": 1.0,
+    "validation_chunk": 256
+  },
+  "constant_fit": {
+    "method": "bounded_derivative_bisection",
+    "alpha_min": 0.05,
+    "alpha_max": 8.0,
+    "alpha_tolerance": 1e-05,
+    "gradient_tolerance": 1e-07,
+    "max_iterations": 40,
+    "precision": "float64"
+  },
+  "noise_conditioning": {
+    "coordinate": "log_n0",
+    "interpolation": "linear_log_alpha",
+    "outside_range": "endpoint_hold",
+    "n0_rtol": 1e-06,
+    "n0_atol": 1e-09
+  },
+  "bootstrap": {
+    "replicates": 2000,
+    "seed": 85000000,
+    "confidence": 0.95
+  },
+  "targets": {
+    "bler": [
+      0.1,
+      0.05
+    ],
+    "interpolation": "linear_ebno_log10_bler",
+    "outside_range": "unresolved",
+    "multiple_crossings": "unresolved"
+  },
+  "runtime": {
+    "device": "cuda:0",
+    "precision": "single",
+    "torch_threads": 2,
+    "deterministic": true,
+    "allow_tf32": false,
+    "expected_sionna": "2.0.1",
+    "expected_torch": "2.11.0"
+  },
+  "outputs": {
+    "training_root": "ckp/llr_mechanism_controls",
+    "results_root": "results/llr_mechanism_controls",
+    "logs_root": "logs/llr_mechanism_controls"
+  },
+  "smoke": {
+    "training_steps": 2,
+    "training_seed": 42,
+    "ebno_db": -10.5
+  },
+  "evaluation_chunk": 256,
+  "receiver": {
+    "re_chunk": 128,
+    "residual_atol": 1e-05,
+    "residual_rtol": 5e-06,
+    "ce_epsilon": 1e-12
+  },
+  "related_work": {
+    "doi": "10.1109/ICC59461.2026.11587582",
+    "title": "Learning to Refine LLRs: Modular Neural Augmentation for MIMO-OFDM Receivers",
+    "full_text_comparison": "pending"
+  },
+  "scale_distribution": {
+    "bin_edges": [
+      0.05,
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      1,
+      1.5,
+      2,
+      4,
+      8
+    ],
+    "convention": "left_closed_right_open_last_closed"
+  }
+}
