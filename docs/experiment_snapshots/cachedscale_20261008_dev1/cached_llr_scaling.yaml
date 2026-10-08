@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "source_cache": "data/cache/paper_soft_output_dev/softdev_20261008_dev1",
+  "source_archive": "docs/experiment_snapshots/softdev_20261008_dev1",
+  "protocol": {"train_channels": 24, "validation_channels": 8, "development_channels": 64, "ebno_dbs": [-12, -10.5, -9]},
+  "candidates": ["affine", "mlp", "graph", "mlp_no_residual_eta"],
+  "features": {
+    "names": ["mean_real", "mean_imag", "log_variance", "log_gram_diagonal", "log_residual", "eta"],
+    "log_epsilon": 1e-8, "log_clip": [-18.0, 18.0], "raw_clip": [-20.0, 20.0],
+    "normalization_epsilon": 1e-6, "standardized_clip": [-8.0, 8.0],
+    "edge_epsilon": 1e-8, "edge_clip": [-1.0, 1.0]
+  },
+  "model": {"hidden": 32, "layers": 2, "alpha_min": 0.05, "alpha_max": 8.0, "saturation_tolerance": 1e-5},
+  "training": {"seeds": [42, 43, 44], "steps": 1000, "re_per_step": 256, "validate_every": 100, "optimizer": "AdamW", "learning_rate": 0.001, "weight_decay": 0.0001, "grad_clip": 1.0, "validation_chunk": 256},
+  "constant_fit": {"method": "bounded_derivative_bisection", "alpha_min": 0.05, "alpha_max": 8.0, "alpha_tolerance": 1e-5, "gradient_tolerance": 1e-7, "max_iterations": 40, "precision": "float64"},
+  "bootstrap": {"replicates": 2000, "seed": 84000000, "confidence": 0.95},
+  "runtime": {"device": "cuda:0", "precision": "single", "torch_threads": 2, "deterministic": true, "allow_tf32": false, "expected_sionna": "2.0.1", "expected_torch": "2.11.0"},
+  "outputs": {"training_root": "ckp/cached_llr_scaling", "results_root": "results/cached_llr_scaling", "logs_root": "logs/cached_llr_scaling"},
+  "smoke": {"training_steps": 2, "training_seed": 42, "ebno_db": -10.5},
+  "evaluation_chunk": 256
+}

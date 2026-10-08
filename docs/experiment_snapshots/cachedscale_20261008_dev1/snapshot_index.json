@@ -1,0 +1,73 @@
+{
+  "run_id": "cachedscale_20261008_dev1",
+  "created_utc": "2026-10-08T20:21:34.397593+00:00",
+  "snapshot_code_commit": "12d8335c026ba0f609ec6f521513ffc82845ce5e",
+  "verification": {
+    "evaluation_complete": true,
+    "development_mode": true,
+    "training_complete": true,
+    "raw_redecode_passed": true,
+    "positive_scale_hard_bits_unchanged": true,
+    "independent_channels_64": true,
+    "channel_ebno_observations_192": true,
+    "training_evaluation_identity_matches": true
+  },
+  "training_runs": 12,
+  "files": [
+    {
+      "source": "results/cached_llr_scaling/cachedscale_20261008_dev1/summary.json",
+      "archived": "summary.json",
+      "bytes": 1555762,
+      "sha256": "e56401d9ef46c2a3ed3f40f00cd7bc39e6be0ce597f6e3e2c3b96a1f9c37aac7"
+    },
+    {
+      "source": "results/cached_llr_scaling/cachedscale_20261008_dev1/summary.csv",
+      "archived": "summary.csv",
+      "bytes": 35475,
+      "sha256": "db24802bb90f0e5e0e2fa320c7ef9d687d95cd92e1f2ea9f5303ed0ffc54634f"
+    },
+    {
+      "source": "results/cached_llr_scaling/cachedscale_20261008_dev1/decision_summary.json",
+      "archived": "decision_summary.json",
+      "bytes": 40186,
+      "sha256": "9214f509dc43c7925e8575dfb1c673d2dc1ec0f99ddfe2d948815f85c07b98c1"
+    },
+    {
+      "source": "results/cached_llr_scaling/cachedscale_20261008_dev1/channels.jsonl",
+      "archived": "channels.jsonl",
+      "bytes": 11052736,
+      "sha256": "917b266f64bb150042645fd0158fa0f731756514b99122867e95de7083693509"
+    },
+    {
+      "source": "ckp/cached_llr_scaling/cachedscale_20261008_dev1/manifest.json",
+      "archived": "training_manifest.json",
+      "bytes": 1480114,
+      "sha256": "f4048c872cd58e89345ee63915f99987154afb12c19db280e7154454b1747e12"
+    },
+    {
+      "source": "logs/cached_llr_scaling/cachedscale_20261008_dev1/runner_status.txt",
+      "archived": "runner_status.txt",
+      "bytes": 213,
+      "sha256": "6eba7150da6b1f5a3e4299113a0657cee2112c980e8f6e1e63cf54fd3bedcebf"
+    },
+    {
+      "source": "logs/cached_llr_scaling/cachedscale_20261008_dev1/stages.tsv",
+      "archived": "stages.tsv",
+      "bytes": 805,
+      "sha256": "bb128727f2bfed0b83a77d9b267c87d57ed13e378e8ae5995026c8706fd74081"
+    },
+    {
+      "source": "logs/cached_llr_scaling/cachedscale_20261008_dev1/runner.log",
+      "archived": "runner_log.txt",
+      "bytes": 56417,
+      "sha256": "b26517de100c002171f586e41a2cae7ee7ecad7ed08803cabd7f16d8502ec22d"
+    },
+    {
+      "source": "configs/evaluation/cached_llr_scaling.yaml",
+      "archived": "cached_llr_scaling.yaml",
+      "bytes": 1695,
+      "sha256": "305a53c111d91e469cb53d803db547afb8a992a1a0f49d6c2f9e311e764e0323"
+    }
+  ],
+  "note": "Original report bytes preserved; no weights or cached/decoded tensors included."
+}

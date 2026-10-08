@@ -1,0 +1,10 @@
+run_id	pid	stage	state	elapsed_seconds	exit_code	utc
+cachedscale_20261008_dev1	1447920	preflight	complete	45	0	2026-10-08T16:23:45Z
+cachedscale_20261008_dev1	1447920	lightweight_tests	complete	3	0	2026-10-08T16:23:48Z
+cachedscale_20261008_dev1	1447920	smoke_train	complete	27	0	2026-10-08T16:24:15Z
+cachedscale_20261008_dev1	1447920	smoke_evaluate	complete	24	0	2026-10-08T16:24:39Z
+cachedscale_20261008_dev1	1447920	smoke_check	complete	26	0	2026-10-08T16:25:05Z
+cachedscale_20261008_dev1	1447920	development_train	complete	93	0	2026-10-08T16:26:38Z
+cachedscale_20261008_dev1	1447920	development_evaluate	complete	147	0	2026-10-08T16:29:05Z
+cachedscale_20261008_dev1	1447920	development_check	complete	32	0	2026-10-08T16:29:37Z
+cachedscale_20261008_dev1	1447920	summary	complete	0	0	2026-10-08T16:29:37Z

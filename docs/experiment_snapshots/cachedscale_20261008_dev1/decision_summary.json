@@ -1,0 +1,1339 @@
+{
+  "comparisons": [
+    {
+      "comparison": "graph_vs_mlp",
+      "checkpoint_type": "best",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0003255208333333333,
+          "delta_bce_nats": 0.0005119753254718524,
+          "bler_interval": [
+            -0.0016276041666666667,
+            0.0006510416666666666
+          ],
+          "bce_interval": [
+            8.727770504860202e-05,
+            0.0010001337062093706
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": 0.0003255208333333333,
+          "delta_bce_nats": -0.0005605593180554205,
+          "bler_interval": [
+            -0.0006510416666666666,
+            0.0016276041666666667
+          ],
+          "bce_interval": [
+            -0.0010178382915651345,
+            -0.0001572286385001535
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": true
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0006510416666666666,
+          "delta_bce_nats": 0.0004505240785581833,
+          "bler_interval": [
+            -0.001953125,
+            0.0006510416666666666
+          ],
+          "bce_interval": [
+            0.00012776502693997473,
+            0.0008793405564045461
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 2,
+      "bce_improved_seeds": 1,
+      "bler_worsened_seeds": 1,
+      "bce_worsened_seeds": 2,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": false,
+      "all_three_seeds_bce_improved": false
+    },
+    {
+      "comparison": "graph_vs_mlp",
+      "checkpoint_type": "last",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": 0.0,
+          "delta_bce_nats": 0.0010447778579752841,
+          "bler_interval": [
+            -0.0009765625,
+            0.0009765625
+          ],
+          "bce_interval": [
+            0.00028874758538985243,
+            0.001961650469212139
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": 0.0003255208333333333,
+          "delta_bce_nats": -0.0005605593180554205,
+          "bler_interval": [
+            -0.0006510416666666666,
+            0.0016276041666666667
+          ],
+          "bce_interval": [
+            -0.0010178382915651345,
+            -0.0001572286385001535
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": true
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0003255208333333333,
+          "delta_bce_nats": 0.0003984405290686864,
+          "bler_interval": [
+            -0.0016276041666666667,
+            0.0006510416666666666
+          ],
+          "bce_interval": [
+            0.000102074200199244,
+            0.0007810286189151639
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 1,
+      "bce_improved_seeds": 1,
+      "bler_worsened_seeds": 1,
+      "bce_worsened_seeds": 2,
+      "bler_tied_seeds": 1,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": false,
+      "all_three_seeds_bce_improved": false
+    },
+    {
+      "comparison": "mlp_vs_affine",
+      "checkpoint_type": "best",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0016276041666666667,
+          "delta_bce_nats": -0.004900446251920303,
+          "bler_interval": [
+            -0.0032552083333333335,
+            0.0
+          ],
+          "bce_interval": [
+            -0.00688413996001108,
+            -0.003328352023588075
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0026041666666666665,
+          "delta_bce_nats": -0.0043130814052683274,
+          "bler_interval": [
+            -0.004557291666666667,
+            -0.0009765625
+          ],
+          "bce_interval": [
+            -0.005709950758097436,
+            -0.0032288897382503506
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0035807291666666665,
+          "delta_bce_nats": -0.0050795994695840225,
+          "bler_interval": [
+            -0.005533854166666667,
+            -0.0019449869791667111
+          ],
+          "bce_interval": [
+            -0.006913492718259986,
+            -0.0036425187596940177
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 3,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 0,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": true
+    },
+    {
+      "comparison": "mlp_vs_affine",
+      "checkpoint_type": "last",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0016276041666666667,
+          "delta_bce_nats": -0.004900446251920303,
+          "bler_interval": [
+            -0.0032552083333333335,
+            0.0
+          ],
+          "bce_interval": [
+            -0.00688413996001108,
+            -0.003328352023588075
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0026041666666666665,
+          "delta_bce_nats": -0.0043130814052683274,
+          "bler_interval": [
+            -0.004557291666666667,
+            -0.0009765625
+          ],
+          "bce_interval": [
+            -0.005709950758097436,
+            -0.0032288897382503506
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0035807291666666665,
+          "delta_bce_nats": -0.0050795994695840225,
+          "bler_interval": [
+            -0.005533854166666667,
+            -0.0019449869791667111
+          ],
+          "bce_interval": [
+            -0.006913492718259986,
+            -0.0036425187596940177
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 3,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 0,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": true
+    },
+    {
+      "comparison": "mlp_vs_no_residual_eta",
+      "checkpoint_type": "best",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0006510416666666666,
+          "delta_bce_nats": -0.004263489206544535,
+          "bler_interval": [
+            -0.0026041666666666665,
+            0.0013020833333333333
+          ],
+          "bce_interval": [
+            -0.006175820346318135,
+            -0.002726138988331941
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.001953125,
+          "delta_bce_nats": -0.002529676289131749,
+          "bler_interval": [
+            -0.00390625,
+            0.0
+          ],
+          "bce_interval": [
+            -0.0032154988398058544,
+            -0.0019734657324537064
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0016276041666666667,
+          "delta_bce_nats": -0.003737812524681151,
+          "bler_interval": [
+            -0.00390625,
+            0.0003255208333333333
+          ],
+          "bce_interval": [
+            -0.0051502423224829156,
+            -0.0025819296832966052
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 3,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 0,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": true
+    },
+    {
+      "comparison": "mlp_vs_no_residual_eta",
+      "checkpoint_type": "last",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0013020833333333333,
+          "delta_bce_nats": -0.0033579375221482505,
+          "bler_interval": [
+            -0.0032552083333333335,
+            0.0003255208333333333
+          ],
+          "bce_interval": [
+            -0.0040644815143169675,
+            -0.0027613747861088907
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0016276041666666667,
+          "delta_bce_nats": -0.004221563967486603,
+          "bler_interval": [
+            -0.00390625,
+            0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.005897738083718837,
+            -0.002864191250685998
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0016276041666666667,
+          "delta_bce_nats": -0.003622336297847533,
+          "bler_interval": [
+            -0.00390625,
+            0.0003255208333333333
+          ],
+          "bce_interval": [
+            -0.004919900277203843,
+            -0.002559249919872606
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 3,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 0,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": true
+    },
+    {
+      "comparison": "affine_vs_global_train24",
+      "checkpoint_type": "best",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.001953125,
+          "delta_bce_nats": -5.6928265227030355e-05,
+          "bler_interval": [
+            -0.0035807291666666665,
+            -0.0003255208333333333
+          ],
+          "bce_interval": [
+            -0.0007980269724318283,
+            0.000691305241136034
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0013020833333333333,
+          "delta_bce_nats": 0.0004047957488299528,
+          "bler_interval": [
+            -0.0029296875,
+            0.0
+          ],
+          "bce_interval": [
+            -0.00041220810907982407,
+            0.001283404617081619
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0006510416666666666,
+          "delta_bce_nats": 0.00034363195149720395,
+          "bler_interval": [
+            -0.001953125,
+            0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.00046272571201491473,
+            0.00118193590211193
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 1,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 2,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": false
+    },
+    {
+      "comparison": "affine_vs_global_train24",
+      "checkpoint_type": "last",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.001953125,
+          "delta_bce_nats": -5.6928265227030355e-05,
+          "bler_interval": [
+            -0.0035807291666666665,
+            -0.0003255208333333333
+          ],
+          "bce_interval": [
+            -0.0007980269724318283,
+            0.000691305241136034
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0013020833333333333,
+          "delta_bce_nats": 0.0004047957488299528,
+          "bler_interval": [
+            -0.0029296875,
+            0.0
+          ],
+          "bce_interval": [
+            -0.00041220810907982407,
+            0.001283404617081619
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0006510416666666666,
+          "delta_bce_nats": 0.00034363195149720395,
+          "bler_interval": [
+            -0.001953125,
+            0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.00046272571201491473,
+            0.00118193590211193
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 1,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 2,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": false
+    },
+    {
+      "comparison": "affine_vs_per_bit_train24",
+      "checkpoint_type": "best",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0009765625,
+          "delta_bce_nats": -0.00011119458644532867,
+          "bler_interval": [
+            -0.0026041666666666665,
+            0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.0007779001090274081,
+            0.0005080764410128168
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0003255208333333333,
+          "delta_bce_nats": 0.0003505294276116545,
+          "bler_interval": [
+            -0.001953125,
+            0.0009765625
+          ],
+          "bce_interval": [
+            -0.00032508993449746165,
+            0.0010271969472449756
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": 0.0003255208333333333,
+          "delta_bce_nats": 0.0002893656302789056,
+          "bler_interval": [
+            -0.0006510416666666666,
+            0.0016276041666666667
+          ],
+          "bce_interval": [
+            -0.0003870836491852308,
+            0.0009511345260048089
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 2,
+      "bce_improved_seeds": 1,
+      "bler_worsened_seeds": 1,
+      "bce_worsened_seeds": 2,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": false,
+      "all_three_seeds_bce_improved": false
+    },
+    {
+      "comparison": "affine_vs_per_bit_train24",
+      "checkpoint_type": "last",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0009765625,
+          "delta_bce_nats": -0.00011119458644532867,
+          "bler_interval": [
+            -0.0026041666666666665,
+            0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.0007779001090274081,
+            0.0005080764410128168
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0003255208333333333,
+          "delta_bce_nats": 0.0003505294276116545,
+          "bler_interval": [
+            -0.001953125,
+            0.0009765625
+          ],
+          "bce_interval": [
+            -0.00032508993449746165,
+            0.0010271969472449756
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": 0.0003255208333333333,
+          "delta_bce_nats": 0.0002893656302789056,
+          "bler_interval": [
+            -0.0006510416666666666,
+            0.0016276041666666667
+          ],
+          "bce_interval": [
+            -0.0003870836491852308,
+            0.0009511345260048089
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 2,
+      "bce_improved_seeds": 1,
+      "bler_worsened_seeds": 1,
+      "bce_worsened_seeds": 2,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": false,
+      "all_three_seeds_bce_improved": false
+    },
+    {
+      "comparison": "mlp_vs_global_train24",
+      "checkpoint_type": "best",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0035807291666666665,
+          "delta_bce_nats": -0.004957374517147333,
+          "bler_interval": [
+            -0.005859375,
+            -0.0013020833333333333
+          ],
+          "bce_interval": [
+            -0.006626320057062273,
+            -0.0035975901720506987
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.00390625,
+          "delta_bce_nats": -0.003908285656438375,
+          "bler_interval": [
+            -0.006184895833333333,
+            -0.0016276041666666667
+          ],
+          "bce_interval": [
+            -0.004862189899767428,
+            -0.0031248794534855136
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.004231770833333333,
+          "delta_bce_nats": -0.004735967518086819,
+          "bler_interval": [
+            -0.006510416666666667,
+            -0.001953125
+          ],
+          "bce_interval": [
+            -0.006144617198014475,
+            -0.003621363683838656
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 3,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 0,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": true
+    },
+    {
+      "comparison": "mlp_vs_global_train24",
+      "checkpoint_type": "last",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0035807291666666665,
+          "delta_bce_nats": -0.004957374517147333,
+          "bler_interval": [
+            -0.005859375,
+            -0.0013020833333333333
+          ],
+          "bce_interval": [
+            -0.006626320057062273,
+            -0.0035975901720506987
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.00390625,
+          "delta_bce_nats": -0.003908285656438375,
+          "bler_interval": [
+            -0.006184895833333333,
+            -0.0016276041666666667
+          ],
+          "bce_interval": [
+            -0.004862189899767428,
+            -0.0031248794534855136
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.004231770833333333,
+          "delta_bce_nats": -0.004735967518086819,
+          "bler_interval": [
+            -0.006510416666666667,
+            -0.001953125
+          ],
+          "bce_interval": [
+            -0.006144617198014475,
+            -0.003621363683838656
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 3,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 0,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": true
+    },
+    {
+      "comparison": "mlp_vs_per_bit_train24",
+      "checkpoint_type": "best",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0026041666666666665,
+          "delta_bce_nats": -0.0050116408383656325,
+          "bler_interval": [
+            -0.0048828125,
+            -0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.006994725573729339,
+            -0.003422890812575581
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0029296875,
+          "delta_bce_nats": -0.003962551977656673,
+          "bler_interval": [
+            -0.005208333333333333,
+            -0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.00524927111978937,
+            -0.002995297856901988
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0032552083333333335,
+          "delta_bce_nats": -0.004790233839305117,
+          "bler_interval": [
+            -0.005533854166666667,
+            -0.0009765625
+          ],
+          "bce_interval": [
+            -0.006509744487400322,
+            -0.003437139770594368
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 3,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 0,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": true
+    },
+    {
+      "comparison": "mlp_vs_per_bit_train24",
+      "checkpoint_type": "last",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0026041666666666665,
+          "delta_bce_nats": -0.0050116408383656325,
+          "bler_interval": [
+            -0.0048828125,
+            -0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.006994725573729339,
+            -0.003422890812575581
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0029296875,
+          "delta_bce_nats": -0.003962551977656673,
+          "bler_interval": [
+            -0.005208333333333333,
+            -0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.00524927111978937,
+            -0.002995297856901988
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0032552083333333335,
+          "delta_bce_nats": -0.004790233839305117,
+          "bler_interval": [
+            -0.005533854166666667,
+            -0.0009765625
+          ],
+          "bce_interval": [
+            -0.006509744487400322,
+            -0.003437139770594368
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 3,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 0,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": true
+    },
+    {
+      "comparison": "graph_vs_global_train24",
+      "checkpoint_type": "best",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.00390625,
+          "delta_bce_nats": -0.00444539919167548,
+          "bler_interval": [
+            -0.006184895833333333,
+            -0.0016276041666666667
+          ],
+          "bce_interval": [
+            -0.005712750594933921,
+            -0.003376485960296016
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0035807291666666665,
+          "delta_bce_nats": -0.004468844974493796,
+          "bler_interval": [
+            -0.006184895833333333,
+            -0.0013020833333333333
+          ],
+          "bce_interval": [
+            -0.005677892206430256,
+            -0.003480990182778572
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0048828125,
+          "delta_bce_nats": -0.004285443439528636,
+          "bler_interval": [
+            -0.0078125,
+            -0.0022786458333333335
+          ],
+          "bce_interval": [
+            -0.005376262763334988,
+            -0.003348788510127799
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 3,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 0,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": true
+    },
+    {
+      "comparison": "graph_vs_global_train24",
+      "checkpoint_type": "last",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0035807291666666665,
+          "delta_bce_nats": -0.0039125966591720485,
+          "bler_interval": [
+            -0.005859375,
+            -0.0013020833333333333
+          ],
+          "bce_interval": [
+            -0.004845562382708008,
+            -0.003131923191618826
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0035807291666666665,
+          "delta_bce_nats": -0.004468844974493796,
+          "bler_interval": [
+            -0.006184895833333333,
+            -0.0013020833333333333
+          ],
+          "bce_interval": [
+            -0.005677892206430256,
+            -0.003480990182778572
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.004557291666666667,
+          "delta_bce_nats": -0.004337526989018132,
+          "bler_interval": [
+            -0.007161458333333333,
+            -0.0022786458333333335
+          ],
+          "bce_interval": [
+            -0.005482005032103623,
+            -0.0033633824617232745
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 3,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 0,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": true
+    },
+    {
+      "comparison": "graph_vs_per_bit_train24",
+      "checkpoint_type": "best",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0029296875,
+          "delta_bce_nats": -0.004499665512893779,
+          "bler_interval": [
+            -0.005208333333333333,
+            -0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.006085762982805894,
+            -0.0032338468395529006
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0026041666666666665,
+          "delta_bce_nats": -0.004523111295712094,
+          "bler_interval": [
+            -0.004557291666666667,
+            -0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.006016560880534886,
+            -0.003318006850460779
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.00390625,
+          "delta_bce_nats": -0.004339709760746934,
+          "bler_interval": [
+            -0.006184895833333333,
+            -0.001953125
+          ],
+          "bce_interval": [
+            -0.005727180604554758,
+            -0.0032268780458563225
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 3,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 0,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": true
+    },
+    {
+      "comparison": "graph_vs_per_bit_train24",
+      "checkpoint_type": "last",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0026041666666666665,
+          "delta_bce_nats": -0.003966862980390347,
+          "bler_interval": [
+            -0.0048828125,
+            -0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.0051795275645433484,
+            -0.0030165646274787224
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0026041666666666665,
+          "delta_bce_nats": -0.004523111295712094,
+          "bler_interval": [
+            -0.004557291666666667,
+            -0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.006016560880534886,
+            -0.003318006850460779
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0035807291666666665,
+          "delta_bce_nats": -0.004391793310236431,
+          "bler_interval": [
+            -0.005533854166666667,
+            -0.001953125
+          ],
+          "bce_interval": [
+            -0.0058384286354680815,
+            -0.003220501152684373
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 3,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 0,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": true
+    },
+    {
+      "comparison": "mlp_no_residual_eta_vs_global_train24",
+      "checkpoint_type": "best",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0029296875,
+          "delta_bce_nats": -0.0006938853106027987,
+          "bler_interval": [
+            -0.005533854166666667,
+            -0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.0010852920096744926,
+            -0.0002238394198416573
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.001953125,
+          "delta_bce_nats": -0.0013786093673066257,
+          "bler_interval": [
+            -0.00390625,
+            0.0
+          ],
+          "bce_interval": [
+            -0.001967069476326191,
+            -0.0009173014055227939
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0026041666666666665,
+          "delta_bce_nats": -0.000998154993405668,
+          "bler_interval": [
+            -0.0048828125,
+            -0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.0013546378956622049,
+            -0.0005827074852150974
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 3,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 0,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": true
+    },
+    {
+      "comparison": "mlp_no_residual_eta_vs_global_train24",
+      "checkpoint_type": "last",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0022786458333333335,
+          "delta_bce_nats": -0.0015994369949990821,
+          "bler_interval": [
+            -0.004231770833333333,
+            -0.0003255208333333333
+          ],
+          "bce_interval": [
+            -0.00275348293762436,
+            -0.0005944649010037379
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0022786458333333335,
+          "delta_bce_nats": 0.00031327831104822716,
+          "bler_interval": [
+            -0.004565429687499986,
+            -0.0003255208333333333
+          ],
+          "bce_interval": [
+            -0.0005309258326280094,
+            0.0012578982473559642
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0026041666666666665,
+          "delta_bce_nats": -0.0011136312202392861,
+          "bler_interval": [
+            -0.0048828125,
+            -0.0006510416666666666
+          ],
+          "bce_interval": [
+            -0.0014235700062356386,
+            -0.0007677815834072791
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 2,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 1,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": false
+    },
+    {
+      "comparison": "mlp_no_residual_eta_vs_per_bit_train24",
+      "checkpoint_type": "best",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.001953125,
+          "delta_bce_nats": -0.0007481516318210969,
+          "bler_interval": [
+            -0.00390625,
+            -0.0003255208333333333
+          ],
+          "bce_interval": [
+            -0.001259886081265181,
+            -0.00032381309984075735
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0009765625,
+          "delta_bce_nats": -0.0014328756885249245,
+          "bler_interval": [
+            -0.0022786458333333335,
+            0.0
+          ],
+          "bce_interval": [
+            -0.0023580074811451234,
+            -0.0007972589097245367
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0016276041666666667,
+          "delta_bce_nats": -0.0010524213146239662,
+          "bler_interval": [
+            -0.0035807291666666665,
+            -0.0003255208333333333
+          ],
+          "bce_interval": [
+            -0.001674666144376659,
+            -0.0006097962388116531
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 3,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 0,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": true
+    },
+    {
+      "comparison": "mlp_no_residual_eta_vs_per_bit_train24",
+      "checkpoint_type": "last",
+      "per_training_seed": [
+        {
+          "training_seed": 42,
+          "delta_bler": -0.0013020833333333333,
+          "delta_bce_nats": -0.0016537033162173807,
+          "bler_interval": [
+            -0.0026041666666666665,
+            -0.0003255208333333333
+          ],
+          "bce_interval": [
+            -0.0031794098442403896,
+            -0.0004543192874163362
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 43,
+          "delta_bler": -0.0013020833333333333,
+          "delta_bce_nats": 0.0002590119898299288,
+          "bler_interval": [
+            -0.0032552083333333335,
+            0.0
+          ],
+          "bce_interval": [
+            -0.0004495621794677667,
+            0.0010586446793869203
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        },
+        {
+          "training_seed": 44,
+          "delta_bler": -0.0016276041666666667,
+          "delta_bce_nats": -0.0011678975414575845,
+          "bler_interval": [
+            -0.0035807291666666665,
+            -0.0003255208333333333
+          ],
+          "bce_interval": [
+            -0.0017535890314874286,
+            -0.000758519400726652
+          ],
+          "confidence": 0.95,
+          "bce_reduced_without_bler_reduction": false
+        }
+      ],
+      "training_seed_count": 3,
+      "bler_improved_seeds": 3,
+      "bce_improved_seeds": 2,
+      "bler_worsened_seeds": 0,
+      "bce_worsened_seeds": 1,
+      "bler_tied_seeds": 0,
+      "bce_tied_seeds": 0,
+      "all_three_seeds_bler_improved": true,
+      "all_three_seeds_bce_improved": false
+    }
+  ],
+  "primary_checkpoint": "best selected on the fixed validation split; last reported separately",
+  "interpretation": "BCE and BLER directions are separate empirical findings. Bootstrap intervals are descriptive; no significance or final independent paper-test claim.",
+  "feasibility_split": {
+    "train": 24,
+    "validation": 8,
+    "development": 64
+  },
+  "limitations": [
+    "Only 64 development channel seeds, shared across three Eb/N0 points and all trained models.",
+    "Three training seeds do not triple the number of independent development channels.",
+    "Multiple predeclared candidates/comparisons have no multiple-comparison correction or significance claim.",
+    "Selecting a future method after inspecting this development report creates selection bias; a new independent paper test is required.",
+    "Smoke uses one validation channel only and cannot establish cross-seed performance."
+  ],
+  "protocol": "Fixed candidate set, bounds and training seeds. No development refitting, checkpoint selection, or threefold inflation of channel count."
+}

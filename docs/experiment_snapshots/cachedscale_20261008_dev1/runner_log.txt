@@ -1,0 +1,747 @@
+[2026-10-08T16:23:00Z] START preflight
+Preflight: validating original complete cache schema, identity and every channel hash (read-only).
+Preflight PASS: source cache c1a4f87a0ead529adf0435ba7e8ab72b4d3bbf06445441a65466acfa1ddd33bf; train/validation/development=24/8/64; current code 12d8335c026ba0f609ec6f521513ffc82845ce5e; elapsed=43.75s
+Cached-scale preflight PASS identity=f09be71830fc664fcbeebb383dd61ef77282f48aa185513698e4540c3527ed12
+[2026-10-08T16:23:45Z] END preflight elapsed=45s exit=0
+[2026-10-08T16:23:45Z] START lightweight_tests
+test_actual_archive_hashes_and_strict_24_8_64_groups (test_cached_llr_common.CachedLLRCommonTests.test_actual_archive_hashes_and_strict_24_8_64_groups) ... ok
+test_config_and_output_paths_reject_protocol_changes_and_source_overlap (test_cached_llr_common.CachedLLRCommonTests.test_config_and_output_paths_reject_protocol_changes_and_source_overlap) ... ok
+test_feature_allowlist_and_train_only_normalization (test_cached_llr_common.CachedLLRCommonTests.test_feature_allowlist_and_train_only_normalization) ... ok
+test_missing_cache_stops_without_generation_or_environment_setup (test_cached_llr_common.CachedLLRCommonTests.test_missing_cache_stops_without_generation_or_environment_setup) ... ok
+test_original_tracked_files_and_frozen_tag_unchanged (test_cached_llr_common.CachedLLRCommonTests.test_original_tracked_files_and_frozen_tag_unchanged) ... ok
+test_receiver_features_are_ue_equivariant_and_logs_have_fixed_epsilon (test_cached_llr_common.CachedLLRCommonTests.test_receiver_features_are_ue_equivariant_and_logs_have_fixed_epsilon) ... ok
+test_records_keep_all_ebnos_and_smoke_never_reads_development (test_cached_llr_common.CachedLLRCommonTests.test_records_keep_all_ebnos_and_smoke_never_reads_development) ... ok
+test_source_identity_is_strict_and_separate_from_training_commit (test_cached_llr_common.CachedLLRCommonTests.test_source_identity_is_strict_and_separate_from_training_commit) ... Preflight: validating original complete cache schema, identity and every channel hash (read-only).
+Preflight PASS: source cache c1a4f87a0ead529adf0435ba7e8ab72b4d3bbf06445441a65466acfa1ddd33bf; train/validation/development=24/8/64; current code new-training-code; elapsed=0.00s
+ok
+test_training_preloader_reuses_strict_hash_schema_and_original_mapping (test_cached_llr_common.CachedLLRCommonTests.test_training_preloader_reuses_strict_hash_schema_and_original_mapping) ... Preload train 1/1 seed=81000000 Eb/N0=-10.5 elapsed=0.00s
+ok
+test_archived_32cal_is_labeled_separate_and_pairs_exact_development_coordinates (test_cached_llr_evaluation.CachedEvaluationTests.test_archived_32cal_is_labeled_separate_and_pairs_exact_development_coordinates) ... ok
+test_full_codeword_raw_identity_all_fresh_models_and_rescue_counts (test_cached_llr_evaluation.CachedEvaluationTests.test_full_codeword_raw_identity_all_fresh_models_and_rescue_counts) ... ok
+test_original_decoded_crc_and_order_mismatches_stop (test_cached_llr_evaluation.CachedEvaluationTests.test_original_decoded_crc_and_order_mismatches_stop) ... ok
+test_saturation_bounds_and_bit_axis (test_cached_llr_evaluation.CachedEvaluationTests.test_saturation_bounds_and_bit_axis) ... ok
+test_smoke_cli_validation_only_complete_hash_reuse_no_extra_inference (test_cached_llr_evaluation.CachedEvaluationTests.test_smoke_cli_validation_only_complete_hash_reuse_no_extra_inference) ... evaluate validation 1/1 seed=81000024 Eb/N0=-10.5 START
+evaluate 1/1 COMPLETE elapsed=0.01s total=0.02s raw identity PASS
+Complete cached scaling evaluation: /tmp/tmp6r910iyw/results/summary.json
+Complete cached-scaling artifacts verified: /tmp/tmp6r910iyw/results/summary.json
+Complete cached-scaling artifacts verified: /tmp/tmp6r910iyw/results/summary.json
+ok
+test_three_training_seeds_never_triple_independent_channels (test_cached_llr_evaluation.CachedEvaluationTests.test_three_training_seeds_never_triple_independent_channels) ... ok
+test_training_complete_identity_checkpoint_metadata_and_path_guards (test_cached_llr_evaluation.CachedEvaluationTests.test_training_complete_identity_checkpoint_metadata_and_path_guards) ... ok
+test_fresh_scales_preserve_encoded_nr_payload_crc_and_full_codeword_order (test_cached_llr_evaluation.NativeCachedEvaluationTests.test_fresh_scales_preserve_encoded_nr_payload_crc_and_full_codeword_order) ... ok
+test_ablation_and_affine_feature_restrictions (test_cached_llr_models.ConditionalModelTests.test_ablation_and_affine_feature_restrictions) ... ok
+test_graph_uses_edges_and_single_user_remains_finite (test_cached_llr_models.ConditionalModelTests.test_graph_uses_edges_and_single_user_remains_finite) ... ok
+test_identity_initialization_and_finite_gradients (test_cached_llr_models.ConditionalModelTests.test_identity_initialization_and_finite_gradients) ... ok
+test_nontrivial_permutation_equivariance (test_cached_llr_models.ConditionalModelTests.test_nontrivial_permutation_equivariance) ... /home/r50037942/project/07_Uplink/tests/test_cached_llr_models.py:41: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  self.assertGreater(float(direct.std()), 0)
+ok
+test_reject_invalid_shapes_and_nonpositive_scales (test_cached_llr_models.ConditionalModelTests.test_reject_invalid_shapes_and_nonpositive_scales) ... ok
+test_scale_bounds_and_hard_bits_survive_saturation (test_cached_llr_models.ConditionalModelTests.test_scale_bounds_and_hard_bits_survive_saturation) ... ok
+test_bash_syntax_and_help (test_cached_llr_runner.CachedLLRRunnerTests.test_bash_syntax_and_help) ... ok
+test_development_requires_successful_smoke_check_before_training (test_cached_llr_runner.CachedLLRRunnerTests.test_development_requires_successful_smoke_check_before_training) ... ok
+test_existing_lock_refuses_concurrent_runner (test_cached_llr_runner.CachedLLRRunnerTests.test_existing_lock_refuses_concurrent_runner) ... ok
+test_existing_output_or_smoke_directory_refused_without_explicit_reuse (test_cached_llr_runner.CachedLLRRunnerTests.test_existing_output_or_smoke_directory_refused_without_explicit_reuse) ... ok
+test_explicit_reuse_propagates_and_appends_logs (test_cached_llr_runner.CachedLLRRunnerTests.test_explicit_reuse_propagates_and_appends_logs) ... ok
+test_failed_tests_or_smoke_stops_expensive_stages_and_records_exit (test_cached_llr_runner.CachedLLRRunnerTests.test_failed_tests_or_smoke_stops_expensive_stages_and_records_exit) ... ok
+test_invalid_mode_run_id_and_options_rejected (test_cached_llr_runner.CachedLLRRunnerTests.test_invalid_mode_run_id_and_options_rejected) ... ok
+test_missing_cache_preflight_failure_never_starts_training_or_generation (test_cached_llr_runner.CachedLLRRunnerTests.test_missing_cache_preflight_failure_never_starts_training_or_generation) ... ok
+test_path_resolution_failure_stops_before_outputs (test_cached_llr_runner.CachedLLRRunnerTests.test_path_resolution_failure_stops_before_outputs) ... ok
+test_smoke_orders_new_training_decode_and_summary_check (test_cached_llr_runner.CachedLLRRunnerTests.test_smoke_orders_new_training_decode_and_summary_check) ... ok
+test_tee_failure_propagates (test_cached_llr_runner.CachedLLRRunnerTests.test_tee_failure_propagates) ... ok
+test_complete_reuse_requires_hashes_and_identities (test_cached_llr_training.CachedTrainingTests.test_complete_reuse_requires_hashes_and_identities) ... train affine seed=42 step=0/2 validation_BCE=0.4184124
+train affine seed=42 step=1/2 validation_BCE=0.4183001 best_step=1 elapsed=0.0s
+train affine seed=42 step=2/2 validation_BCE=0.4181804 best_step=2 elapsed=0.0s
+ok
+test_fits_reject_foreign_sources_and_validation_checks_identity (test_cached_llr_training.CachedTrainingTests.test_fits_reject_foreign_sources_and_validation_checks_identity) ... ok
+test_same_seed_training_is_deterministic (test_cached_llr_training.CachedTrainingTests.test_same_seed_training_is_deterministic) ... train mlp seed=42 step=0/2 validation_BCE=0.4184124
+train mlp seed=42 step=1/2 validation_BCE=0.4182113 best_step=1 elapsed=0.0s
+train mlp seed=42 step=2/2 validation_BCE=0.4179552 best_step=2 elapsed=0.0s
+train mlp seed=42 step=0/2 validation_BCE=0.4184124
+train mlp seed=42 step=1/2 validation_BCE=0.4182113 best_step=1 elapsed=0.0s
+train mlp seed=42 step=2/2 validation_BCE=0.4179552 best_step=2 elapsed=0.0s
+ok
+test_sampling_plan_deterministic_and_private_from_model_rng (test_cached_llr_training.CachedTrainingTests.test_sampling_plan_deterministic_and_private_from_model_rng) ... ok
+test_smoke_main_all_candidates_then_complete_reuse (test_cached_llr_training.CachedTrainingTests.test_smoke_main_all_candidates_then_complete_reuse) ... train affine seed=42 step=0/2 validation_BCE=0.4674673
+train affine seed=42 step=2/2 validation_BCE=0.4670588 best_step=2 elapsed=0.0s
+train mlp seed=42 step=0/2 validation_BCE=0.4674673
+train mlp seed=42 step=2/2 validation_BCE=0.4667403 best_step=2 elapsed=0.0s
+train graph seed=42 step=0/2 validation_BCE=0.4674673
+train graph seed=42 step=2/2 validation_BCE=0.4670268 best_step=2 elapsed=0.0s
+train mlp_no_residual_eta seed=42 step=0/2 validation_BCE=0.4674673
+train mlp_no_residual_eta seed=42 step=2/2 validation_BCE=0.4666432 best_step=2 elapsed=0.0s
+Complete cached-scale training: /tmp/tmpvlifv1gz/training/manifest.json
+Reused complete training: /tmp/tmpvlifv1gz/training
+ok
+test_train_validation_overlap_rejected (test_cached_llr_training.CachedTrainingTests.test_train_validation_overlap_rejected) ... ok
+test_training_records_best_and_last_cpu_checkpoints (test_cached_llr_training.CachedTrainingTests.test_training_records_best_and_last_cpu_checkpoints) ... train affine seed=42 step=0/2 validation_BCE=0.4184124
+train affine seed=42 step=1/2 validation_BCE=0.4183001 best_step=1 elapsed=0.0s
+train affine seed=42 step=2/2 validation_BCE=0.4181804 best_step=2 elapsed=0.0s
+ok
+test_validation_or_development_labels_cannot_fit_or_sample (test_cached_llr_training.CachedTrainingTests.test_validation_or_development_labels_cannot_fit_or_sample) ... ok
+
+----------------------------------------------------------------------
+Ran 42 tests in 1.923s
+
+OK
+[2026-10-08T16:23:48Z] END lightweight_tests elapsed=3s exit=0
+[2026-10-08T16:23:48Z] START smoke_train
+Preflight: validating original complete cache schema, identity and every channel hash (read-only).
+Preflight PASS: source cache c1a4f87a0ead529adf0435ba7e8ab72b4d3bbf06445441a65466acfa1ddd33bf; train/validation/development=24/8/64; current code 12d8335c026ba0f609ec6f521513ffc82845ce5e; elapsed=25.88s
+Preload train 1/1 seed=81000000 Eb/N0=-10.5 elapsed=0.03s
+Preload validation 1/1 seed=81000024 Eb/N0=-10.5 elapsed=0.02s
+train affine seed=42 step=0/2 validation_BCE=0.3964112
+train affine seed=42 step=2/2 validation_BCE=0.3954431 best_step=2 elapsed=0.3s
+train mlp seed=42 step=0/2 validation_BCE=0.3964112
+train mlp seed=42 step=2/2 validation_BCE=0.3949639 best_step=2 elapsed=0.0s
+train graph seed=42 step=0/2 validation_BCE=0.3964112
+train graph seed=42 step=2/2 validation_BCE=0.3955133 best_step=2 elapsed=0.0s
+train mlp_no_residual_eta seed=42 step=0/2 validation_BCE=0.3964112
+train mlp_no_residual_eta seed=42 step=2/2 validation_BCE=0.3950718 best_step=2 elapsed=0.0s
+Complete cached-scale training: ckp/cached_llr_scaling/cachedscale_20261008_dev1_smoke/manifest.json
+[2026-10-08T16:24:15Z] END smoke_train elapsed=27s exit=0
+[2026-10-08T16:24:15Z] START smoke_evaluate
+Preflight: validating original complete cache schema, identity and every channel hash (read-only).
+Preflight PASS: source cache c1a4f87a0ead529adf0435ba7e8ab72b4d3bbf06445441a65466acfa1ddd33bf; train/validation/development=24/8/64; current code 12d8335c026ba0f609ec6f521513ffc82845ce5e; elapsed=20.92s
+evaluate validation 1/1 seed=81000024 Eb/N0=-10.5 START
+evaluate 1/1 COMPLETE elapsed=1.35s total=1.46s raw identity PASS
+Complete cached scaling evaluation: results/cached_llr_scaling/cachedscale_20261008_dev1_smoke/summary.json
+[2026-10-08T16:24:39Z] END smoke_evaluate elapsed=24s exit=0
+[2026-10-08T16:24:39Z] START smoke_check
+Preflight: validating original complete cache schema, identity and every channel hash (read-only).
+Preflight PASS: source cache c1a4f87a0ead529adf0435ba7e8ab72b4d3bbf06445441a65466acfa1ddd33bf; train/validation/development=24/8/64; current code 12d8335c026ba0f609ec6f521513ffc82845ce5e; elapsed=25.78s
+Complete cached-scaling artifacts verified: results/cached_llr_scaling/cachedscale_20261008_dev1_smoke/summary.json
+[2026-10-08T16:25:05Z] END smoke_check elapsed=26s exit=0
+[2026-10-08T16:25:05Z] START development_train
+Preflight: validating original complete cache schema, identity and every channel hash (read-only).
+Preflight PASS: source cache c1a4f87a0ead529adf0435ba7e8ab72b4d3bbf06445441a65466acfa1ddd33bf; train/validation/development=24/8/64; current code 12d8335c026ba0f609ec6f521513ffc82845ce5e; elapsed=33.17s
+Preload train 1/72 seed=81000000 Eb/N0=-12 elapsed=0.03s
+Preload train 2/72 seed=81000000 Eb/N0=-10.5 elapsed=0.05s
+Preload train 3/72 seed=81000000 Eb/N0=-9 elapsed=0.07s
+Preload train 4/72 seed=81000001 Eb/N0=-12 elapsed=0.09s
+Preload train 5/72 seed=81000001 Eb/N0=-10.5 elapsed=0.11s
+Preload train 6/72 seed=81000001 Eb/N0=-9 elapsed=0.13s
+Preload train 7/72 seed=81000002 Eb/N0=-12 elapsed=0.15s
+Preload train 8/72 seed=81000002 Eb/N0=-10.5 elapsed=0.17s
+Preload train 9/72 seed=81000002 Eb/N0=-9 elapsed=0.19s
+Preload train 10/72 seed=81000003 Eb/N0=-12 elapsed=0.21s
+Preload train 11/72 seed=81000003 Eb/N0=-10.5 elapsed=0.22s
+Preload train 12/72 seed=81000003 Eb/N0=-9 elapsed=0.24s
+Preload train 13/72 seed=81000004 Eb/N0=-12 elapsed=0.26s
+Preload train 14/72 seed=81000004 Eb/N0=-10.5 elapsed=0.28s
+Preload train 15/72 seed=81000004 Eb/N0=-9 elapsed=0.29s
+Preload train 16/72 seed=81000005 Eb/N0=-12 elapsed=0.31s
+Preload train 17/72 seed=81000005 Eb/N0=-10.5 elapsed=0.33s
+Preload train 18/72 seed=81000005 Eb/N0=-9 elapsed=0.35s
+Preload train 19/72 seed=81000006 Eb/N0=-12 elapsed=0.37s
+Preload train 20/72 seed=81000006 Eb/N0=-10.5 elapsed=0.39s
+Preload train 21/72 seed=81000006 Eb/N0=-9 elapsed=0.41s
+Preload train 22/72 seed=81000007 Eb/N0=-12 elapsed=0.42s
+Preload train 23/72 seed=81000007 Eb/N0=-10.5 elapsed=0.44s
+Preload train 24/72 seed=81000007 Eb/N0=-9 elapsed=0.46s
+Preload train 25/72 seed=81000008 Eb/N0=-12 elapsed=0.48s
+Preload train 26/72 seed=81000008 Eb/N0=-10.5 elapsed=0.50s
+Preload train 27/72 seed=81000008 Eb/N0=-9 elapsed=0.51s
+Preload train 28/72 seed=81000009 Eb/N0=-12 elapsed=0.53s
+Preload train 29/72 seed=81000009 Eb/N0=-10.5 elapsed=0.55s
+Preload train 30/72 seed=81000009 Eb/N0=-9 elapsed=0.57s
+Preload train 31/72 seed=81000010 Eb/N0=-12 elapsed=0.59s
+Preload train 32/72 seed=81000010 Eb/N0=-10.5 elapsed=0.60s
+Preload train 33/72 seed=81000010 Eb/N0=-9 elapsed=0.62s
+Preload train 34/72 seed=81000011 Eb/N0=-12 elapsed=0.64s
+Preload train 35/72 seed=81000011 Eb/N0=-10.5 elapsed=0.66s
+Preload train 36/72 seed=81000011 Eb/N0=-9 elapsed=0.67s
+Preload train 37/72 seed=81000012 Eb/N0=-12 elapsed=0.69s
+Preload train 38/72 seed=81000012 Eb/N0=-10.5 elapsed=0.71s
+Preload train 39/72 seed=81000012 Eb/N0=-9 elapsed=0.73s
+Preload train 40/72 seed=81000013 Eb/N0=-12 elapsed=0.75s
+Preload train 41/72 seed=81000013 Eb/N0=-10.5 elapsed=0.77s
+Preload train 42/72 seed=81000013 Eb/N0=-9 elapsed=0.78s
+Preload train 43/72 seed=81000014 Eb/N0=-12 elapsed=0.80s
+Preload train 44/72 seed=81000014 Eb/N0=-10.5 elapsed=0.82s
+Preload train 45/72 seed=81000014 Eb/N0=-9 elapsed=0.84s
+Preload train 46/72 seed=81000015 Eb/N0=-12 elapsed=0.86s
+Preload train 47/72 seed=81000015 Eb/N0=-10.5 elapsed=0.88s
+Preload train 48/72 seed=81000015 Eb/N0=-9 elapsed=0.89s
+Preload train 49/72 seed=81000016 Eb/N0=-12 elapsed=0.91s
+Preload train 50/72 seed=81000016 Eb/N0=-10.5 elapsed=0.93s
+Preload train 51/72 seed=81000016 Eb/N0=-9 elapsed=0.95s
+Preload train 52/72 seed=81000017 Eb/N0=-12 elapsed=0.97s
+Preload train 53/72 seed=81000017 Eb/N0=-10.5 elapsed=0.98s
+Preload train 54/72 seed=81000017 Eb/N0=-9 elapsed=1.00s
+Preload train 55/72 seed=81000018 Eb/N0=-12 elapsed=1.02s
+Preload train 56/72 seed=81000018 Eb/N0=-10.5 elapsed=1.04s
+Preload train 57/72 seed=81000018 Eb/N0=-9 elapsed=1.06s
+Preload train 58/72 seed=81000019 Eb/N0=-12 elapsed=1.07s
+Preload train 59/72 seed=81000019 Eb/N0=-10.5 elapsed=1.09s
+Preload train 60/72 seed=81000019 Eb/N0=-9 elapsed=1.11s
+Preload train 61/72 seed=81000020 Eb/N0=-12 elapsed=1.13s
+Preload train 62/72 seed=81000020 Eb/N0=-10.5 elapsed=1.15s
+Preload train 63/72 seed=81000020 Eb/N0=-9 elapsed=1.16s
+Preload train 64/72 seed=81000021 Eb/N0=-12 elapsed=1.18s
+Preload train 65/72 seed=81000021 Eb/N0=-10.5 elapsed=1.20s
+Preload train 66/72 seed=81000021 Eb/N0=-9 elapsed=1.22s
+Preload train 67/72 seed=81000022 Eb/N0=-12 elapsed=1.24s
+Preload train 68/72 seed=81000022 Eb/N0=-10.5 elapsed=1.26s
+Preload train 69/72 seed=81000022 Eb/N0=-9 elapsed=1.27s
+Preload train 70/72 seed=81000023 Eb/N0=-12 elapsed=1.29s
+Preload train 71/72 seed=81000023 Eb/N0=-10.5 elapsed=1.31s
+Preload train 72/72 seed=81000023 Eb/N0=-9 elapsed=1.33s
+Preload validation 1/24 seed=81000024 Eb/N0=-12 elapsed=0.02s
+Preload validation 2/24 seed=81000024 Eb/N0=-10.5 elapsed=0.04s
+Preload validation 3/24 seed=81000024 Eb/N0=-9 elapsed=0.05s
+Preload validation 4/24 seed=81000025 Eb/N0=-12 elapsed=0.07s
+Preload validation 5/24 seed=81000025 Eb/N0=-10.5 elapsed=0.09s
+Preload validation 6/24 seed=81000025 Eb/N0=-9 elapsed=0.11s
+Preload validation 7/24 seed=81000026 Eb/N0=-12 elapsed=0.12s
+Preload validation 8/24 seed=81000026 Eb/N0=-10.5 elapsed=0.14s
+Preload validation 9/24 seed=81000026 Eb/N0=-9 elapsed=0.16s
+Preload validation 10/24 seed=81000027 Eb/N0=-12 elapsed=0.18s
+Preload validation 11/24 seed=81000027 Eb/N0=-10.5 elapsed=0.20s
+Preload validation 12/24 seed=81000027 Eb/N0=-9 elapsed=0.22s
+Preload validation 13/24 seed=81000028 Eb/N0=-12 elapsed=0.23s
+Preload validation 14/24 seed=81000028 Eb/N0=-10.5 elapsed=0.25s
+Preload validation 15/24 seed=81000028 Eb/N0=-9 elapsed=0.27s
+Preload validation 16/24 seed=81000029 Eb/N0=-12 elapsed=0.29s
+Preload validation 17/24 seed=81000029 Eb/N0=-10.5 elapsed=0.31s
+Preload validation 18/24 seed=81000029 Eb/N0=-9 elapsed=0.32s
+Preload validation 19/24 seed=81000030 Eb/N0=-12 elapsed=0.34s
+Preload validation 20/24 seed=81000030 Eb/N0=-10.5 elapsed=0.36s
+Preload validation 21/24 seed=81000030 Eb/N0=-9 elapsed=0.38s
+Preload validation 22/24 seed=81000031 Eb/N0=-12 elapsed=0.40s
+Preload validation 23/24 seed=81000031 Eb/N0=-10.5 elapsed=0.41s
+Preload validation 24/24 seed=81000031 Eb/N0=-9 elapsed=0.43s
+train affine seed=42 step=0/1000 validation_BCE=0.2581273
+train affine seed=42 step=100/1000 validation_BCE=0.2462638 best_step=100 elapsed=0.7s
+train affine seed=42 step=200/1000 validation_BCE=0.2380646 best_step=200 elapsed=1.0s
+train affine seed=42 step=300/1000 validation_BCE=0.2327036 best_step=300 elapsed=1.3s
+train affine seed=42 step=400/1000 validation_BCE=0.2286515 best_step=400 elapsed=1.6s
+train affine seed=42 step=500/1000 validation_BCE=0.2255971 best_step=500 elapsed=1.9s
+train affine seed=42 step=600/1000 validation_BCE=0.2232085 best_step=600 elapsed=2.2s
+train affine seed=42 step=700/1000 validation_BCE=0.2214247 best_step=700 elapsed=2.5s
+train affine seed=42 step=800/1000 validation_BCE=0.2203716 best_step=800 elapsed=2.8s
+train affine seed=42 step=900/1000 validation_BCE=0.2196008 best_step=900 elapsed=3.1s
+train affine seed=42 step=1000/1000 validation_BCE=0.2190409 best_step=1000 elapsed=3.4s
+train affine seed=43 step=0/1000 validation_BCE=0.2581273
+train affine seed=43 step=100/1000 validation_BCE=0.2453362 best_step=100 elapsed=0.5s
+train affine seed=43 step=200/1000 validation_BCE=0.2377921 best_step=200 elapsed=0.8s
+train affine seed=43 step=300/1000 validation_BCE=0.2321771 best_step=300 elapsed=1.0s
+train affine seed=43 step=400/1000 validation_BCE=0.2282776 best_step=400 elapsed=1.3s
+train affine seed=43 step=500/1000 validation_BCE=0.2254191 best_step=500 elapsed=1.6s
+train affine seed=43 step=600/1000 validation_BCE=0.2232501 best_step=600 elapsed=1.9s
+train affine seed=43 step=700/1000 validation_BCE=0.2216123 best_step=700 elapsed=2.2s
+train affine seed=43 step=800/1000 validation_BCE=0.2203846 best_step=800 elapsed=2.5s
+train affine seed=43 step=900/1000 validation_BCE=0.2198081 best_step=900 elapsed=2.8s
+train affine seed=43 step=1000/1000 validation_BCE=0.2192314 best_step=1000 elapsed=3.1s
+train affine seed=44 step=0/1000 validation_BCE=0.2581273
+train affine seed=44 step=100/1000 validation_BCE=0.2461994 best_step=100 elapsed=0.5s
+train affine seed=44 step=200/1000 validation_BCE=0.2378736 best_step=200 elapsed=0.7s
+train affine seed=44 step=300/1000 validation_BCE=0.2319977 best_step=300 elapsed=1.0s
+train affine seed=44 step=400/1000 validation_BCE=0.2282307 best_step=400 elapsed=1.3s
+train affine seed=44 step=500/1000 validation_BCE=0.2252176 best_step=500 elapsed=1.6s
+train affine seed=44 step=600/1000 validation_BCE=0.2231725 best_step=600 elapsed=1.9s
+train affine seed=44 step=700/1000 validation_BCE=0.2216324 best_step=700 elapsed=2.2s
+train affine seed=44 step=800/1000 validation_BCE=0.2205216 best_step=800 elapsed=2.5s
+train affine seed=44 step=900/1000 validation_BCE=0.2197613 best_step=900 elapsed=2.8s
+train affine seed=44 step=1000/1000 validation_BCE=0.219242 best_step=1000 elapsed=3.1s
+train mlp seed=42 step=0/1000 validation_BCE=0.2581273
+train mlp seed=42 step=100/1000 validation_BCE=0.2190967 best_step=100 elapsed=0.6s
+train mlp seed=42 step=200/1000 validation_BCE=0.2179679 best_step=200 elapsed=0.9s
+train mlp seed=42 step=300/1000 validation_BCE=0.2173738 best_step=300 elapsed=1.3s
+train mlp seed=42 step=400/1000 validation_BCE=0.2168572 best_step=400 elapsed=1.7s
+train mlp seed=42 step=500/1000 validation_BCE=0.2165103 best_step=500 elapsed=2.0s
+train mlp seed=42 step=600/1000 validation_BCE=0.216366 best_step=600 elapsed=2.4s
+train mlp seed=42 step=700/1000 validation_BCE=0.2159964 best_step=700 elapsed=2.7s
+train mlp seed=42 step=800/1000 validation_BCE=0.2157157 best_step=800 elapsed=3.1s
+train mlp seed=42 step=900/1000 validation_BCE=0.2157014 best_step=900 elapsed=3.5s
+train mlp seed=42 step=1000/1000 validation_BCE=0.2156109 best_step=1000 elapsed=3.8s
+train mlp seed=43 step=0/1000 validation_BCE=0.2581273
+train mlp seed=43 step=100/1000 validation_BCE=0.2185472 best_step=100 elapsed=0.6s
+train mlp seed=43 step=200/1000 validation_BCE=0.2178092 best_step=200 elapsed=0.9s
+train mlp seed=43 step=300/1000 validation_BCE=0.217358 best_step=300 elapsed=1.3s
+train mlp seed=43 step=400/1000 validation_BCE=0.2171901 best_step=400 elapsed=1.7s
+train mlp seed=43 step=500/1000 validation_BCE=0.2166604 best_step=500 elapsed=2.0s
+train mlp seed=43 step=600/1000 validation_BCE=0.2163244 best_step=600 elapsed=2.4s
+train mlp seed=43 step=700/1000 validation_BCE=0.2160432 best_step=700 elapsed=2.8s
+train mlp seed=43 step=800/1000 validation_BCE=0.2158156 best_step=800 elapsed=3.1s
+train mlp seed=43 step=900/1000 validation_BCE=0.2157976 best_step=900 elapsed=3.5s
+train mlp seed=43 step=1000/1000 validation_BCE=0.2157614 best_step=1000 elapsed=3.9s
+train mlp seed=44 step=0/1000 validation_BCE=0.2581273
+train mlp seed=44 step=100/1000 validation_BCE=0.2191866 best_step=100 elapsed=0.6s
+train mlp seed=44 step=200/1000 validation_BCE=0.2178511 best_step=200 elapsed=0.9s
+train mlp seed=44 step=300/1000 validation_BCE=0.2173765 best_step=300 elapsed=1.3s
+train mlp seed=44 step=400/1000 validation_BCE=0.2169745 best_step=400 elapsed=1.6s
+train mlp seed=44 step=500/1000 validation_BCE=0.2163576 best_step=500 elapsed=2.0s
+train mlp seed=44 step=600/1000 validation_BCE=0.2160425 best_step=600 elapsed=2.4s
+train mlp seed=44 step=700/1000 validation_BCE=0.2160277 best_step=700 elapsed=2.8s
+train mlp seed=44 step=800/1000 validation_BCE=0.2157225 best_step=800 elapsed=3.1s
+train mlp seed=44 step=900/1000 validation_BCE=0.2155261 best_step=900 elapsed=3.5s
+train mlp seed=44 step=1000/1000 validation_BCE=0.2155146 best_step=1000 elapsed=3.9s
+train graph seed=42 step=0/1000 validation_BCE=0.2581273
+train graph seed=42 step=100/1000 validation_BCE=0.2182646 best_step=100 elapsed=0.9s
+train graph seed=42 step=200/1000 validation_BCE=0.217598 best_step=200 elapsed=1.5s
+train graph seed=42 step=300/1000 validation_BCE=0.2172294 best_step=300 elapsed=2.1s
+train graph seed=42 step=400/1000 validation_BCE=0.2161598 best_step=400 elapsed=2.7s
+train graph seed=42 step=500/1000 validation_BCE=0.2157356 best_step=500 elapsed=3.3s
+train graph seed=42 step=600/1000 validation_BCE=0.2159622 best_step=500 elapsed=3.9s
+train graph seed=42 step=700/1000 validation_BCE=0.2155072 best_step=700 elapsed=4.5s
+train graph seed=42 step=800/1000 validation_BCE=0.2153872 best_step=800 elapsed=5.1s
+train graph seed=42 step=900/1000 validation_BCE=0.2156119 best_step=800 elapsed=5.6s
+train graph seed=42 step=1000/1000 validation_BCE=0.2155605 best_step=800 elapsed=6.2s
+train graph seed=43 step=0/1000 validation_BCE=0.2581273
+train graph seed=43 step=100/1000 validation_BCE=0.2178464 best_step=100 elapsed=0.9s
+train graph seed=43 step=200/1000 validation_BCE=0.2175677 best_step=200 elapsed=1.5s
+train graph seed=43 step=300/1000 validation_BCE=0.2173328 best_step=300 elapsed=2.1s
+train graph seed=43 step=400/1000 validation_BCE=0.2168041 best_step=400 elapsed=2.7s
+train graph seed=43 step=500/1000 validation_BCE=0.2163012 best_step=500 elapsed=3.3s
+train graph seed=43 step=600/1000 validation_BCE=0.2159229 best_step=600 elapsed=3.8s
+train graph seed=43 step=700/1000 validation_BCE=0.2162121 best_step=600 elapsed=4.4s
+train graph seed=43 step=800/1000 validation_BCE=0.2163067 best_step=600 elapsed=5.0s
+train graph seed=43 step=900/1000 validation_BCE=0.2156135 best_step=900 elapsed=5.6s
+train graph seed=43 step=1000/1000 validation_BCE=0.2153779 best_step=1000 elapsed=6.2s
+train graph seed=44 step=0/1000 validation_BCE=0.2581273
+train graph seed=44 step=100/1000 validation_BCE=0.2179405 best_step=100 elapsed=0.9s
+train graph seed=44 step=200/1000 validation_BCE=0.2176362 best_step=200 elapsed=1.5s
+train graph seed=44 step=300/1000 validation_BCE=0.2173993 best_step=300 elapsed=2.1s
+train graph seed=44 step=400/1000 validation_BCE=0.2164337 best_step=400 elapsed=2.7s
+train graph seed=44 step=500/1000 validation_BCE=0.2162212 best_step=500 elapsed=3.3s
+train graph seed=44 step=600/1000 validation_BCE=0.2157572 best_step=600 elapsed=3.9s
+train graph seed=44 step=700/1000 validation_BCE=0.2155457 best_step=700 elapsed=4.5s
+train graph seed=44 step=800/1000 validation_BCE=0.2154741 best_step=800 elapsed=5.1s
+train graph seed=44 step=900/1000 validation_BCE=0.2153627 best_step=900 elapsed=5.7s
+train graph seed=44 step=1000/1000 validation_BCE=0.2153933 best_step=900 elapsed=6.3s
+train mlp_no_residual_eta seed=42 step=0/1000 validation_BCE=0.2581273
+train mlp_no_residual_eta seed=42 step=100/1000 validation_BCE=0.2194079 best_step=100 elapsed=0.6s
+train mlp_no_residual_eta seed=42 step=200/1000 validation_BCE=0.2190292 best_step=200 elapsed=0.9s
+train mlp_no_residual_eta seed=42 step=300/1000 validation_BCE=0.2188148 best_step=300 elapsed=1.3s
+train mlp_no_residual_eta seed=42 step=400/1000 validation_BCE=0.2186836 best_step=400 elapsed=1.6s
+train mlp_no_residual_eta seed=42 step=500/1000 validation_BCE=0.2186073 best_step=500 elapsed=2.0s
+train mlp_no_residual_eta seed=42 step=600/1000 validation_BCE=0.2190761 best_step=500 elapsed=2.4s
+train mlp_no_residual_eta seed=42 step=700/1000 validation_BCE=0.218783 best_step=500 elapsed=2.7s
+train mlp_no_residual_eta seed=42 step=800/1000 validation_BCE=0.2182713 best_step=800 elapsed=3.1s
+train mlp_no_residual_eta seed=42 step=900/1000 validation_BCE=0.2182047 best_step=900 elapsed=3.4s
+train mlp_no_residual_eta seed=42 step=1000/1000 validation_BCE=0.2189255 best_step=900 elapsed=3.8s
+train mlp_no_residual_eta seed=43 step=0/1000 validation_BCE=0.2581273
+train mlp_no_residual_eta seed=43 step=100/1000 validation_BCE=0.2203715 best_step=100 elapsed=0.5s
+train mlp_no_residual_eta seed=43 step=200/1000 validation_BCE=0.2192744 best_step=200 elapsed=0.9s
+train mlp_no_residual_eta seed=43 step=300/1000 validation_BCE=0.2190348 best_step=300 elapsed=1.3s
+train mlp_no_residual_eta seed=43 step=400/1000 validation_BCE=0.2190373 best_step=300 elapsed=1.6s
+train mlp_no_residual_eta seed=43 step=500/1000 validation_BCE=0.2187012 best_step=500 elapsed=2.0s
+train mlp_no_residual_eta seed=43 step=600/1000 validation_BCE=0.2186314 best_step=600 elapsed=2.4s
+train mlp_no_residual_eta seed=43 step=700/1000 validation_BCE=0.2183477 best_step=700 elapsed=2.7s
+train mlp_no_residual_eta seed=43 step=800/1000 validation_BCE=0.2182993 best_step=800 elapsed=3.1s
+train mlp_no_residual_eta seed=43 step=900/1000 validation_BCE=0.2183346 best_step=800 elapsed=3.5s
+train mlp_no_residual_eta seed=43 step=1000/1000 validation_BCE=0.2184761 best_step=800 elapsed=3.8s
+train mlp_no_residual_eta seed=44 step=0/1000 validation_BCE=0.2581273
+train mlp_no_residual_eta seed=44 step=100/1000 validation_BCE=0.2192735 best_step=100 elapsed=0.6s
+train mlp_no_residual_eta seed=44 step=200/1000 validation_BCE=0.2189264 best_step=200 elapsed=0.9s
+train mlp_no_residual_eta seed=44 step=300/1000 validation_BCE=0.2189558 best_step=200 elapsed=1.3s
+train mlp_no_residual_eta seed=44 step=400/1000 validation_BCE=0.2188866 best_step=400 elapsed=1.6s
+train mlp_no_residual_eta seed=44 step=500/1000 validation_BCE=0.2184426 best_step=500 elapsed=2.0s
+train mlp_no_residual_eta seed=44 step=600/1000 validation_BCE=0.2184132 best_step=600 elapsed=2.4s
+train mlp_no_residual_eta seed=44 step=700/1000 validation_BCE=0.2183365 best_step=700 elapsed=2.7s
+train mlp_no_residual_eta seed=44 step=800/1000 validation_BCE=0.2181953 best_step=800 elapsed=3.1s
+train mlp_no_residual_eta seed=44 step=900/1000 validation_BCE=0.2180931 best_step=900 elapsed=3.5s
+train mlp_no_residual_eta seed=44 step=1000/1000 validation_BCE=0.2181223 best_step=900 elapsed=3.8s
+Complete cached-scale training: ckp/cached_llr_scaling/cachedscale_20261008_dev1/manifest.json
+[2026-10-08T16:26:38Z] END development_train elapsed=93s exit=0
+[2026-10-08T16:26:38Z] START development_evaluate
+Preflight: validating original complete cache schema, identity and every channel hash (read-only).
+Preflight PASS: source cache c1a4f87a0ead529adf0435ba7e8ab72b4d3bbf06445441a65466acfa1ddd33bf; train/validation/development=24/8/64; current code 12d8335c026ba0f609ec6f521513ffc82845ce5e; elapsed=48.17s
+evaluate development 1/192 seed=82000000 Eb/N0=-12 START
+evaluate 1/192 COMPLETE elapsed=1.64s total=1.79s raw identity PASS
+evaluate development 2/192 seed=82000000 Eb/N0=-10.5 START
+evaluate 2/192 COMPLETE elapsed=0.50s total=2.30s raw identity PASS
+evaluate development 3/192 seed=82000000 Eb/N0=-9 START
+evaluate 3/192 COMPLETE elapsed=0.50s total=2.79s raw identity PASS
+evaluate development 4/192 seed=82000001 Eb/N0=-12 START
+evaluate 4/192 COMPLETE elapsed=0.50s total=3.29s raw identity PASS
+evaluate development 5/192 seed=82000001 Eb/N0=-10.5 START
+evaluate 5/192 COMPLETE elapsed=0.50s total=3.80s raw identity PASS
+evaluate development 6/192 seed=82000001 Eb/N0=-9 START
+evaluate 6/192 COMPLETE elapsed=0.50s total=4.29s raw identity PASS
+evaluate development 7/192 seed=82000002 Eb/N0=-12 START
+evaluate 7/192 COMPLETE elapsed=0.50s total=4.79s raw identity PASS
+evaluate development 8/192 seed=82000002 Eb/N0=-10.5 START
+evaluate 8/192 COMPLETE elapsed=0.50s total=5.29s raw identity PASS
+evaluate development 9/192 seed=82000002 Eb/N0=-9 START
+evaluate 9/192 COMPLETE elapsed=0.50s total=5.79s raw identity PASS
+evaluate development 10/192 seed=82000003 Eb/N0=-12 START
+evaluate 10/192 COMPLETE elapsed=0.50s total=6.29s raw identity PASS
+evaluate development 11/192 seed=82000003 Eb/N0=-10.5 START
+evaluate 11/192 COMPLETE elapsed=0.50s total=6.79s raw identity PASS
+evaluate development 12/192 seed=82000003 Eb/N0=-9 START
+evaluate 12/192 COMPLETE elapsed=0.50s total=7.29s raw identity PASS
+evaluate development 13/192 seed=82000004 Eb/N0=-12 START
+evaluate 13/192 COMPLETE elapsed=0.50s total=7.80s raw identity PASS
+evaluate development 14/192 seed=82000004 Eb/N0=-10.5 START
+evaluate 14/192 COMPLETE elapsed=0.50s total=8.30s raw identity PASS
+evaluate development 15/192 seed=82000004 Eb/N0=-9 START
+evaluate 15/192 COMPLETE elapsed=0.50s total=8.79s raw identity PASS
+evaluate development 16/192 seed=82000005 Eb/N0=-12 START
+evaluate 16/192 COMPLETE elapsed=0.50s total=9.29s raw identity PASS
+evaluate development 17/192 seed=82000005 Eb/N0=-10.5 START
+evaluate 17/192 COMPLETE elapsed=0.50s total=9.79s raw identity PASS
+evaluate development 18/192 seed=82000005 Eb/N0=-9 START
+evaluate 18/192 COMPLETE elapsed=0.50s total=10.29s raw identity PASS
+evaluate development 19/192 seed=82000006 Eb/N0=-12 START
+evaluate 19/192 COMPLETE elapsed=0.50s total=10.78s raw identity PASS
+evaluate development 20/192 seed=82000006 Eb/N0=-10.5 START
+evaluate 20/192 COMPLETE elapsed=0.50s total=11.28s raw identity PASS
+evaluate development 21/192 seed=82000006 Eb/N0=-9 START
+evaluate 21/192 COMPLETE elapsed=0.49s total=11.76s raw identity PASS
+evaluate development 22/192 seed=82000007 Eb/N0=-12 START
+evaluate 22/192 COMPLETE elapsed=0.48s total=12.25s raw identity PASS
+evaluate development 23/192 seed=82000007 Eb/N0=-10.5 START
+evaluate 23/192 COMPLETE elapsed=0.48s total=12.73s raw identity PASS
+evaluate development 24/192 seed=82000007 Eb/N0=-9 START
+evaluate 24/192 COMPLETE elapsed=0.49s total=13.22s raw identity PASS
+evaluate development 25/192 seed=82000008 Eb/N0=-12 START
+evaluate 25/192 COMPLETE elapsed=0.50s total=13.72s raw identity PASS
+evaluate development 26/192 seed=82000008 Eb/N0=-10.5 START
+evaluate 26/192 COMPLETE elapsed=0.56s total=14.28s raw identity PASS
+evaluate development 27/192 seed=82000008 Eb/N0=-9 START
+evaluate 27/192 COMPLETE elapsed=0.50s total=14.78s raw identity PASS
+evaluate development 28/192 seed=82000009 Eb/N0=-12 START
+evaluate 28/192 COMPLETE elapsed=0.50s total=15.28s raw identity PASS
+evaluate development 29/192 seed=82000009 Eb/N0=-10.5 START
+evaluate 29/192 COMPLETE elapsed=0.50s total=15.77s raw identity PASS
+evaluate development 30/192 seed=82000009 Eb/N0=-9 START
+evaluate 30/192 COMPLETE elapsed=0.50s total=16.28s raw identity PASS
+evaluate development 31/192 seed=82000010 Eb/N0=-12 START
+evaluate 31/192 COMPLETE elapsed=0.50s total=16.78s raw identity PASS
+evaluate development 32/192 seed=82000010 Eb/N0=-10.5 START
+evaluate 32/192 COMPLETE elapsed=0.50s total=17.29s raw identity PASS
+evaluate development 33/192 seed=82000010 Eb/N0=-9 START
+evaluate 33/192 COMPLETE elapsed=0.50s total=17.79s raw identity PASS
+evaluate development 34/192 seed=82000011 Eb/N0=-12 START
+evaluate 34/192 COMPLETE elapsed=0.50s total=18.28s raw identity PASS
+evaluate development 35/192 seed=82000011 Eb/N0=-10.5 START
+evaluate 35/192 COMPLETE elapsed=0.50s total=18.79s raw identity PASS
+evaluate development 36/192 seed=82000011 Eb/N0=-9 START
+evaluate 36/192 COMPLETE elapsed=0.51s total=19.30s raw identity PASS
+evaluate development 37/192 seed=82000012 Eb/N0=-12 START
+evaluate 37/192 COMPLETE elapsed=0.50s total=19.80s raw identity PASS
+evaluate development 38/192 seed=82000012 Eb/N0=-10.5 START
+evaluate 38/192 COMPLETE elapsed=0.50s total=20.30s raw identity PASS
+evaluate development 39/192 seed=82000012 Eb/N0=-9 START
+evaluate 39/192 COMPLETE elapsed=0.50s total=20.80s raw identity PASS
+evaluate development 40/192 seed=82000013 Eb/N0=-12 START
+evaluate 40/192 COMPLETE elapsed=0.50s total=21.30s raw identity PASS
+evaluate development 41/192 seed=82000013 Eb/N0=-10.5 START
+evaluate 41/192 COMPLETE elapsed=0.50s total=21.81s raw identity PASS
+evaluate development 42/192 seed=82000013 Eb/N0=-9 START
+evaluate 42/192 COMPLETE elapsed=0.50s total=22.30s raw identity PASS
+evaluate development 43/192 seed=82000014 Eb/N0=-12 START
+evaluate 43/192 COMPLETE elapsed=0.50s total=22.81s raw identity PASS
+evaluate development 44/192 seed=82000014 Eb/N0=-10.5 START
+evaluate 44/192 COMPLETE elapsed=0.50s total=23.30s raw identity PASS
+evaluate development 45/192 seed=82000014 Eb/N0=-9 START
+evaluate 45/192 COMPLETE elapsed=0.50s total=23.80s raw identity PASS
+evaluate development 46/192 seed=82000015 Eb/N0=-12 START
+evaluate 46/192 COMPLETE elapsed=0.50s total=24.30s raw identity PASS
+evaluate development 47/192 seed=82000015 Eb/N0=-10.5 START
+evaluate 47/192 COMPLETE elapsed=0.50s total=24.80s raw identity PASS
+evaluate development 48/192 seed=82000015 Eb/N0=-9 START
+evaluate 48/192 COMPLETE elapsed=0.51s total=25.31s raw identity PASS
+evaluate development 49/192 seed=82000016 Eb/N0=-12 START
+evaluate 49/192 COMPLETE elapsed=0.51s total=25.82s raw identity PASS
+evaluate development 50/192 seed=82000016 Eb/N0=-10.5 START
+evaluate 50/192 COMPLETE elapsed=0.51s total=26.32s raw identity PASS
+evaluate development 51/192 seed=82000016 Eb/N0=-9 START
+evaluate 51/192 COMPLETE elapsed=0.51s total=26.83s raw identity PASS
+evaluate development 52/192 seed=82000017 Eb/N0=-12 START
+evaluate 52/192 COMPLETE elapsed=0.50s total=27.33s raw identity PASS
+evaluate development 53/192 seed=82000017 Eb/N0=-10.5 START
+evaluate 53/192 COMPLETE elapsed=0.51s total=27.84s raw identity PASS
+evaluate development 54/192 seed=82000017 Eb/N0=-9 START
+evaluate 54/192 COMPLETE elapsed=0.50s total=28.34s raw identity PASS
+evaluate development 55/192 seed=82000018 Eb/N0=-12 START
+evaluate 55/192 COMPLETE elapsed=0.50s total=28.84s raw identity PASS
+evaluate development 56/192 seed=82000018 Eb/N0=-10.5 START
+evaluate 56/192 COMPLETE elapsed=0.50s total=29.34s raw identity PASS
+evaluate development 57/192 seed=82000018 Eb/N0=-9 START
+evaluate 57/192 COMPLETE elapsed=0.50s total=29.84s raw identity PASS
+evaluate development 58/192 seed=82000019 Eb/N0=-12 START
+evaluate 58/192 COMPLETE elapsed=0.50s total=30.34s raw identity PASS
+evaluate development 59/192 seed=82000019 Eb/N0=-10.5 START
+evaluate 59/192 COMPLETE elapsed=0.50s total=30.84s raw identity PASS
+evaluate development 60/192 seed=82000019 Eb/N0=-9 START
+evaluate 60/192 COMPLETE elapsed=0.50s total=31.35s raw identity PASS
+evaluate development 61/192 seed=82000020 Eb/N0=-12 START
+evaluate 61/192 COMPLETE elapsed=0.49s total=31.84s raw identity PASS
+evaluate development 62/192 seed=82000020 Eb/N0=-10.5 START
+evaluate 62/192 COMPLETE elapsed=0.48s total=32.32s raw identity PASS
+evaluate development 63/192 seed=82000020 Eb/N0=-9 START
+evaluate 63/192 COMPLETE elapsed=0.49s total=32.81s raw identity PASS
+evaluate development 64/192 seed=82000021 Eb/N0=-12 START
+evaluate 64/192 COMPLETE elapsed=0.49s total=33.30s raw identity PASS
+evaluate development 65/192 seed=82000021 Eb/N0=-10.5 START
+evaluate 65/192 COMPLETE elapsed=0.49s total=33.79s raw identity PASS
+evaluate development 66/192 seed=82000021 Eb/N0=-9 START
+evaluate 66/192 COMPLETE elapsed=0.49s total=34.28s raw identity PASS
+evaluate development 67/192 seed=82000022 Eb/N0=-12 START
+evaluate 67/192 COMPLETE elapsed=0.49s total=34.77s raw identity PASS
+evaluate development 68/192 seed=82000022 Eb/N0=-10.5 START
+evaluate 68/192 COMPLETE elapsed=0.50s total=35.26s raw identity PASS
+evaluate development 69/192 seed=82000022 Eb/N0=-9 START
+evaluate 69/192 COMPLETE elapsed=0.49s total=35.75s raw identity PASS
+evaluate development 70/192 seed=82000023 Eb/N0=-12 START
+evaluate 70/192 COMPLETE elapsed=0.49s total=36.24s raw identity PASS
+evaluate development 71/192 seed=82000023 Eb/N0=-10.5 START
+evaluate 71/192 COMPLETE elapsed=0.49s total=36.74s raw identity PASS
+evaluate development 72/192 seed=82000023 Eb/N0=-9 START
+evaluate 72/192 COMPLETE elapsed=0.49s total=37.23s raw identity PASS
+evaluate development 73/192 seed=82000024 Eb/N0=-12 START
+evaluate 73/192 COMPLETE elapsed=0.48s total=37.71s raw identity PASS
+evaluate development 74/192 seed=82000024 Eb/N0=-10.5 START
+evaluate 74/192 COMPLETE elapsed=0.49s total=38.20s raw identity PASS
+evaluate development 75/192 seed=82000024 Eb/N0=-9 START
+evaluate 75/192 COMPLETE elapsed=0.49s total=38.69s raw identity PASS
+evaluate development 76/192 seed=82000025 Eb/N0=-12 START
+evaluate 76/192 COMPLETE elapsed=0.50s total=39.20s raw identity PASS
+evaluate development 77/192 seed=82000025 Eb/N0=-10.5 START
+evaluate 77/192 COMPLETE elapsed=0.50s total=39.70s raw identity PASS
+evaluate development 78/192 seed=82000025 Eb/N0=-9 START
+evaluate 78/192 COMPLETE elapsed=0.50s total=40.20s raw identity PASS
+evaluate development 79/192 seed=82000026 Eb/N0=-12 START
+evaluate 79/192 COMPLETE elapsed=0.50s total=40.70s raw identity PASS
+evaluate development 80/192 seed=82000026 Eb/N0=-10.5 START
+evaluate 80/192 COMPLETE elapsed=0.50s total=41.20s raw identity PASS
+evaluate development 81/192 seed=82000026 Eb/N0=-9 START
+evaluate 81/192 COMPLETE elapsed=0.50s total=41.70s raw identity PASS
+evaluate development 82/192 seed=82000027 Eb/N0=-12 START
+evaluate 82/192 COMPLETE elapsed=0.50s total=42.20s raw identity PASS
+evaluate development 83/192 seed=82000027 Eb/N0=-10.5 START
+evaluate 83/192 COMPLETE elapsed=0.50s total=42.69s raw identity PASS
+evaluate development 84/192 seed=82000027 Eb/N0=-9 START
+evaluate 84/192 COMPLETE elapsed=0.50s total=43.20s raw identity PASS
+evaluate development 85/192 seed=82000028 Eb/N0=-12 START
+evaluate 85/192 COMPLETE elapsed=0.50s total=43.70s raw identity PASS
+evaluate development 86/192 seed=82000028 Eb/N0=-10.5 START
+evaluate 86/192 COMPLETE elapsed=0.50s total=44.20s raw identity PASS
+evaluate development 87/192 seed=82000028 Eb/N0=-9 START
+evaluate 87/192 COMPLETE elapsed=0.50s total=44.70s raw identity PASS
+evaluate development 88/192 seed=82000029 Eb/N0=-12 START
+evaluate 88/192 COMPLETE elapsed=0.50s total=45.20s raw identity PASS
+evaluate development 89/192 seed=82000029 Eb/N0=-10.5 START
+evaluate 89/192 COMPLETE elapsed=0.50s total=45.70s raw identity PASS
+evaluate development 90/192 seed=82000029 Eb/N0=-9 START
+evaluate 90/192 COMPLETE elapsed=0.50s total=46.19s raw identity PASS
+evaluate development 91/192 seed=82000030 Eb/N0=-12 START
+evaluate 91/192 COMPLETE elapsed=0.50s total=46.70s raw identity PASS
+evaluate development 92/192 seed=82000030 Eb/N0=-10.5 START
+evaluate 92/192 COMPLETE elapsed=0.50s total=47.20s raw identity PASS
+evaluate development 93/192 seed=82000030 Eb/N0=-9 START
+evaluate 93/192 COMPLETE elapsed=0.50s total=47.70s raw identity PASS
+evaluate development 94/192 seed=82000031 Eb/N0=-12 START
+evaluate 94/192 COMPLETE elapsed=0.50s total=48.20s raw identity PASS
+evaluate development 95/192 seed=82000031 Eb/N0=-10.5 START
+evaluate 95/192 COMPLETE elapsed=0.50s total=48.70s raw identity PASS
+evaluate development 96/192 seed=82000031 Eb/N0=-9 START
+evaluate 96/192 COMPLETE elapsed=0.50s total=49.20s raw identity PASS
+evaluate development 97/192 seed=82000032 Eb/N0=-12 START
+evaluate 97/192 COMPLETE elapsed=0.50s total=49.70s raw identity PASS
+evaluate development 98/192 seed=82000032 Eb/N0=-10.5 START
+evaluate 98/192 COMPLETE elapsed=0.50s total=50.20s raw identity PASS
+evaluate development 99/192 seed=82000032 Eb/N0=-9 START
+evaluate 99/192 COMPLETE elapsed=0.50s total=50.70s raw identity PASS
+evaluate development 100/192 seed=82000033 Eb/N0=-12 START
+evaluate 100/192 COMPLETE elapsed=0.50s total=51.20s raw identity PASS
+evaluate development 101/192 seed=82000033 Eb/N0=-10.5 START
+evaluate 101/192 COMPLETE elapsed=0.52s total=51.72s raw identity PASS
+evaluate development 102/192 seed=82000033 Eb/N0=-9 START
+evaluate 102/192 COMPLETE elapsed=0.52s total=52.24s raw identity PASS
+evaluate development 103/192 seed=82000034 Eb/N0=-12 START
+evaluate 103/192 COMPLETE elapsed=0.50s total=52.74s raw identity PASS
+evaluate development 104/192 seed=82000034 Eb/N0=-10.5 START
+evaluate 104/192 COMPLETE elapsed=0.50s total=53.23s raw identity PASS
+evaluate development 105/192 seed=82000034 Eb/N0=-9 START
+evaluate 105/192 COMPLETE elapsed=0.50s total=53.73s raw identity PASS
+evaluate development 106/192 seed=82000035 Eb/N0=-12 START
+evaluate 106/192 COMPLETE elapsed=0.50s total=54.23s raw identity PASS
+evaluate development 107/192 seed=82000035 Eb/N0=-10.5 START
+evaluate 107/192 COMPLETE elapsed=0.50s total=54.73s raw identity PASS
+evaluate development 108/192 seed=82000035 Eb/N0=-9 START
+evaluate 108/192 COMPLETE elapsed=0.50s total=55.23s raw identity PASS
+evaluate development 109/192 seed=82000036 Eb/N0=-12 START
+evaluate 109/192 COMPLETE elapsed=0.50s total=55.72s raw identity PASS
+evaluate development 110/192 seed=82000036 Eb/N0=-10.5 START
+evaluate 110/192 COMPLETE elapsed=0.50s total=56.23s raw identity PASS
+evaluate development 111/192 seed=82000036 Eb/N0=-9 START
+evaluate 111/192 COMPLETE elapsed=0.50s total=56.72s raw identity PASS
+evaluate development 112/192 seed=82000037 Eb/N0=-12 START
+evaluate 112/192 COMPLETE elapsed=0.50s total=57.22s raw identity PASS
+evaluate development 113/192 seed=82000037 Eb/N0=-10.5 START
+evaluate 113/192 COMPLETE elapsed=0.50s total=57.72s raw identity PASS
+evaluate development 114/192 seed=82000037 Eb/N0=-9 START
+evaluate 114/192 COMPLETE elapsed=0.50s total=58.22s raw identity PASS
+evaluate development 115/192 seed=82000038 Eb/N0=-12 START
+evaluate 115/192 COMPLETE elapsed=0.50s total=58.72s raw identity PASS
+evaluate development 116/192 seed=82000038 Eb/N0=-10.5 START
+evaluate 116/192 COMPLETE elapsed=0.50s total=59.22s raw identity PASS
+evaluate development 117/192 seed=82000038 Eb/N0=-9 START
+evaluate 117/192 COMPLETE elapsed=0.50s total=59.73s raw identity PASS
+evaluate development 118/192 seed=82000039 Eb/N0=-12 START
+evaluate 118/192 COMPLETE elapsed=0.50s total=60.23s raw identity PASS
+evaluate development 119/192 seed=82000039 Eb/N0=-10.5 START
+evaluate 119/192 COMPLETE elapsed=0.51s total=60.74s raw identity PASS
+evaluate development 120/192 seed=82000039 Eb/N0=-9 START
+evaluate 120/192 COMPLETE elapsed=0.50s total=61.24s raw identity PASS
+evaluate development 121/192 seed=82000040 Eb/N0=-12 START
+evaluate 121/192 COMPLETE elapsed=0.50s total=61.73s raw identity PASS
+evaluate development 122/192 seed=82000040 Eb/N0=-10.5 START
+evaluate 122/192 COMPLETE elapsed=0.50s total=62.23s raw identity PASS
+evaluate development 123/192 seed=82000040 Eb/N0=-9 START
+evaluate 123/192 COMPLETE elapsed=0.50s total=62.73s raw identity PASS
+evaluate development 124/192 seed=82000041 Eb/N0=-12 START
+evaluate 124/192 COMPLETE elapsed=0.50s total=63.23s raw identity PASS
+evaluate development 125/192 seed=82000041 Eb/N0=-10.5 START
+evaluate 125/192 COMPLETE elapsed=0.50s total=63.73s raw identity PASS
+evaluate development 126/192 seed=82000041 Eb/N0=-9 START
+evaluate 126/192 COMPLETE elapsed=0.50s total=64.23s raw identity PASS
+evaluate development 127/192 seed=82000042 Eb/N0=-12 START
+evaluate 127/192 COMPLETE elapsed=0.50s total=64.73s raw identity PASS
+evaluate development 128/192 seed=82000042 Eb/N0=-10.5 START
+evaluate 128/192 COMPLETE elapsed=0.50s total=65.23s raw identity PASS
+evaluate development 129/192 seed=82000042 Eb/N0=-9 START
+evaluate 129/192 COMPLETE elapsed=0.50s total=65.72s raw identity PASS
+evaluate development 130/192 seed=82000043 Eb/N0=-12 START
+evaluate 130/192 COMPLETE elapsed=0.50s total=66.22s raw identity PASS
+evaluate development 131/192 seed=82000043 Eb/N0=-10.5 START
+evaluate 131/192 COMPLETE elapsed=0.50s total=66.72s raw identity PASS
+evaluate development 132/192 seed=82000043 Eb/N0=-9 START
+evaluate 132/192 COMPLETE elapsed=0.50s total=67.22s raw identity PASS
+evaluate development 133/192 seed=82000044 Eb/N0=-12 START
+evaluate 133/192 COMPLETE elapsed=0.50s total=67.72s raw identity PASS
+evaluate development 134/192 seed=82000044 Eb/N0=-10.5 START
+evaluate 134/192 COMPLETE elapsed=0.48s total=68.20s raw identity PASS
+evaluate development 135/192 seed=82000044 Eb/N0=-9 START
+evaluate 135/192 COMPLETE elapsed=0.48s total=68.68s raw identity PASS
+evaluate development 136/192 seed=82000045 Eb/N0=-12 START
+evaluate 136/192 COMPLETE elapsed=0.49s total=69.17s raw identity PASS
+evaluate development 137/192 seed=82000045 Eb/N0=-10.5 START
+evaluate 137/192 COMPLETE elapsed=0.48s total=69.65s raw identity PASS
+evaluate development 138/192 seed=82000045 Eb/N0=-9 START
+evaluate 138/192 COMPLETE elapsed=0.48s total=70.12s raw identity PASS
+evaluate development 139/192 seed=82000046 Eb/N0=-12 START
+evaluate 139/192 COMPLETE elapsed=0.48s total=70.61s raw identity PASS
+evaluate development 140/192 seed=82000046 Eb/N0=-10.5 START
+evaluate 140/192 COMPLETE elapsed=0.48s total=71.09s raw identity PASS
+evaluate development 141/192 seed=82000046 Eb/N0=-9 START
+evaluate 141/192 COMPLETE elapsed=0.48s total=71.57s raw identity PASS
+evaluate development 142/192 seed=82000047 Eb/N0=-12 START
+evaluate 142/192 COMPLETE elapsed=0.48s total=72.05s raw identity PASS
+evaluate development 143/192 seed=82000047 Eb/N0=-10.5 START
+evaluate 143/192 COMPLETE elapsed=0.48s total=72.53s raw identity PASS
+evaluate development 144/192 seed=82000047 Eb/N0=-9 START
+evaluate 144/192 COMPLETE elapsed=0.48s total=73.01s raw identity PASS
+evaluate development 145/192 seed=82000048 Eb/N0=-12 START
+evaluate 145/192 COMPLETE elapsed=0.49s total=73.49s raw identity PASS
+evaluate development 146/192 seed=82000048 Eb/N0=-10.5 START
+evaluate 146/192 COMPLETE elapsed=0.48s total=73.98s raw identity PASS
+evaluate development 147/192 seed=82000048 Eb/N0=-9 START
+evaluate 147/192 COMPLETE elapsed=0.48s total=74.46s raw identity PASS
+evaluate development 148/192 seed=82000049 Eb/N0=-12 START
+evaluate 148/192 COMPLETE elapsed=0.50s total=74.96s raw identity PASS
+evaluate development 149/192 seed=82000049 Eb/N0=-10.5 START
+evaluate 149/192 COMPLETE elapsed=0.50s total=75.46s raw identity PASS
+evaluate development 150/192 seed=82000049 Eb/N0=-9 START
+evaluate 150/192 COMPLETE elapsed=0.49s total=75.95s raw identity PASS
+evaluate development 151/192 seed=82000050 Eb/N0=-12 START
+evaluate 151/192 COMPLETE elapsed=0.50s total=76.45s raw identity PASS
+evaluate development 152/192 seed=82000050 Eb/N0=-10.5 START
+evaluate 152/192 COMPLETE elapsed=0.49s total=76.94s raw identity PASS
+evaluate development 153/192 seed=82000050 Eb/N0=-9 START
+evaluate 153/192 COMPLETE elapsed=0.50s total=77.44s raw identity PASS
+evaluate development 154/192 seed=82000051 Eb/N0=-12 START
+evaluate 154/192 COMPLETE elapsed=0.50s total=77.94s raw identity PASS
+evaluate development 155/192 seed=82000051 Eb/N0=-10.5 START
+evaluate 155/192 COMPLETE elapsed=0.50s total=78.44s raw identity PASS
+evaluate development 156/192 seed=82000051 Eb/N0=-9 START
+evaluate 156/192 COMPLETE elapsed=0.50s total=78.93s raw identity PASS
+evaluate development 157/192 seed=82000052 Eb/N0=-12 START
+evaluate 157/192 COMPLETE elapsed=0.50s total=79.43s raw identity PASS
+evaluate development 158/192 seed=82000052 Eb/N0=-10.5 START
+evaluate 158/192 COMPLETE elapsed=0.50s total=79.93s raw identity PASS
+evaluate development 159/192 seed=82000052 Eb/N0=-9 START
+evaluate 159/192 COMPLETE elapsed=0.50s total=80.42s raw identity PASS
+evaluate development 160/192 seed=82000053 Eb/N0=-12 START
+evaluate 160/192 COMPLETE elapsed=0.50s total=80.92s raw identity PASS
+evaluate development 161/192 seed=82000053 Eb/N0=-10.5 START
+evaluate 161/192 COMPLETE elapsed=0.50s total=81.42s raw identity PASS
+evaluate development 162/192 seed=82000053 Eb/N0=-9 START
+evaluate 162/192 COMPLETE elapsed=0.50s total=81.92s raw identity PASS
+evaluate development 163/192 seed=82000054 Eb/N0=-12 START
+evaluate 163/192 COMPLETE elapsed=0.51s total=82.43s raw identity PASS
+evaluate development 164/192 seed=82000054 Eb/N0=-10.5 START
+evaluate 164/192 COMPLETE elapsed=0.50s total=82.93s raw identity PASS
+evaluate development 165/192 seed=82000054 Eb/N0=-9 START
+evaluate 165/192 COMPLETE elapsed=0.50s total=83.42s raw identity PASS
+evaluate development 166/192 seed=82000055 Eb/N0=-12 START
+evaluate 166/192 COMPLETE elapsed=0.50s total=83.92s raw identity PASS
+evaluate development 167/192 seed=82000055 Eb/N0=-10.5 START
+evaluate 167/192 COMPLETE elapsed=0.50s total=84.42s raw identity PASS
+evaluate development 168/192 seed=82000055 Eb/N0=-9 START
+evaluate 168/192 COMPLETE elapsed=0.50s total=84.91s raw identity PASS
+evaluate development 169/192 seed=82000056 Eb/N0=-12 START
+evaluate 169/192 COMPLETE elapsed=0.50s total=85.42s raw identity PASS
+evaluate development 170/192 seed=82000056 Eb/N0=-10.5 START
+evaluate 170/192 COMPLETE elapsed=0.50s total=85.92s raw identity PASS
+evaluate development 171/192 seed=82000056 Eb/N0=-9 START
+evaluate 171/192 COMPLETE elapsed=0.50s total=86.41s raw identity PASS
+evaluate development 172/192 seed=82000057 Eb/N0=-12 START
+evaluate 172/192 COMPLETE elapsed=0.50s total=86.91s raw identity PASS
+evaluate development 173/192 seed=82000057 Eb/N0=-10.5 START
+evaluate 173/192 COMPLETE elapsed=0.50s total=87.41s raw identity PASS
+evaluate development 174/192 seed=82000057 Eb/N0=-9 START
+evaluate 174/192 COMPLETE elapsed=0.50s total=87.91s raw identity PASS
+evaluate development 175/192 seed=82000058 Eb/N0=-12 START
+evaluate 175/192 COMPLETE elapsed=0.50s total=88.41s raw identity PASS
+evaluate development 176/192 seed=82000058 Eb/N0=-10.5 START
+evaluate 176/192 COMPLETE elapsed=0.50s total=88.91s raw identity PASS
+evaluate development 177/192 seed=82000058 Eb/N0=-9 START
+evaluate 177/192 COMPLETE elapsed=0.50s total=89.40s raw identity PASS
+evaluate development 178/192 seed=82000059 Eb/N0=-12 START
+evaluate 178/192 COMPLETE elapsed=0.50s total=89.90s raw identity PASS
+evaluate development 179/192 seed=82000059 Eb/N0=-10.5 START
+evaluate 179/192 COMPLETE elapsed=0.50s total=90.40s raw identity PASS
+evaluate development 180/192 seed=82000059 Eb/N0=-9 START
+evaluate 180/192 COMPLETE elapsed=0.50s total=90.90s raw identity PASS
+evaluate development 181/192 seed=82000060 Eb/N0=-12 START
+evaluate 181/192 COMPLETE elapsed=0.50s total=91.40s raw identity PASS
+evaluate development 182/192 seed=82000060 Eb/N0=-10.5 START
+evaluate 182/192 COMPLETE elapsed=0.50s total=91.90s raw identity PASS
+evaluate development 183/192 seed=82000060 Eb/N0=-9 START
+evaluate 183/192 COMPLETE elapsed=0.50s total=92.40s raw identity PASS
+evaluate development 184/192 seed=82000061 Eb/N0=-12 START
+evaluate 184/192 COMPLETE elapsed=0.50s total=92.90s raw identity PASS
+evaluate development 185/192 seed=82000061 Eb/N0=-10.5 START
+evaluate 185/192 COMPLETE elapsed=0.50s total=93.40s raw identity PASS
+evaluate development 186/192 seed=82000061 Eb/N0=-9 START
+evaluate 186/192 COMPLETE elapsed=0.50s total=93.89s raw identity PASS
+evaluate development 187/192 seed=82000062 Eb/N0=-12 START
+evaluate 187/192 COMPLETE elapsed=0.50s total=94.39s raw identity PASS
+evaluate development 188/192 seed=82000062 Eb/N0=-10.5 START
+evaluate 188/192 COMPLETE elapsed=0.50s total=94.89s raw identity PASS
+evaluate development 189/192 seed=82000062 Eb/N0=-9 START
+evaluate 189/192 COMPLETE elapsed=0.50s total=95.39s raw identity PASS
+evaluate development 190/192 seed=82000063 Eb/N0=-12 START
+evaluate 190/192 COMPLETE elapsed=0.50s total=95.89s raw identity PASS
+evaluate development 191/192 seed=82000063 Eb/N0=-10.5 START
+evaluate 191/192 COMPLETE elapsed=0.50s total=96.38s raw identity PASS
+evaluate development 192/192 seed=82000063 Eb/N0=-9 START
+evaluate 192/192 COMPLETE elapsed=0.50s total=96.88s raw identity PASS
+Complete cached scaling evaluation: results/cached_llr_scaling/cachedscale_20261008_dev1/summary.json
+[2026-10-08T16:29:05Z] END development_evaluate elapsed=147s exit=0
+[2026-10-08T16:29:05Z] START development_check
+Preflight: validating original complete cache schema, identity and every channel hash (read-only).
+Preflight PASS: source cache c1a4f87a0ead529adf0435ba7e8ab72b4d3bbf06445441a65466acfa1ddd33bf; train/validation/development=24/8/64; current code 12d8335c026ba0f609ec6f521513ffc82845ce5e; elapsed=30.54s
+Complete cached-scaling artifacts verified: results/cached_llr_scaling/cachedscale_20261008_dev1/summary.json
+[2026-10-08T16:29:37Z] END development_check elapsed=32s exit=0
+[2026-10-08T16:29:37Z] START summary
+Batch complete.
+New scale training: ckp/cached_llr_scaling/cachedscale_20261008_dev1
+Results and summary: results/cached_llr_scaling/cachedscale_20261008_dev1
+Logs and status: logs/cached_llr_scaling/cachedscale_20261008_dev1
+[2026-10-08T16:29:37Z] END summary elapsed=0s exit=0
