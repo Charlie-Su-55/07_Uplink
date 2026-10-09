@@ -1,0 +1,10 @@
+run_id	pid	stage	state	elapsed_seconds	exit_code	utc
+mechanism_20261008_confirm1	1520083	preflight	complete	51	0	2026-10-08T21:40:57Z
+mechanism_20261008_confirm1	1520083	lightweight_tests	complete	6	0	2026-10-08T21:41:03Z
+mechanism_20261008_confirm1	1520083	smoke_train	complete	28	0	2026-10-08T21:41:31Z
+mechanism_20261008_confirm1	1520083	smoke_evaluate	complete	33	0	2026-10-08T21:42:04Z
+mechanism_20261008_confirm1	1520083	smoke_check	complete	27	0	2026-10-08T21:42:31Z
+mechanism_20261008_confirm1	1520083	confirmation_train	complete	205	0	2026-10-08T21:45:56Z
+mechanism_20261008_confirm1	1520083	confirmation_evaluate	complete	12901	0	2026-10-09T01:20:57Z
+mechanism_20261008_confirm1	1520083	confirmation_check	complete	25	0	2026-10-09T01:21:22Z
+mechanism_20261008_confirm1	1520083	summary	complete	0	0	2026-10-09T01:21:22Z

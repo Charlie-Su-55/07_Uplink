@@ -1,0 +1,3714 @@
+{
+  "targets": [
+    {
+      "curve": "native_lmmse",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1318359375
+        ],
+        [
+          -11.5,
+          0.1114501953125
+        ],
+        [
+          -11.0,
+          0.0927734375
+        ],
+        [
+          -10.5,
+          0.081787109375
+        ],
+        [
+          -10.0,
+          0.069091796875
+        ],
+        [
+          -9.5,
+          0.0621337890625
+        ],
+        [
+          -9.0,
+          0.05517578125
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -11.5,
+          "left_bler": 0.1114501953125,
+          "right_ebno_db": -11.0,
+          "right_bler": 0.0927734375,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.204478423680742
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.204478423680742,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "native_lmmse",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1318359375
+        ],
+        [
+          -11.5,
+          0.1114501953125
+        ],
+        [
+          -11.0,
+          0.0927734375
+        ],
+        [
+          -10.5,
+          0.081787109375
+        ],
+        [
+          -10.0,
+          0.069091796875
+        ],
+        [
+          -9.5,
+          0.0621337890625
+        ],
+        [
+          -9.0,
+          0.05517578125
+        ]
+      ],
+      "brackets": [],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": null,
+      "status": "unresolved",
+      "reason": "target_not_bracketed_by_measured_points"
+    },
+    {
+      "curve": "ep5_raw",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.129150390625
+        ],
+        [
+          -11.5,
+          0.1072998046875
+        ],
+        [
+          -11.0,
+          0.09130859375
+        ],
+        [
+          -10.5,
+          0.0799560546875
+        ],
+        [
+          -10.0,
+          0.0679931640625
+        ],
+        [
+          -9.5,
+          0.0611572265625
+        ],
+        [
+          -9.0,
+          0.053466796875
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -11.5,
+          "left_bler": 0.1072998046875,
+          "right_ebno_db": -11.0,
+          "right_bler": 0.09130859375,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.281708373756375
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.281708373756375,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "ep5_raw",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.129150390625
+        ],
+        [
+          -11.5,
+          0.1072998046875
+        ],
+        [
+          -11.0,
+          0.09130859375
+        ],
+        [
+          -10.5,
+          0.0799560546875
+        ],
+        [
+          -10.0,
+          0.0679931640625
+        ],
+        [
+          -9.5,
+          0.0611572265625
+        ],
+        [
+          -9.0,
+          0.053466796875
+        ]
+      ],
+      "brackets": [],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": null,
+      "status": "unresolved",
+      "reason": "target_not_bracketed_by_measured_points"
+    },
+    {
+      "curve": "global_train24",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1197509765625
+        ],
+        [
+          -11.5,
+          0.0982666015625
+        ],
+        [
+          -11.0,
+          0.0849609375
+        ],
+        [
+          -10.5,
+          0.07177734375
+        ],
+        [
+          -10.0,
+          0.0640869140625
+        ],
+        [
+          -9.5,
+          0.0552978515625
+        ],
+        [
+          -9.0,
+          0.04833984375
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1197509765625,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.0982666015625,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.544216762147364
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.544216762147364,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "global_train24",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1197509765625
+        ],
+        [
+          -11.5,
+          0.0982666015625
+        ],
+        [
+          -11.0,
+          0.0849609375
+        ],
+        [
+          -10.5,
+          0.07177734375
+        ],
+        [
+          -10.0,
+          0.0640869140625
+        ],
+        [
+          -9.5,
+          0.0552978515625
+        ],
+        [
+          -9.0,
+          0.04833984375
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.0552978515625,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.04833984375,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.125547985572666
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.125547985572666,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "per_bit_train24",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1181640625
+        ],
+        [
+          -11.5,
+          0.096923828125
+        ],
+        [
+          -11.0,
+          0.0843505859375
+        ],
+        [
+          -10.5,
+          0.0706787109375
+        ],
+        [
+          -10.0,
+          0.06298828125
+        ],
+        [
+          -9.5,
+          0.0546875
+        ],
+        [
+          -9.0,
+          0.0478515625
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1181640625,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.096923828125,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.578841810978455
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.578841810978455,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "per_bit_train24",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1181640625
+        ],
+        [
+          -11.5,
+          0.096923828125
+        ],
+        [
+          -11.0,
+          0.0843505859375
+        ],
+        [
+          -10.5,
+          0.0706787109375
+        ],
+        [
+          -10.0,
+          0.06298828125
+        ],
+        [
+          -9.5,
+          0.0546875
+        ],
+        [
+          -9.0,
+          0.0478515625
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.0546875,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0478515625,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.164452841656239
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.164452841656239,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "noise_per_bit_train24",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1185302734375
+        ],
+        [
+          -11.5,
+          0.0975341796875
+        ],
+        [
+          -11.0,
+          0.0843505859375
+        ],
+        [
+          -10.5,
+          0.0706787109375
+        ],
+        [
+          -10.0,
+          0.0623779296875
+        ],
+        [
+          -9.5,
+          0.054443359375
+        ],
+        [
+          -9.0,
+          0.0469970703125
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1185302734375,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.0975341796875,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.56403006079129
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.56403006079129,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "noise_per_bit_train24",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1185302734375
+        ],
+        [
+          -11.5,
+          0.0975341796875
+        ],
+        [
+          -11.0,
+          0.0843505859375
+        ],
+        [
+          -10.5,
+          0.0706787109375
+        ],
+        [
+          -10.0,
+          0.0623779296875
+        ],
+        [
+          -9.5,
+          0.054443359375
+        ],
+        [
+          -9.0,
+          0.0469970703125
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.054443359375,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0469970703125,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.210564267526172
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.210564267526172,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "full_mlp_seed42_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1138916015625
+        ],
+        [
+          -11.5,
+          0.09326171875
+        ],
+        [
+          -11.0,
+          0.0794677734375
+        ],
+        [
+          -10.5,
+          0.067626953125
+        ],
+        [
+          -10.0,
+          0.0589599609375
+        ],
+        [
+          -9.5,
+          0.051025390625
+        ],
+        [
+          -9.0,
+          0.0443115234375
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1138916015625,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.09326171875,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.67454305610739
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.67454305610739,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "full_mlp_seed42_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1138916015625
+        ],
+        [
+          -11.5,
+          0.09326171875
+        ],
+        [
+          -11.0,
+          0.0794677734375
+        ],
+        [
+          -10.5,
+          0.067626953125
+        ],
+        [
+          -10.0,
+          0.0589599609375
+        ],
+        [
+          -9.5,
+          0.051025390625
+        ],
+        [
+          -9.0,
+          0.0443115234375
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.051025390625,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0443115234375,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.42805301778637
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.42805301778637,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "full_mlp_seed43_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1142578125
+        ],
+        [
+          -11.5,
+          0.0936279296875
+        ],
+        [
+          -11.0,
+          0.07958984375
+        ],
+        [
+          -10.5,
+          0.067626953125
+        ],
+        [
+          -10.0,
+          0.058837890625
+        ],
+        [
+          -9.5,
+          0.051025390625
+        ],
+        [
+          -9.0,
+          0.0445556640625
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1142578125,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.0936279296875,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.665323886380264
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.665323886380264,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "full_mlp_seed43_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1142578125
+        ],
+        [
+          -11.5,
+          0.0936279296875
+        ],
+        [
+          -11.0,
+          0.07958984375
+        ],
+        [
+          -10.5,
+          0.067626953125
+        ],
+        [
+          -10.0,
+          0.058837890625
+        ],
+        [
+          -9.5,
+          0.051025390625
+        ],
+        [
+          -9.0,
+          0.0445556640625
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.051025390625,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0445556640625,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.425137379853785
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.425137379853785,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "full_mlp_seed44_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1146240234375
+        ],
+        [
+          -11.5,
+          0.0933837890625
+        ],
+        [
+          -11.0,
+          0.0794677734375
+        ],
+        [
+          -10.5,
+          0.0675048828125
+        ],
+        [
+          -10.0,
+          0.05859375
+        ],
+        [
+          -9.5,
+          0.05078125
+        ],
+        [
+          -9.0,
+          0.0440673828125
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1146240234375,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.0933837890625,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.667006291855355
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.667006291855355,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "full_mlp_seed44_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1146240234375
+        ],
+        [
+          -11.5,
+          0.0933837890625
+        ],
+        [
+          -11.0,
+          0.0794677734375
+        ],
+        [
+          -10.5,
+          0.0675048828125
+        ],
+        [
+          -10.0,
+          0.05859375
+        ],
+        [
+          -9.5,
+          0.05078125
+        ],
+        [
+          -9.0,
+          0.0440673828125
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.05078125,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0440673828125,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.445333610028786
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.445333610028786,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_residual_seed42_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.115234375
+        ],
+        [
+          -11.5,
+          0.093994140625
+        ],
+        [
+          -11.0,
+          0.0802001953125
+        ],
+        [
+          -10.5,
+          0.067626953125
+        ],
+        [
+          -10.0,
+          0.0594482421875
+        ],
+        [
+          -9.5,
+          0.0513916015625
+        ],
+        [
+          -9.0,
+          0.0450439453125
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.115234375,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.093994140625,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.652005157278507
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.652005157278507,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_residual_seed42_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.115234375
+        ],
+        [
+          -11.5,
+          0.093994140625
+        ],
+        [
+          -11.0,
+          0.0802001953125
+        ],
+        [
+          -10.5,
+          0.067626953125
+        ],
+        [
+          -10.0,
+          0.0594482421875
+        ],
+        [
+          -9.5,
+          0.0513916015625
+        ],
+        [
+          -9.0,
+          0.0450439453125
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.0513916015625,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0450439453125,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.39588685765396
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.39588685765396,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_residual_seed43_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.115234375
+        ],
+        [
+          -11.5,
+          0.09375
+        ],
+        [
+          -11.0,
+          0.0806884765625
+        ],
+        [
+          -10.5,
+          0.067626953125
+        ],
+        [
+          -10.0,
+          0.059326171875
+        ],
+        [
+          -9.5,
+          0.0517578125
+        ],
+        [
+          -9.0,
+          0.0450439453125
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.115234375,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.09375,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.656391482104981
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.656391482104981,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_residual_seed43_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.115234375
+        ],
+        [
+          -11.5,
+          0.09375
+        ],
+        [
+          -11.0,
+          0.0806884765625
+        ],
+        [
+          -10.5,
+          0.067626953125
+        ],
+        [
+          -10.0,
+          0.059326171875
+        ],
+        [
+          -9.5,
+          0.0517578125
+        ],
+        [
+          -9.0,
+          0.0450439453125
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.0517578125,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0450439453125,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.375654330877607
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.375654330877607,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_residual_seed44_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1153564453125
+        ],
+        [
+          -11.5,
+          0.093994140625
+        ],
+        [
+          -11.0,
+          0.080078125
+        ],
+        [
+          -10.5,
+          0.0677490234375
+        ],
+        [
+          -10.0,
+          0.0592041015625
+        ],
+        [
+          -9.5,
+          0.0513916015625
+        ],
+        [
+          -9.0,
+          0.0450439453125
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1153564453125,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.093994140625,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.651219309739112
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.651219309739112,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_residual_seed44_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1153564453125
+        ],
+        [
+          -11.5,
+          0.093994140625
+        ],
+        [
+          -11.0,
+          0.080078125
+        ],
+        [
+          -10.5,
+          0.0677490234375
+        ],
+        [
+          -10.0,
+          0.0592041015625
+        ],
+        [
+          -9.5,
+          0.0513916015625
+        ],
+        [
+          -9.0,
+          0.0450439453125
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.0513916015625,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0450439453125,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.39588685765396
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.39588685765396,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_eta_seed42_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.115478515625
+        ],
+        [
+          -11.5,
+          0.09375
+        ],
+        [
+          -11.0,
+          0.0809326171875
+        ],
+        [
+          -10.5,
+          0.0689697265625
+        ],
+        [
+          -10.0,
+          0.0594482421875
+        ],
+        [
+          -9.5,
+          0.0517578125
+        ],
+        [
+          -9.0,
+          0.04541015625
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.115478515625,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.09375,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.65480365344425
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.65480365344425,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_eta_seed42_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.115478515625
+        ],
+        [
+          -11.5,
+          0.09375
+        ],
+        [
+          -11.0,
+          0.0809326171875
+        ],
+        [
+          -10.5,
+          0.0689697265625
+        ],
+        [
+          -10.0,
+          0.0594482421875
+        ],
+        [
+          -9.5,
+          0.0517578125
+        ],
+        [
+          -9.0,
+          0.04541015625
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.0517578125,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.04541015625,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.367959007619042
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.367959007619042,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_eta_seed43_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.11572265625
+        ],
+        [
+          -11.5,
+          0.0941162109375
+        ],
+        [
+          -11.0,
+          0.081298828125
+        ],
+        [
+          -10.5,
+          0.069091796875
+        ],
+        [
+          -10.0,
+          0.0599365234375
+        ],
+        [
+          -9.5,
+          0.0518798828125
+        ],
+        [
+          -9.0,
+          0.0455322265625
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.11572265625,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.0941162109375,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.646709770744236
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.646709770744236,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_eta_seed43_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.11572265625
+        ],
+        [
+          -11.5,
+          0.0941162109375
+        ],
+        [
+          -11.0,
+          0.081298828125
+        ],
+        [
+          -10.5,
+          0.069091796875
+        ],
+        [
+          -10.0,
+          0.0599365234375
+        ],
+        [
+          -9.5,
+          0.0518798828125
+        ],
+        [
+          -9.0,
+          0.0455322265625
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.0518798828125,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0455322265625,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.358601320571053
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.358601320571053,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_eta_seed44_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.115478515625
+        ],
+        [
+          -11.5,
+          0.0936279296875
+        ],
+        [
+          -11.0,
+          0.0806884765625
+        ],
+        [
+          -10.5,
+          0.0687255859375
+        ],
+        [
+          -10.0,
+          0.059814453125
+        ],
+        [
+          -9.5,
+          0.0518798828125
+        ],
+        [
+          -9.0,
+          0.0455322265625
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.115478515625,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.0936279296875,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.656947896224201
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.656947896224201,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_eta_seed44_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.115478515625
+        ],
+        [
+          -11.5,
+          0.0936279296875
+        ],
+        [
+          -11.0,
+          0.0806884765625
+        ],
+        [
+          -10.5,
+          0.0687255859375
+        ],
+        [
+          -10.0,
+          0.059814453125
+        ],
+        [
+          -9.5,
+          0.0518798828125
+        ],
+        [
+          -9.0,
+          0.0455322265625
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.0518798828125,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0455322265625,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.358601320571053
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.358601320571053,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_both_seed42_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1153564453125
+        ],
+        [
+          -11.5,
+          0.09423828125
+        ],
+        [
+          -11.0,
+          0.0816650390625
+        ],
+        [
+          -10.5,
+          0.069091796875
+        ],
+        [
+          -10.0,
+          0.0606689453125
+        ],
+        [
+          -9.5,
+          0.0523681640625
+        ],
+        [
+          -9.0,
+          0.0458984375
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1153564453125,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.09423828125,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.64674479099223
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.64674479099223,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_both_seed42_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1153564453125
+        ],
+        [
+          -11.5,
+          0.09423828125
+        ],
+        [
+          -11.0,
+          0.0816650390625
+        ],
+        [
+          -10.5,
+          0.069091796875
+        ],
+        [
+          -10.0,
+          0.0606689453125
+        ],
+        [
+          -9.5,
+          0.0523681640625
+        ],
+        [
+          -9.0,
+          0.0458984375
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.0523681640625,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0458984375,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.324536946142159
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.324536946142159,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_both_seed43_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1156005859375
+        ],
+        [
+          -11.5,
+          0.0938720703125
+        ],
+        [
+          -11.0,
+          0.0816650390625
+        ],
+        [
+          -10.5,
+          0.06884765625
+        ],
+        [
+          -10.0,
+          0.0606689453125
+        ],
+        [
+          -9.5,
+          0.0523681640625
+        ],
+        [
+          -9.0,
+          0.046142578125
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1156005859375,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.0938720703125,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.65186075274531
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.65186075274531,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_both_seed43_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1156005859375
+        ],
+        [
+          -11.5,
+          0.0938720703125
+        ],
+        [
+          -11.0,
+          0.0816650390625
+        ],
+        [
+          -10.5,
+          0.06884765625
+        ],
+        [
+          -10.0,
+          0.0606689453125
+        ],
+        [
+          -9.5,
+          0.0523681640625
+        ],
+        [
+          -9.0,
+          0.046142578125
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.0523681640625,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.046142578125,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.317182168678743
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.317182168678743,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_both_seed44_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1158447265625
+        ],
+        [
+          -11.5,
+          0.0943603515625
+        ],
+        [
+          -11.0,
+          0.0816650390625
+        ],
+        [
+          -10.5,
+          0.069091796875
+        ],
+        [
+          -10.0,
+          0.0609130859375
+        ],
+        [
+          -9.5,
+          0.0528564453125
+        ],
+        [
+          -9.0,
+          0.0462646484375
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1158447265625,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.0943603515625,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.641493873247184
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.641493873247184,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_both_seed44_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1158447265625
+        ],
+        [
+          -11.5,
+          0.0943603515625
+        ],
+        [
+          -11.0,
+          0.0816650390625
+        ],
+        [
+          -10.5,
+          0.069091796875
+        ],
+        [
+          -10.0,
+          0.0609130859375
+        ],
+        [
+          -9.5,
+          0.0528564453125
+        ],
+        [
+          -9.0,
+          0.0462646484375
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.0528564453125,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0462646484375,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.291456384809758
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.291456384809758,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "affine_all_features_seed42_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1170654296875
+        ],
+        [
+          -11.5,
+          0.0963134765625
+        ],
+        [
+          -11.0,
+          0.082763671875
+        ],
+        [
+          -10.5,
+          0.06982421875
+        ],
+        [
+          -10.0,
+          0.0609130859375
+        ],
+        [
+          -9.5,
+          0.0531005859375
+        ],
+        [
+          -9.0,
+          0.0457763671875
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1170654296875,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.0963134765625,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.596251071845394
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.596251071845394,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "affine_all_features_seed42_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1170654296875
+        ],
+        [
+          -11.5,
+          0.0963134765625
+        ],
+        [
+          -11.0,
+          0.082763671875
+        ],
+        [
+          -10.5,
+          0.06982421875
+        ],
+        [
+          -10.0,
+          0.0609130859375
+        ],
+        [
+          -9.5,
+          0.0531005859375
+        ],
+        [
+          -9.0,
+          0.0457763671875
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.0531005859375,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0457763671875,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.2973152025044
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.2973152025044,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "affine_all_features_seed43_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1171875
+        ],
+        [
+          -11.5,
+          0.0960693359375
+        ],
+        [
+          -11.0,
+          0.0828857421875
+        ],
+        [
+          -10.5,
+          0.0694580078125
+        ],
+        [
+          -10.0,
+          0.060791015625
+        ],
+        [
+          -9.5,
+          0.0528564453125
+        ],
+        [
+          -9.0,
+          0.0458984375
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1171875,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.0960693359375,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.600903345647627
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.600903345647627,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "affine_all_features_seed43_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1171875
+        ],
+        [
+          -11.5,
+          0.0960693359375
+        ],
+        [
+          -11.0,
+          0.0828857421875
+        ],
+        [
+          -10.5,
+          0.0694580078125
+        ],
+        [
+          -10.0,
+          0.060791015625
+        ],
+        [
+          -9.5,
+          0.0528564453125
+        ],
+        [
+          -9.0,
+          0.0458984375
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.0528564453125,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0458984375,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.303197975985109
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.303197975985109,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "affine_all_features_seed44_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.116943359375
+        ],
+        [
+          -11.5,
+          0.0965576171875
+        ],
+        [
+          -11.0,
+          0.082763671875
+        ],
+        [
+          -10.5,
+          0.06982421875
+        ],
+        [
+          -10.0,
+          0.0609130859375
+        ],
+        [
+          -9.5,
+          0.05322265625
+        ],
+        [
+          -9.0,
+          0.045654296875
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.116943359375,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.0965576171875,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.591439105265694
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.591439105265694,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "affine_all_features_seed44_best",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.116943359375
+        ],
+        [
+          -11.5,
+          0.0965576171875
+        ],
+        [
+          -11.0,
+          0.082763671875
+        ],
+        [
+          -10.5,
+          0.06982421875
+        ],
+        [
+          -10.0,
+          0.0609130859375
+        ],
+        [
+          -9.5,
+          0.05322265625
+        ],
+        [
+          -9.0,
+          0.045654296875
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.05322265625,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.045654296875,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.296392799757522
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.296392799757522,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "frozen_reference_seed42",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1171875
+        ],
+        [
+          -11.5,
+          0.0963134765625
+        ],
+        [
+          -11.0,
+          0.0819091796875
+        ],
+        [
+          -10.5,
+          0.0692138671875
+        ],
+        [
+          -10.0,
+          0.060302734375
+        ],
+        [
+          -9.5,
+          0.05224609375
+        ],
+        [
+          -9.0,
+          0.0447998046875
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1171875,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.0963134765625,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.595739702412114
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.595739702412114,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "frozen_reference_seed42",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1171875
+        ],
+        [
+          -11.5,
+          0.0963134765625
+        ],
+        [
+          -11.0,
+          0.0819091796875
+        ],
+        [
+          -10.5,
+          0.0692138671875
+        ],
+        [
+          -10.0,
+          0.060302734375
+        ],
+        [
+          -9.5,
+          0.05224609375
+        ],
+        [
+          -9.0,
+          0.0447998046875
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.05224609375,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0447998046875,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.357109336763852
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.357109336763852,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "frozen_reference_seed43",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1171875
+        ],
+        [
+          -11.5,
+          0.095703125
+        ],
+        [
+          -11.0,
+          0.082275390625
+        ],
+        [
+          -10.5,
+          0.06884765625
+        ],
+        [
+          -10.0,
+          0.06005859375
+        ],
+        [
+          -9.5,
+          0.0521240234375
+        ],
+        [
+          -9.0,
+          0.0452880859375
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1171875,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.095703125,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.608429560594924
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.608429560594924,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "frozen_reference_seed43",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1171875
+        ],
+        [
+          -11.5,
+          0.095703125
+        ],
+        [
+          -11.0,
+          0.082275390625
+        ],
+        [
+          -10.5,
+          0.06884765625
+        ],
+        [
+          -10.0,
+          0.06005859375
+        ],
+        [
+          -9.5,
+          0.0521240234375
+        ],
+        [
+          -9.0,
+          0.0452880859375
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.0521240234375,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0452880859375,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.35203314038717
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.35203314038717,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "frozen_reference_seed44",
+      "aggregation": "individual_model",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.11669921875
+        ],
+        [
+          -11.5,
+          0.095703125
+        ],
+        [
+          -11.0,
+          0.08203125
+        ],
+        [
+          -10.5,
+          0.069091796875
+        ],
+        [
+          -10.0,
+          0.0601806640625
+        ],
+        [
+          -9.5,
+          0.05224609375
+        ],
+        [
+          -9.0,
+          0.0447998046875
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.11669921875,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.095703125,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.610712072391154
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.610712072391154,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "frozen_reference_seed44",
+      "aggregation": "individual_model",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.11669921875
+        ],
+        [
+          -11.5,
+          0.095703125
+        ],
+        [
+          -11.0,
+          0.08203125
+        ],
+        [
+          -10.5,
+          0.069091796875
+        ],
+        [
+          -10.0,
+          0.0601806640625
+        ],
+        [
+          -9.5,
+          0.05224609375
+        ],
+        [
+          -9.0,
+          0.0447998046875
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.05224609375,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0447998046875,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.357109336763852
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.357109336763852,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "full_mlp_training_seed_mean",
+      "aggregation": "training_seed_mean",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1142578125
+        ],
+        [
+          -11.5,
+          0.09342447916666667
+        ],
+        [
+          -11.0,
+          0.07950846354166667
+        ],
+        [
+          -10.5,
+          0.06758626302083333
+        ],
+        [
+          -10.0,
+          0.058797200520833336
+        ],
+        [
+          -9.5,
+          0.050944010416666664
+        ],
+        [
+          -9.0,
+          0.0443115234375
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1142578125,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.09342447916666667,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.668940465440585
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.668940465440585,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "full_mlp_training_seed_mean",
+      "aggregation": "training_seed_mean",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1142578125
+        ],
+        [
+          -11.5,
+          0.09342447916666667
+        ],
+        [
+          -11.0,
+          0.07950846354166667
+        ],
+        [
+          -10.5,
+          0.06758626302083333
+        ],
+        [
+          -10.0,
+          0.058797200520833336
+        ],
+        [
+          -9.5,
+          0.050944010416666664
+        ],
+        [
+          -9.0,
+          0.0443115234375
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.050944010416666664,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0443115234375,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.432951449736965
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.432951449736965,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_residual_training_seed_mean",
+      "aggregation": "training_seed_mean",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.11527506510416667
+        ],
+        [
+          -11.5,
+          0.09391276041666667
+        ],
+        [
+          -11.0,
+          0.080322265625
+        ],
+        [
+          -10.5,
+          0.06766764322916667
+        ],
+        [
+          -10.0,
+          0.059326171875
+        ],
+        [
+          -9.5,
+          0.051513671875
+        ],
+        [
+          -9.0,
+          0.0450439453125
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.11527506510416667,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.09391276041666667,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.653214009138809
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.653214009138809,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_residual_training_seed_mean",
+      "aggregation": "training_seed_mean",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.11527506510416667
+        ],
+        [
+          -11.5,
+          0.09391276041666667
+        ],
+        [
+          -11.0,
+          0.080322265625
+        ],
+        [
+          -10.5,
+          0.06766764322916667
+        ],
+        [
+          -10.0,
+          0.059326171875
+        ],
+        [
+          -9.5,
+          0.051513671875
+        ],
+        [
+          -9.0,
+          0.0450439453125
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.051513671875,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0450439453125,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.388888548289328
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.388888548289328,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_eta_training_seed_mean",
+      "aggregation": "training_seed_mean",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.11555989583333333
+        ],
+        [
+          -11.5,
+          0.09383138020833333
+        ],
+        [
+          -11.0,
+          0.08097330729166667
+        ],
+        [
+          -10.5,
+          0.06892903645833333
+        ],
+        [
+          -10.0,
+          0.059733072916666664
+        ],
+        [
+          -9.5,
+          0.051839192708333336
+        ],
+        [
+          -9.0,
+          0.045491536458333336
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.11555989583333333,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.09383138020833333,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.652842083459989
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.652842083459989,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_eta_training_seed_mean",
+      "aggregation": "training_seed_mean",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.11555989583333333
+        ],
+        [
+          -11.5,
+          0.09383138020833333
+        ],
+        [
+          -11.0,
+          0.08097330729166667
+        ],
+        [
+          -10.5,
+          0.06892903645833333
+        ],
+        [
+          -10.0,
+          0.059733072916666664
+        ],
+        [
+          -9.5,
+          0.051839192708333336
+        ],
+        [
+          -9.0,
+          0.045491536458333336
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.051839192708333336,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.045491536458333336,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.361723230398805
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.361723230398805,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_both_training_seed_mean",
+      "aggregation": "training_seed_mean",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1156005859375
+        ],
+        [
+          -11.5,
+          0.09415690104166667
+        ],
+        [
+          -11.0,
+          0.0816650390625
+        ],
+        [
+          -10.5,
+          0.06901041666666667
+        ],
+        [
+          -10.0,
+          0.060750325520833336
+        ],
+        [
+          -9.5,
+          0.052530924479166664
+        ],
+        [
+          -9.0,
+          0.046101888020833336
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1156005859375,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.09415690104166667,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.646720155376098
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.646720155376098,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "mlp_without_both_training_seed_mean",
+      "aggregation": "training_seed_mean",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1156005859375
+        ],
+        [
+          -11.5,
+          0.09415690104166667
+        ],
+        [
+          -11.0,
+          0.0816650390625
+        ],
+        [
+          -10.5,
+          0.06901041666666667
+        ],
+        [
+          -10.0,
+          0.060750325520833336
+        ],
+        [
+          -9.5,
+          0.052530924479166664
+        ],
+        [
+          -9.0,
+          0.046101888020833336
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.052530924479166664,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.046101888020833336,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.310878070326114
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.310878070326114,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "affine_all_features_training_seed_mean",
+      "aggregation": "training_seed_mean",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1170654296875
+        ],
+        [
+          -11.5,
+          0.0963134765625
+        ],
+        [
+          -11.0,
+          0.08280436197916667
+        ],
+        [
+          -10.5,
+          0.0697021484375
+        ],
+        [
+          -10.0,
+          0.060872395833333336
+        ],
+        [
+          -9.5,
+          0.053059895833333336
+        ],
+        [
+          -9.0,
+          0.0457763671875
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.1170654296875,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.0963134765625,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.596251071845394
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.596251071845394,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "affine_all_features_training_seed_mean",
+      "aggregation": "training_seed_mean",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.1170654296875
+        ],
+        [
+          -11.5,
+          0.0963134765625
+        ],
+        [
+          -11.0,
+          0.08280436197916667
+        ],
+        [
+          -10.5,
+          0.0697021484375
+        ],
+        [
+          -10.0,
+          0.060872395833333336
+        ],
+        [
+          -9.5,
+          0.053059895833333336
+        ],
+        [
+          -9.0,
+          0.0457763671875
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.053059895833333336,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.0457763671875,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.2988587838465
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.2988587838465,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "frozen_reference_training_seed_mean",
+      "aggregation": "training_seed_mean",
+      "target_bler": 0.1,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.11702473958333333
+        ],
+        [
+          -11.5,
+          0.09590657552083333
+        ],
+        [
+          -11.0,
+          0.08207194010416667
+        ],
+        [
+          -10.5,
+          0.06905110677083333
+        ],
+        [
+          -10.0,
+          0.0601806640625
+        ],
+        [
+          -9.5,
+          0.052205403645833336
+        ],
+        [
+          -9.0,
+          0.044962565104166664
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -12.0,
+          "left_bler": 0.11702473958333333,
+          "right_ebno_db": -11.5,
+          "right_bler": 0.09590657552083333,
+          "direction": "descending",
+          "interpolated_ebno_db": -11.605008463553093
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -11.605008463553093,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    },
+    {
+      "curve": "frozen_reference_training_seed_mean",
+      "aggregation": "training_seed_mean",
+      "target_bler": 0.05,
+      "interpolation": "linear_ebno_log10_bler",
+      "measured_points": [
+        [
+          -12.0,
+          0.11702473958333333
+        ],
+        [
+          -11.5,
+          0.09590657552083333
+        ],
+        [
+          -11.0,
+          0.08207194010416667
+        ],
+        [
+          -10.5,
+          0.06905110677083333
+        ],
+        [
+          -10.0,
+          0.0601806640625
+        ],
+        [
+          -9.5,
+          0.052205403645833336
+        ],
+        [
+          -9.0,
+          0.044962565104166664
+        ]
+      ],
+      "brackets": [
+        {
+          "left_ebno_db": -9.5,
+          "left_bler": 0.052205403645833336,
+          "right_ebno_db": -9.0,
+          "right_bler": 0.044962565104166664,
+          "direction": "descending",
+          "interpolated_ebno_db": -9.355502710707826
+        }
+      ],
+      "exact_measured_ebno_dbs": [],
+      "extrapolated": false,
+      "required_ebno_db": -9.355502710707826,
+      "status": "resolved",
+      "reason": "adjacent_measured_bracket"
+    }
+  ],
+  "target_gains": [
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "global_train24",
+      "category": "full_mlp_vs_global_train24",
+      "training_seed": 42,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.13032629396002626,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "global_train24",
+      "category": "full_mlp_vs_global_train24",
+      "training_seed": 42,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.30250503221370373,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "per_bit_train24",
+      "category": "full_mlp_vs_per_bit_train24",
+      "training_seed": 42,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.09570124512893585,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "per_bit_train24",
+      "category": "full_mlp_vs_per_bit_train24",
+      "training_seed": 42,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.2636001761301312,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "noise_per_bit_train24",
+      "category": "full_mlp_vs_noise_per_bit_train24",
+      "training_seed": 42,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.11051299531610148,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "noise_per_bit_train24",
+      "category": "full_mlp_vs_noise_per_bit_train24",
+      "training_seed": 42,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.21748875026019832,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "mlp_without_residual_seed42_best",
+      "category": "full_mlp_vs_mlp_without_residual",
+      "training_seed": 42,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.02253789882888313,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "mlp_without_residual_seed42_best",
+      "category": "full_mlp_vs_mlp_without_residual",
+      "training_seed": 42,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.03216616013241058,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "mlp_without_eta_seed42_best",
+      "category": "full_mlp_vs_mlp_without_eta",
+      "training_seed": 42,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.019739402663141448,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "mlp_without_eta_seed42_best",
+      "category": "full_mlp_vs_mlp_without_eta",
+      "training_seed": 42,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.06009401016732774,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "mlp_without_both_seed42_best",
+      "category": "full_mlp_vs_mlp_without_both",
+      "training_seed": 42,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.027798265115160703,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "mlp_without_both_seed42_best",
+      "category": "full_mlp_vs_mlp_without_both",
+      "training_seed": 42,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.1035160716442114,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "affine_all_features_seed42_best",
+      "category": "full_mlp_vs_affine_all_features",
+      "training_seed": 42,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.07829198426199646,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "affine_all_features_seed42_best",
+      "category": "full_mlp_vs_affine_all_features",
+      "training_seed": 42,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.13073781528196982,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "frozen_reference_seed42",
+      "category": "full_mlp_vs_frozen_reference",
+      "training_seed": 42,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.07880335369527636,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed42_best",
+      "baseline": "frozen_reference_seed42",
+      "category": "full_mlp_vs_frozen_reference",
+      "training_seed": 42,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.07094368102251813,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "global_train24",
+      "category": "full_mlp_vs_global_train24",
+      "training_seed": 43,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.12110712423289982,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "global_train24",
+      "category": "full_mlp_vs_global_train24",
+      "training_seed": 43,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.29958939428111897,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "per_bit_train24",
+      "category": "full_mlp_vs_per_bit_train24",
+      "training_seed": 43,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.08648207540180941,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "per_bit_train24",
+      "category": "full_mlp_vs_per_bit_train24",
+      "training_seed": 43,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.26068453819754644,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "noise_per_bit_train24",
+      "category": "full_mlp_vs_noise_per_bit_train24",
+      "training_seed": 43,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.10129382558897504,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "noise_per_bit_train24",
+      "category": "full_mlp_vs_noise_per_bit_train24",
+      "training_seed": 43,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.21457311232761356,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "mlp_without_residual_seed43_best",
+      "category": "full_mlp_vs_mlp_without_residual",
+      "training_seed": 43,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.00893240427528319,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "mlp_without_residual_seed43_best",
+      "category": "full_mlp_vs_mlp_without_residual",
+      "training_seed": 43,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.04948304897617817,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "mlp_without_eta_seed43_best",
+      "category": "full_mlp_vs_mlp_without_eta",
+      "training_seed": 43,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.018614115636028217,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "mlp_without_eta_seed43_best",
+      "category": "full_mlp_vs_mlp_without_eta",
+      "training_seed": 43,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.06653605928273265,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "mlp_without_both_seed43_best",
+      "category": "full_mlp_vs_mlp_without_both",
+      "training_seed": 43,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.01346313363495355,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "mlp_without_both_seed43_best",
+      "category": "full_mlp_vs_mlp_without_both",
+      "training_seed": 43,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.10795521117504236,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "affine_all_features_seed43_best",
+      "category": "full_mlp_vs_affine_all_features",
+      "training_seed": 43,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.06442054073263748,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "affine_all_features_seed43_best",
+      "category": "full_mlp_vs_affine_all_features",
+      "training_seed": 43,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.12193940386867652,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "frozen_reference_seed43",
+      "category": "full_mlp_vs_frozen_reference",
+      "training_seed": 43,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.05689432578533982,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed43_best",
+      "baseline": "frozen_reference_seed43",
+      "category": "full_mlp_vs_frozen_reference",
+      "training_seed": 43,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.07310423946661437,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "global_train24",
+      "category": "full_mlp_vs_global_train24",
+      "training_seed": 44,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.1227895297079904,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "global_train24",
+      "category": "full_mlp_vs_global_train24",
+      "training_seed": 44,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.31978562445612013,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "per_bit_train24",
+      "category": "full_mlp_vs_per_bit_train24",
+      "training_seed": 44,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.08816448087689999,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "per_bit_train24",
+      "category": "full_mlp_vs_per_bit_train24",
+      "training_seed": 44,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.2808807683725476,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "noise_per_bit_train24",
+      "category": "full_mlp_vs_noise_per_bit_train24",
+      "training_seed": 44,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.10297623106406562,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "noise_per_bit_train24",
+      "category": "full_mlp_vs_noise_per_bit_train24",
+      "training_seed": 44,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.23476934250261472,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "mlp_without_residual_seed44_best",
+      "category": "full_mlp_vs_mlp_without_residual",
+      "training_seed": 44,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.015786982116242854,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "mlp_without_residual_seed44_best",
+      "category": "full_mlp_vs_mlp_without_residual",
+      "training_seed": 44,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.049446752374826985,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "mlp_without_eta_seed44_best",
+      "category": "full_mlp_vs_mlp_without_eta",
+      "training_seed": 44,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.010058395631153516,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "mlp_without_eta_seed44_best",
+      "category": "full_mlp_vs_mlp_without_eta",
+      "training_seed": 44,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.08673228945773381,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "mlp_without_both_seed44_best",
+      "category": "full_mlp_vs_mlp_without_both",
+      "training_seed": 44,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.025512418608171217,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "mlp_without_both_seed44_best",
+      "category": "full_mlp_vs_mlp_without_both",
+      "training_seed": 44,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.1538772252190288,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "affine_all_features_seed44_best",
+      "category": "full_mlp_vs_affine_all_features",
+      "training_seed": 44,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.07556718658966055,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "affine_all_features_seed44_best",
+      "category": "full_mlp_vs_affine_all_features",
+      "training_seed": 44,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.14894081027126482,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "frozen_reference_seed44",
+      "category": "full_mlp_vs_frozen_reference",
+      "training_seed": 44,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.05629421946420088,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_seed44_best",
+      "baseline": "frozen_reference_seed44",
+      "category": "full_mlp_vs_frozen_reference",
+      "training_seed": 44,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.08822427326493454,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "global_train24",
+      "category": "full_mlp_vs_global_train24",
+      "training_seed": null,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.12472370329322047,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "global_train24",
+      "category": "full_mlp_vs_global_train24",
+      "training_seed": null,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.30740346416429887,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "per_bit_train24",
+      "category": "full_mlp_vs_per_bit_train24",
+      "training_seed": null,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.09009865446213006,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "per_bit_train24",
+      "category": "full_mlp_vs_per_bit_train24",
+      "training_seed": null,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.26849860808072634,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "noise_per_bit_train24",
+      "category": "full_mlp_vs_noise_per_bit_train24",
+      "training_seed": null,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.10491040464929569,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "noise_per_bit_train24",
+      "category": "full_mlp_vs_noise_per_bit_train24",
+      "training_seed": null,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.22238718221079345,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "mlp_without_residual_training_seed_mean",
+      "category": "full_mlp_vs_mlp_without_residual",
+      "training_seed": null,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.015726456301775826,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "mlp_without_residual_training_seed_mean",
+      "category": "full_mlp_vs_mlp_without_residual",
+      "training_seed": null,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.044062901447636804,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "mlp_without_eta_training_seed_mean",
+      "category": "full_mlp_vs_mlp_without_eta",
+      "training_seed": null,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.016098381980595988,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "mlp_without_eta_training_seed_mean",
+      "category": "full_mlp_vs_mlp_without_eta",
+      "training_seed": null,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.0712282193381597,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "mlp_without_both_training_seed_mean",
+      "category": "full_mlp_vs_mlp_without_both",
+      "training_seed": null,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.02222031006448688,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "mlp_without_both_training_seed_mean",
+      "category": "full_mlp_vs_mlp_without_both",
+      "training_seed": null,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.1220733794108515,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "affine_all_features_training_seed_mean",
+      "category": "full_mlp_vs_affine_all_features",
+      "training_seed": null,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.07268939359519067,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "affine_all_features_training_seed_mean",
+      "category": "full_mlp_vs_affine_all_features",
+      "training_seed": null,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.1340926658904653,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "frozen_reference_training_seed_mean",
+      "category": "full_mlp_vs_frozen_reference",
+      "training_seed": null,
+      "target_bler": 0.1,
+      "status": "resolved",
+      "gain_db": 0.06393200188749226,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    },
+    {
+      "method": "full_mlp_training_seed_mean",
+      "baseline": "frozen_reference_training_seed_mean",
+      "category": "full_mlp_vs_frozen_reference",
+      "training_seed": null,
+      "target_bler": 0.05,
+      "status": "resolved",
+      "gain_db": 0.07744873902913874,
+      "candidate_status": "resolved",
+      "baseline_status": "resolved",
+      "sign": "baseline required Eb/N0 minus candidate required Eb/N0; positive is candidate gain"
+    }
+  ]
+}

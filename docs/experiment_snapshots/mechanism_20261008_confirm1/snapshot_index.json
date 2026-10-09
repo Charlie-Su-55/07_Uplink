@@ -1,0 +1,114 @@
+{
+  "run_id": "mechanism_20261008_confirm1",
+  "created_utc": "2026-10-09T08:25:56.967032+00:00",
+  "snapshot_parent_commit": "98665270f2b15d2e4a56acf336742b2a427e6298",
+  "verification": {
+    "summary_complete": true,
+    "training_complete": true,
+    "confirmation_mode": true,
+    "independent_channels_512": true,
+    "observations_3584": true,
+    "baseline_checks": true,
+    "hard_decisions_unchanged": true
+  },
+  "files": [
+    {
+      "source": "results/llr_mechanism_controls/mechanism_20261008_confirm1/summary.json",
+      "archived": "summary.json",
+      "bytes": 1711524,
+      "sha256": "c1cfd447e7c7644c4a9e6f3353ba2efc8d6705f64a61e248781532f65a5c9412"
+    },
+    {
+      "source": "results/llr_mechanism_controls/mechanism_20261008_confirm1/summary.csv",
+      "archived": "summary.csv",
+      "bytes": 107715,
+      "sha256": "cbf32c802855fff67856a9aaf741cdb14ca23845ee254c84bdcdf8626a05278b"
+    },
+    {
+      "source": "results/llr_mechanism_controls/mechanism_20261008_confirm1/decision_summary.json",
+      "archived": "decision_summary.json",
+      "bytes": 205614,
+      "sha256": "fa07844ced9865379ba69d128a49b35abdfa16175c67cbd37d730c1d4cfba4a4"
+    },
+    {
+      "source": "results/llr_mechanism_controls/mechanism_20261008_confirm1/targets.json",
+      "archived": "targets.json",
+      "bytes": 93319,
+      "sha256": "799ab64d0df48bc2862ed3d4ed1c635a47889c0509cb65bdcac551dba50f7cc0"
+    },
+    {
+      "source": "results/llr_mechanism_controls/mechanism_20261008_confirm1/parameters_added_time.csv",
+      "archived": "parameters_added_time.csv",
+      "bytes": 2597,
+      "sha256": "8ce31ac12b4101a4f0f9dbf32ea97a120f4181434357519743f55e2737dfd03e"
+    },
+    {
+      "source": "results/llr_mechanism_controls/mechanism_20261008_confirm1/evaluation_manifest.json",
+      "archived": "evaluation_manifest.json",
+      "bytes": 2355983,
+      "sha256": "2fb9f2204d7b788be7698392a8e050efc46004afa96797e12061b276718fa024"
+    },
+    {
+      "source": "ckp/llr_mechanism_controls/mechanism_20261008_confirm1/manifest.json",
+      "archived": "training_manifest.json",
+      "bytes": 3578020,
+      "sha256": "0912e1db67431a63af009cfc800b97108a91caaff96d987843cc6e0a2d3f82bf"
+    },
+    {
+      "source": "logs/llr_mechanism_controls/mechanism_20261008_confirm1/runner_status.txt",
+      "archived": "runner_status.txt",
+      "bytes": 218,
+      "sha256": "fdfe7ac1dd567ac71b952bd44854e15b10d49ac0365e422cf2cee600ee82bb36"
+    },
+    {
+      "source": "logs/llr_mechanism_controls/mechanism_20261008_confirm1/stages.tsv",
+      "archived": "stages.tsv",
+      "bytes": 829,
+      "sha256": "bfae96e626ccf875a1733a71d3c1fbe859c746a90bc8ce929df340c9e14da53d"
+    },
+    {
+      "source": "configs/evaluation/llr_mechanism_controls.yaml",
+      "archived": "llr_mechanism_controls.yaml",
+      "bytes": 3535,
+      "sha256": "3c9fa2a65ada2d444e14bb735180ab5d161de96b3a6be7eb87db332e0211faac"
+    },
+    {
+      "source": "results/llr_mechanism_controls/mechanism_20261008_confirm1/plots/bler_curves.pdf",
+      "archived": "plots/bler_curves.pdf",
+      "bytes": 34966,
+      "sha256": "25d08ff80bf0d299b7fe01528aff4644a45e43cd7382c68bd1ec15fa67eaecf3"
+    },
+    {
+      "source": "results/llr_mechanism_controls/mechanism_20261008_confirm1/plots/bler_curves.svg",
+      "archived": "plots/bler_curves.svg",
+      "bytes": 172907,
+      "sha256": "e25027ad8a38f0dfe612ae760a12a12a708ac846ba8e8133098a918936635e44"
+    },
+    {
+      "source": "results/llr_mechanism_controls/mechanism_20261008_confirm1/plots/feature_ablation.pdf",
+      "archived": "plots/feature_ablation.pdf",
+      "bytes": 30819,
+      "sha256": "7f8dac55f97b807268071bf66f48bc55ca5f422a9708a92bbdaf317f071b091d"
+    },
+    {
+      "source": "results/llr_mechanism_controls/mechanism_20261008_confirm1/plots/feature_ablation.svg",
+      "archived": "plots/feature_ablation.svg",
+      "bytes": 157528,
+      "sha256": "298ff2e2f753013affb04613303c263d20a9fcde9137d85c95fa8120487913af"
+    },
+    {
+      "source": "results/llr_mechanism_controls/mechanism_20261008_confirm1/plots/parameters_added_time.pdf",
+      "archived": "plots/parameters_added_time.pdf",
+      "bytes": 19304,
+      "sha256": "46e191789ac5317dbd3b3b837fa2505007d86d76e012a8711d7d04fc32d1e12e"
+    },
+    {
+      "source": "results/llr_mechanism_controls/mechanism_20261008_confirm1/plots/parameters_added_time.svg",
+      "archived": "plots/parameters_added_time.svg",
+      "bytes": 117132,
+      "sha256": "c5f28ad61dcadd60aa870b93aa9b1fbf03f336f1ca881f79c43af2f00a339dee"
+    }
+  ],
+  "local_report_archive": "results/llr_mechanism_controls/mechanism_20261008_confirm1_reports.tar.gz",
+  "note": "Original report bytes preserved. Channel-level files, weights and caches remain server-local."
+}

@@ -1,0 +1,10 @@
+run_id=mechanism_20261008_confirm1
+mode=confirmation
+pid=1520083
+state=complete
+stage=summary
+started_utc=2026-10-08T21:40:06Z
+elapsed_seconds=13276
+stage_elapsed_seconds=0
+exit_code=0
+updated_utc=2026-10-09T01:21:22Z
